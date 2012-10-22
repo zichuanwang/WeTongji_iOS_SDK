@@ -1,0 +1,7 @@
+//
+// Prefix header for all source files of the 'WeTongjiSDK' target in the 'WeTongjiSDK' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+#endif
