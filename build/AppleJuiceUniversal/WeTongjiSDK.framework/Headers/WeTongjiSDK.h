@@ -6,4 +6,8 @@
 //  Copyright (c) 2012年 WeTongji. All rights reserved.
 //
 
-#import "WTClient.h"
+#import <Foundation/Foundation.h>
+
+@interface WeTongjiSDK : NSObject
+
+@end

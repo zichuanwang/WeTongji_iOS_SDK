@@ -6,45 +6,138 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		E110DF6E163672720087EA46 /* WeTongjiSDKUniversal */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = E110DF6F163672720087EA46 /* Build configuration list for PBXAggregateTarget "WeTongjiSDKUniversal" */;
+			buildPhases = (
+				E110DF73163673000087EA46 /* Merge */,
+			);
+			dependencies = (
+				E110DF7516367A1B0087EA46 /* PBXTargetDependency */,
+			);
+			name = WeTongjiSDKUniversal;
+			productName = WeTongjiSDKUniversal;
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
-		E1B94B351635A22A00D76123 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E1B94B341635A22A00D76123 /* Foundation.framework */; };
-		E1B94B3A1635A22A00D76123 /* WeTongjiSDK.h in CopyFiles */ = {isa = PBXBuildFile; fileRef = E1B94B391635A22A00D76123 /* WeTongjiSDK.h */; };
-		E1B94B3C1635A22A00D76123 /* WeTongjiSDK.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B3B1635A22A00D76123 /* WeTongjiSDK.m */; };
+		E110DF3816365D760087EA46 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B9B1635A94200D76123 /* NSString+URLEncoding.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF3916365D760087EA46 /* ASIAuthenticationDialog.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B5D1635A75300D76123 /* ASIAuthenticationDialog.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF3A16365D760087EA46 /* ASIDataCompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B601635A75300D76123 /* ASIDataCompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF3B16365D760087EA46 /* ASIDataDecompressor.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B621635A75300D76123 /* ASIDataDecompressor.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF3C16365D760087EA46 /* ASIDownloadCache.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B641635A75300D76123 /* ASIDownloadCache.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF3D16365D760087EA46 /* ASIFormDataRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B661635A75300D76123 /* ASIFormDataRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF3E16365D760087EA46 /* ASIHTTPRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B681635A75300D76123 /* ASIHTTPRequest.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF3F16365D760087EA46 /* ASIInputStream.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B6C1635A75300D76123 /* ASIInputStream.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF4016365D760087EA46 /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B6E1635A75300D76123 /* ASINetworkQueue.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF4116365D760087EA46 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B711635A75300D76123 /* Reachability.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF4216365D760087EA46 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B751635A75300D76123 /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF4316365D760087EA46 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B771635A75300D76123 /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF4416365D760087EA46 /* SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B791635A75300D76123 /* SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF4516365D760087EA46 /* SBJsonBase.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B7B1635A75300D76123 /* SBJsonBase.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF4616365D760087EA46 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B7D1635A75300D76123 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF4716365D760087EA46 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B7F1635A75300D76123 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF4816365D760087EA46 /* WTClient.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B581635A62200D76123 /* WTClient.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		E110DF5416365E050087EA46 /* NSString+URLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B9A1635A94200D76123 /* NSString+URLEncoding.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF5516365E050087EA46 /* ASIAuthenticationDialog.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B5C1635A75300D76123 /* ASIAuthenticationDialog.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF5616365E050087EA46 /* ASICacheDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B5E1635A75300D76123 /* ASICacheDelegate.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF5716365E050087EA46 /* ASIDataCompressor.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B5F1635A75300D76123 /* ASIDataCompressor.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF5816365E050087EA46 /* ASIDataDecompressor.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B611635A75300D76123 /* ASIDataDecompressor.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF5916365E050087EA46 /* ASIDownloadCache.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B631635A75300D76123 /* ASIDownloadCache.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF5A16365E050087EA46 /* ASIFormDataRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B651635A75300D76123 /* ASIFormDataRequest.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF5B16365E050087EA46 /* ASIHTTPRequest.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B671635A75300D76123 /* ASIHTTPRequest.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF5C16365E050087EA46 /* ASIHTTPRequestConfig.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B691635A75300D76123 /* ASIHTTPRequestConfig.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF5D16365E050087EA46 /* ASIHTTPRequestDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B6A1635A75300D76123 /* ASIHTTPRequestDelegate.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E110DF5E16365E050087EA46 /* ASIInputStream.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B6B1635A75300D76123 /* ASIInputStream.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF5F16365E050087EA46 /* ASINetworkQueue.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B6D1635A75300D76123 /* ASINetworkQueue.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF6016365E050087EA46 /* ASIProgressDelegate.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B6F1635A75300D76123 /* ASIProgressDelegate.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF6116365E050087EA46 /* Reachability.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B701635A75300D76123 /* Reachability.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF6216365E050087EA46 /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B741635A75300D76123 /* NSObject+SBJSON.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF6316365E050087EA46 /* NSString+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B761635A75300D76123 /* NSString+SBJSON.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF6416365E050087EA46 /* SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B781635A75300D76123 /* SBJSON.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF6516365E050087EA46 /* SBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7A1635A75300D76123 /* SBJsonBase.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF6616365E050087EA46 /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7C1635A75300D76123 /* SBJsonParser.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF6716365E050087EA46 /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7E1635A75300D76123 /* SBJsonWriter.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF6816365E050087EA46 /* WTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B571635A62200D76123 /* WTClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E110DF6916365E2A0087EA46 /* WeTongjiSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B391635A22A00D76123 /* WeTongjiSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		E1B94B2F1635A22A00D76123 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "include/${PRODUCT_NAME}";
-			dstSubfolderSpec = 16;
-			files = (
-				E1B94B3A1635A22A00D76123 /* WeTongjiSDK.h in CopyFiles */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
+/* Begin PBXContainerItemProxy section */
+		E110DF7416367A1B0087EA46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = E1B94B281635A22A00D76123 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = E110DF2A16365B990087EA46;
+			remoteInfo = WeTongjiSDK;
 		};
-/* End PBXCopyFilesBuildPhase section */
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		E1B94B311635A22A00D76123 /* libWeTongjiSDK.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libWeTongjiSDK.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		E110DF2B16365B990087EA46 /* WeTongjiSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeTongjiSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E110DF6C163662220087EA46 /* WeTongjiSDK-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WeTongjiSDK-Info.plist"; sourceTree = "<group>"; };
 		E1B94B341635A22A00D76123 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
-		E1B94B381635A22A00D76123 /* WeTongjiSDK-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WeTongjiSDK-Prefix.pch"; sourceTree = "<group>"; };
 		E1B94B391635A22A00D76123 /* WeTongjiSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeTongjiSDK.h; sourceTree = "<group>"; };
-		E1B94B3B1635A22A00D76123 /* WeTongjiSDK.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = WeTongjiSDK.m; sourceTree = "<group>"; };
+		E1B94B571635A62200D76123 /* WTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTClient.h; sourceTree = "<group>"; };
+		E1B94B581635A62200D76123 /* WTClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTClient.m; sourceTree = "<group>"; };
+		E1B94B5C1635A75300D76123 /* ASIAuthenticationDialog.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIAuthenticationDialog.h; sourceTree = "<group>"; };
+		E1B94B5D1635A75300D76123 /* ASIAuthenticationDialog.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIAuthenticationDialog.m; sourceTree = "<group>"; };
+		E1B94B5E1635A75300D76123 /* ASICacheDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASICacheDelegate.h; sourceTree = "<group>"; };
+		E1B94B5F1635A75300D76123 /* ASIDataCompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataCompressor.h; sourceTree = "<group>"; };
+		E1B94B601635A75300D76123 /* ASIDataCompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataCompressor.m; sourceTree = "<group>"; };
+		E1B94B611635A75300D76123 /* ASIDataDecompressor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDataDecompressor.h; sourceTree = "<group>"; };
+		E1B94B621635A75300D76123 /* ASIDataDecompressor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDataDecompressor.m; sourceTree = "<group>"; };
+		E1B94B631635A75300D76123 /* ASIDownloadCache.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIDownloadCache.h; sourceTree = "<group>"; };
+		E1B94B641635A75300D76123 /* ASIDownloadCache.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIDownloadCache.m; sourceTree = "<group>"; };
+		E1B94B651635A75300D76123 /* ASIFormDataRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIFormDataRequest.h; sourceTree = "<group>"; };
+		E1B94B661635A75300D76123 /* ASIFormDataRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIFormDataRequest.m; sourceTree = "<group>"; };
+		E1B94B671635A75300D76123 /* ASIHTTPRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequest.h; sourceTree = "<group>"; };
+		E1B94B681635A75300D76123 /* ASIHTTPRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIHTTPRequest.m; sourceTree = "<group>"; };
+		E1B94B691635A75300D76123 /* ASIHTTPRequestConfig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestConfig.h; sourceTree = "<group>"; };
+		E1B94B6A1635A75300D76123 /* ASIHTTPRequestDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIHTTPRequestDelegate.h; sourceTree = "<group>"; };
+		E1B94B6B1635A75300D76123 /* ASIInputStream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIInputStream.h; sourceTree = "<group>"; };
+		E1B94B6C1635A75300D76123 /* ASIInputStream.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASIInputStream.m; sourceTree = "<group>"; };
+		E1B94B6D1635A75300D76123 /* ASINetworkQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASINetworkQueue.h; sourceTree = "<group>"; };
+		E1B94B6E1635A75300D76123 /* ASINetworkQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ASINetworkQueue.m; sourceTree = "<group>"; };
+		E1B94B6F1635A75300D76123 /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
+		E1B94B701635A75300D76123 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		E1B94B711635A75300D76123 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		E1B94B731635A75300D76123 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
+		E1B94B741635A75300D76123 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
+		E1B94B751635A75300D76123 /* NSObject+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+SBJSON.m"; sourceTree = "<group>"; };
+		E1B94B761635A75300D76123 /* NSString+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+SBJSON.h"; sourceTree = "<group>"; };
+		E1B94B771635A75300D76123 /* NSString+SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+SBJSON.m"; sourceTree = "<group>"; };
+		E1B94B781635A75300D76123 /* SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJSON.h; sourceTree = "<group>"; };
+		E1B94B791635A75300D76123 /* SBJSON.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJSON.m; sourceTree = "<group>"; };
+		E1B94B7A1635A75300D76123 /* SBJsonBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonBase.h; sourceTree = "<group>"; };
+		E1B94B7B1635A75300D76123 /* SBJsonBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonBase.m; sourceTree = "<group>"; };
+		E1B94B7C1635A75300D76123 /* SBJsonParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonParser.h; sourceTree = "<group>"; };
+		E1B94B7D1635A75300D76123 /* SBJsonParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonParser.m; sourceTree = "<group>"; };
+		E1B94B7E1635A75300D76123 /* SBJsonWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SBJsonWriter.h; sourceTree = "<group>"; };
+		E1B94B7F1635A75300D76123 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
+		E1B94B9A1635A94200D76123 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
+		E1B94B9B1635A94200D76123 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		E1B94B2E1635A22A00D76123 /* Frameworks */ = {
+		E110DF2816365B990087EA46 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1B94B351635A22A00D76123 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		E110DF6B1636620D0087EA46 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				E110DF6C163662220087EA46 /* WeTongjiSDK-Info.plist */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		E1B94B261635A22A00D76123 = {
 			isa = PBXGroup;
 			children = (
@@ -57,7 +150,7 @@
 		E1B94B321635A22A00D76123 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				E1B94B311635A22A00D76123 /* libWeTongjiSDK.a */,
+				E110DF2B16365B990087EA46 /* WeTongjiSDK.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,31 +166,126 @@
 		E1B94B361635A22A00D76123 /* WeTongjiSDK */ = {
 			isa = PBXGroup;
 			children = (
+				E1B94B991635A91F00D76123 /* Categories */,
+				E1B94B5A1635A73200D76123 /* External */,
+				E1B94B571635A62200D76123 /* WTClient.h */,
+				E1B94B581635A62200D76123 /* WTClient.m */,
 				E1B94B391635A22A00D76123 /* WeTongjiSDK.h */,
-				E1B94B3B1635A22A00D76123 /* WeTongjiSDK.m */,
-				E1B94B371635A22A00D76123 /* Supporting Files */,
+				E110DF6B1636620D0087EA46 /* Supporting Files */,
 			);
 			path = WeTongjiSDK;
 			sourceTree = "<group>";
 		};
-		E1B94B371635A22A00D76123 /* Supporting Files */ = {
+		E1B94B5A1635A73200D76123 /* External */ = {
 			isa = PBXGroup;
 			children = (
-				E1B94B381635A22A00D76123 /* WeTongjiSDK-Prefix.pch */,
+				E1B94B5B1635A75300D76123 /* ASIHTTPRequest */,
+				E1B94B721635A75300D76123 /* SBJSON */,
 			);
-			name = "Supporting Files";
+			name = External;
+			sourceTree = "<group>";
+		};
+		E1B94B5B1635A75300D76123 /* ASIHTTPRequest */ = {
+			isa = PBXGroup;
+			children = (
+				E1B94B5C1635A75300D76123 /* ASIAuthenticationDialog.h */,
+				E1B94B5D1635A75300D76123 /* ASIAuthenticationDialog.m */,
+				E1B94B5E1635A75300D76123 /* ASICacheDelegate.h */,
+				E1B94B5F1635A75300D76123 /* ASIDataCompressor.h */,
+				E1B94B601635A75300D76123 /* ASIDataCompressor.m */,
+				E1B94B611635A75300D76123 /* ASIDataDecompressor.h */,
+				E1B94B621635A75300D76123 /* ASIDataDecompressor.m */,
+				E1B94B631635A75300D76123 /* ASIDownloadCache.h */,
+				E1B94B641635A75300D76123 /* ASIDownloadCache.m */,
+				E1B94B651635A75300D76123 /* ASIFormDataRequest.h */,
+				E1B94B661635A75300D76123 /* ASIFormDataRequest.m */,
+				E1B94B671635A75300D76123 /* ASIHTTPRequest.h */,
+				E1B94B681635A75300D76123 /* ASIHTTPRequest.m */,
+				E1B94B691635A75300D76123 /* ASIHTTPRequestConfig.h */,
+				E1B94B6A1635A75300D76123 /* ASIHTTPRequestDelegate.h */,
+				E1B94B6B1635A75300D76123 /* ASIInputStream.h */,
+				E1B94B6C1635A75300D76123 /* ASIInputStream.m */,
+				E1B94B6D1635A75300D76123 /* ASINetworkQueue.h */,
+				E1B94B6E1635A75300D76123 /* ASINetworkQueue.m */,
+				E1B94B6F1635A75300D76123 /* ASIProgressDelegate.h */,
+				E1B94B701635A75300D76123 /* Reachability.h */,
+				E1B94B711635A75300D76123 /* Reachability.m */,
+			);
+			path = ASIHTTPRequest;
+			sourceTree = "<group>";
+		};
+		E1B94B721635A75300D76123 /* SBJSON */ = {
+			isa = PBXGroup;
+			children = (
+				E1B94B731635A75300D76123 /* JSON.h */,
+				E1B94B741635A75300D76123 /* NSObject+SBJSON.h */,
+				E1B94B751635A75300D76123 /* NSObject+SBJSON.m */,
+				E1B94B761635A75300D76123 /* NSString+SBJSON.h */,
+				E1B94B771635A75300D76123 /* NSString+SBJSON.m */,
+				E1B94B781635A75300D76123 /* SBJSON.h */,
+				E1B94B791635A75300D76123 /* SBJSON.m */,
+				E1B94B7A1635A75300D76123 /* SBJsonBase.h */,
+				E1B94B7B1635A75300D76123 /* SBJsonBase.m */,
+				E1B94B7C1635A75300D76123 /* SBJsonParser.h */,
+				E1B94B7D1635A75300D76123 /* SBJsonParser.m */,
+				E1B94B7E1635A75300D76123 /* SBJsonWriter.h */,
+				E1B94B7F1635A75300D76123 /* SBJsonWriter.m */,
+			);
+			path = SBJSON;
+			sourceTree = "<group>";
+		};
+		E1B94B991635A91F00D76123 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				E1B94B9A1635A94200D76123 /* NSString+URLEncoding.h */,
+				E1B94B9B1635A94200D76123 /* NSString+URLEncoding.m */,
+			);
+			name = Categories;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		E110DF5316365DE40087EA46 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E110DF6916365E2A0087EA46 /* WeTongjiSDK.h in Headers */,
+				E110DF6816365E050087EA46 /* WTClient.h in Headers */,
+				E110DF5D16365E050087EA46 /* ASIHTTPRequestDelegate.h in Headers */,
+				E110DF5416365E050087EA46 /* NSString+URLEncoding.h in Headers */,
+				E110DF5516365E050087EA46 /* ASIAuthenticationDialog.h in Headers */,
+				E110DF5616365E050087EA46 /* ASICacheDelegate.h in Headers */,
+				E110DF5716365E050087EA46 /* ASIDataCompressor.h in Headers */,
+				E110DF5816365E050087EA46 /* ASIDataDecompressor.h in Headers */,
+				E110DF5916365E050087EA46 /* ASIDownloadCache.h in Headers */,
+				E110DF5A16365E050087EA46 /* ASIFormDataRequest.h in Headers */,
+				E110DF5B16365E050087EA46 /* ASIHTTPRequest.h in Headers */,
+				E110DF5C16365E050087EA46 /* ASIHTTPRequestConfig.h in Headers */,
+				E110DF5F16365E050087EA46 /* ASINetworkQueue.h in Headers */,
+				E110DF6016365E050087EA46 /* ASIProgressDelegate.h in Headers */,
+				E110DF6116365E050087EA46 /* Reachability.h in Headers */,
+				E110DF6216365E050087EA46 /* NSObject+SBJSON.h in Headers */,
+				E110DF5E16365E050087EA46 /* ASIInputStream.h in Headers */,
+				E110DF6316365E050087EA46 /* NSString+SBJSON.h in Headers */,
+				E110DF6416365E050087EA46 /* SBJSON.h in Headers */,
+				E110DF6516365E050087EA46 /* SBJsonBase.h in Headers */,
+				E110DF6616365E050087EA46 /* SBJsonParser.h in Headers */,
+				E110DF6716365E050087EA46 /* SBJsonWriter.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
-		E1B94B301635A22A00D76123 /* WeTongjiSDK */ = {
+		E110DF2A16365B990087EA46 /* WeTongjiSDK */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = E1B94B3F1635A22A00D76123 /* Build configuration list for PBXNativeTarget "WeTongjiSDK" */;
+			buildConfigurationList = E110DF3516365B990087EA46 /* Build configuration list for PBXNativeTarget "WeTongjiSDK" */;
 			buildPhases = (
-				E1B94B2D1635A22A00D76123 /* Sources */,
-				E1B94B2E1635A22A00D76123 /* Frameworks */,
-				E1B94B2F1635A22A00D76123 /* CopyFiles */,
+				E110DF2716365B990087EA46 /* Sources */,
+				E110DF2816365B990087EA46 /* Frameworks */,
+				E110DF2916365B990087EA46 /* Resources */,
+				E110DF5316365DE40087EA46 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -105,8 +293,8 @@
 			);
 			name = WeTongjiSDK;
 			productName = WeTongjiSDK;
-			productReference = E1B94B311635A22A00D76123 /* libWeTongjiSDK.a */;
-			productType = "com.apple.product-type.library.static";
+			productReference = E110DF2B16365B990087EA46 /* WeTongjiSDK.framework */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -129,23 +317,136 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				E1B94B301635A22A00D76123 /* WeTongjiSDK */,
+				E110DF2A16365B990087EA46 /* WeTongjiSDK */,
+				E110DF6E163672720087EA46 /* WeTongjiSDKUniversal */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		E110DF2916365B990087EA46 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E110DF73163673000087EA46 /* Merge */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Merge;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "set -e\n\nset +u\nif [[ $UFW_MASTER_SCRIPT_RUNNING ]]\nthen\n# Nothing for the slave script to do\nexit 0\nfi\nset -u\n\nif [[ \"$SDK_NAME\" =~ ([A-Za-z]+) ]]\nthen\nUFW_SDK_PLATFORM=${BASH_REMATCH[1]}\necho $UFW_SDK_PLATFORM\nelse\necho \"Could not find platform name from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$SDK_NAME\" =~ ([0-9]+.*$) ]]\nthen\nUFW_SDK_VERSION=${BASH_REMATCH[1]}\necho $UFW_SDK_VERSION\nelse\necho \"Could not find sdk version  from SDK_NAME: $SDK_NAME\"\nexit 1\nfi\n\nif [[ \"$UFW_SDK_PLATFORM\" = \"iphoneos\" ]]\nthen\nUFW_OTHER_PLATFORM=iphonesimulator\nelse\nUFW_OTHER_PLATFORM=iphoneos\nfi\n\nif [[ \"$BUILT_PRODUCTS_DIR\" =~ (.*)$UFW_SDK_PLATFORM$ ]]\nthen\nUFW_OTHER_BUILT_PRODUCTS_DIR=\"${BASH_REMATCH[1]}${UFW_OTHER_PLATFORM}\"\necho $UFW_OTHER_BUILT_PRODUCTS_DIR\nelse\necho \"Could not find $UFW_SDK_PLATFORM in $BUILT_PRODUCTS_DIR\"\nexit 1\nfi\n\nEXECUTABLE_PATH=\"WeTongjiSDK.framework/WeTongjiSDK\"\nUNIVERSAL_PATH=\"build/AppleJuiceUniversal\"\n\n# clean old build\nrm -rf \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\nrm -rf \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\n\n# build two platform build\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"WeTongjiSDK\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_SDK_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_SDK_PLATFORM}\" $ACTION\n\nxcodebuild -project \"${PROJECT_FILE_PATH}\" -target \"WeTongjiSDK\" -configuration \"${CONFIGURATION}\" -sdk ${UFW_OTHER_PLATFORM}${UFW_SDK_VERSION} BUILD_DIR=\"${BUILD_DIR}\" CONFIGURATION_TEMP_DIR=\"${PROJECT_TEMP_DIR}/${CONFIGURATION}-${UFW_OTHER_PLATFORM}\" $ACTION\n\n\n# Build the fat static library binary\n\necho \"Create universal static library\"\n\necho \"$PLATFORM_DEVELOPER_BIN_DIR/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\n\"$PLATFORM_DEVELOPER_BIN_DIR/libtool\" -static \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" \"${UFW_OTHER_BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\" -o \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\"\n\necho mv \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\" \"${UNIVERSAL_PATH}\"\nmv \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}.temp\" \"${BUILT_PRODUCTS_DIR}/${EXECUTABLE_PATH}\"\n\nrm -rf \"${UNIVERSAL_PATH}\"\nmkdir \"${UNIVERSAL_PATH}\"\n\ncp -r \"${BUILT_PRODUCTS_DIR}/WeTongjiSDK.framework\" \"${UNIVERSAL_PATH}\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
-		E1B94B2D1635A22A00D76123 /* Sources */ = {
+		E110DF2716365B990087EA46 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E1B94B3C1635A22A00D76123 /* WeTongjiSDK.m in Sources */,
+				E110DF3816365D760087EA46 /* NSString+URLEncoding.m in Sources */,
+				E110DF3916365D760087EA46 /* ASIAuthenticationDialog.m in Sources */,
+				E110DF3A16365D760087EA46 /* ASIDataCompressor.m in Sources */,
+				E110DF3B16365D760087EA46 /* ASIDataDecompressor.m in Sources */,
+				E110DF3C16365D760087EA46 /* ASIDownloadCache.m in Sources */,
+				E110DF3D16365D760087EA46 /* ASIFormDataRequest.m in Sources */,
+				E110DF3E16365D760087EA46 /* ASIHTTPRequest.m in Sources */,
+				E110DF3F16365D760087EA46 /* ASIInputStream.m in Sources */,
+				E110DF4016365D760087EA46 /* ASINetworkQueue.m in Sources */,
+				E110DF4116365D760087EA46 /* Reachability.m in Sources */,
+				E110DF4216365D760087EA46 /* NSObject+SBJSON.m in Sources */,
+				E110DF4316365D760087EA46 /* NSString+SBJSON.m in Sources */,
+				E110DF4416365D760087EA46 /* SBJSON.m in Sources */,
+				E110DF4516365D760087EA46 /* SBJsonBase.m in Sources */,
+				E110DF4616365D760087EA46 /* SBJsonParser.m in Sources */,
+				E110DF4716365D760087EA46 /* SBJsonWriter.m in Sources */,
+				E110DF4816365D760087EA46 /* WTClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		E110DF7516367A1B0087EA46 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = E110DF2A16365B990087EA46 /* WeTongjiSDK */;
+			targetProxy = E110DF7416367A1B0087EA46 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin XCBuildConfiguration section */
+		E110DF3616365B990087EA46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "WeTongjiSDK/WeTongjiSDK-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Debug;
+		};
+		E110DF3716365B990087EA46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				COMBINE_HIDPI_IMAGES = YES;
+				DEAD_CODE_STRIPPING = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_VERSION = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				INFOPLIST_FILE = "WeTongjiSDK/WeTongjiSDK-Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LINK_WITH_STANDARD_LIBRARIES = NO;
+				MACH_O_TYPE = mh_object;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
+				ONLY_ACTIVE_ARCH = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
+				WRAPPER_EXTENSION = framework;
+			};
+			name = Release;
+		};
+		E110DF70163672720087EA46 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		E110DF71163672720087EA46 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		E1B94B3D1635A22A00D76123 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -168,8 +469,9 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
-				ONLY_ACTIVE_ARCH = YES;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Debug;
 		};
@@ -188,38 +490,32 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
-			};
-			name = Release;
-		};
-		E1B94B401635A22A00D76123 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DSTROOT = /tmp/WeTongjiSDK.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "WeTongjiSDK/WeTongjiSDK-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Debug;
-		};
-		E1B94B411635A22A00D76123 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				DSTROOT = /tmp/WeTongjiSDK.dst;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "WeTongjiSDK/WeTongjiSDK-Prefix.pch";
-				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
+				VALID_ARCHS = "armv7 armv7s i386";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		E110DF3516365B990087EA46 /* Build configuration list for PBXNativeTarget "WeTongjiSDK" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E110DF3616365B990087EA46 /* Debug */,
+				E110DF3716365B990087EA46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		E110DF6F163672720087EA46 /* Build configuration list for PBXAggregateTarget "WeTongjiSDKUniversal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				E110DF70163672720087EA46 /* Debug */,
+				E110DF71163672720087EA46 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		E1B94B2B1635A22A00D76123 /* Build configuration list for PBXProject "WeTongjiSDK" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -228,14 +524,6 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
-		};
-		E1B94B3F1635A22A00D76123 /* Build configuration list for PBXNativeTarget "WeTongjiSDK" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				E1B94B401635A22A00D76123 /* Debug */,
-				E1B94B411635A22A00D76123 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};
