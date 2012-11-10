@@ -1,156 +1,114 @@
 //
 //  WTClient.m
-//  WeTongji
+//  WeTongjiSDK
 //
-//  Created by 紫川 王 on 12-4-23.
-//  Copyright (c) 2012年 Tongji Apple Club. All rights reserved.
+//  Created by tang zhixiong on 12-11-7.
+//  Copyright (c) 2012年 WeTongji. All rights reserved.
 //
 
 #import "WTClient.h"
-#import "JSON.h"
+#import "AFHTTPRequestOperation.h"
+#import "AFJSONRequestOperation.h"
 #import "NSString+URLEncoding.h"
-#import "ASIFormDataRequest.h"
+#import "NSString+Addition.h"
+#import "JSON.h"
 
-//static NSString* const APIDomain = @"106.187.95.107:8080";
-static NSString* const APIDomain = @"we.tongji.edu.cn";
-
-#define GetActivitySortMethodLikeDesc   @"`like` DESC"
-#define GetActivitySortMethodBeginDesc  @"`begin` DESC"
+#define HttpMethodGET @"GET"
+#define HttpMethodPOST @"POST"
+#define HttpMethodCostomUpLoadAvatar @"UPLOADAVATAR"
 
 @interface WTClient()
 
-@property (nonatomic, retain) NSMutableDictionary *params;
-@property (nonatomic, retain) ASIHTTPRequest *request;
-@property (nonatomic, assign, getter = isSessionRequired) BOOL sessionRequired;
-@property (nonatomic, assign, getter = isCurrentUserIDRequired) BOOL currentUserIDRequired;
+@property (nonatomic,strong) NSMutableDictionary * params;
+@property (nonatomic,strong) WTCompletionBlock completionBlock;
+@property (nonatomic,strong) NSMutableDictionary * postValue;
+@property (nonatomic,weak) UIImage * avatarImage;
 
 @end
 
 @implementation WTClient
 
-@synthesize responseStatusCode = _responseStatusCode;
-@synthesize hasError = _hasError;
-@synthesize errorDesc = _errorDesc;
-@synthesize responseData = _responseData;
+@synthesize params=_params;
+@synthesize completionBlock=_completionBlock;
+@synthesize postValue=_postValue;
+@synthesize avatarImage = _avatarImage;
 
-@synthesize params = _params;
-@synthesize request = _request;
-@synthesize sessionRequired = _sessionRequired;
-@synthesize currentUserIDRequired = _currentUserIDRequired;
+static NSString * const baseURLString = @"http://we.tongji.edu.cn";
+static NSString * const pathString = @"/api/call";
 
-- (void)setCompletionBlock:(void (^)(WTClient* client))completionBlock {
-    [_completionBlock autorelease];
-    _completionBlock = [completionBlock copy];
++(WTClient *)getClient
+{
+    static WTClient * _client = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        _client = [[WTClient alloc] initWithBaseURL:[NSURL URLWithString:baseURLString]];
+        _client.parameterEncoding = AFFormURLParameterEncoding;
+        //_client.stringEncoding = NSUnicodeStringEncoding;
+    });
+    
+    return _client;
 }
 
-- (WTCompletionBlock)completionBlock {
-    return _completionBlock;
-}
-
-+ (id)client {
-    //autorelease intentially ommited here
-    return [[WTClient alloc] init];
-}
-
-- (void)dealloc {
-    NSLog(@"WTClient dealloc");
-    [_errorDesc release];
-    [_completionBlock release];
-    [_params release];
-    [_request release];
-    [_responseData release];
-    [super dealloc];
-}
-
-- (id)init {
-    self = [super init];
-    if(self) {
-        self.params = [[NSMutableDictionary alloc] initWithCapacity:10];
-        self.hasError = NO;
-        self.responseStatusCode = 0;
-        
-        self.request = [[ASIHTTPRequest alloc] initWithURL:nil];
-        self.request.delegate = self;
-        
-        [self.params setObject:@"iPhone" forKey:@"D"];
-        [self.params setObject:@"1.0" forKey:@"V"];
+- (id)initWithBaseURL:(NSURL *)url
+{
+    self = [super initWithBaseURL:url];
+    if (!self)
+    {
+        return nil;
     }
+    
+    [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
+    
+	[self setDefaultHeader:@"Accept" value:@"application/json"];
+    
     return self;
 }
 
-- (void)reportCompletion {
-    if (_completionBlock) {
-        _completionBlock(self);
-    }
-    [self autorelease];
-}
-
-#pragma mark -
-#pragma mark ASIHTTPRequest delegate
-
-- (void)requestFinished:(ASIHTTPRequest *)request {
-    NSLog(@"Request Finished");
-    //NSLog(@"Response raw string:\n%@", [request responseString]);
-    NSLog(@"Response code:%d", request.responseStatusCode);
-    
-    switch (request.responseStatusCode) {
-        case 200: // OK: everything went awesome.
-            break;
-        default:
-        {
-            self.hasError = YES;
-            self.errorDesc = [NSHTTPURLResponse localizedStringForStatusCode:request.responseStatusCode];
-            NSLog(@"error %@", self.errorDesc);
-            goto report_completion;
-        }
-    }
-    
-    id responseJSONObject = [request.responseString JSONValue];
-    NSLog(@"respond dict:%@", responseJSONObject);
-    
-    if ([responseJSONObject isKindOfClass:[NSDictionary class]]) {
-        NSDictionary *dict = (NSDictionary*)responseJSONObject;
-        NSDictionary *status = [dict objectForKey:@"Status"];
-        NSString *statusId = [status objectForKey:@"Id"];
-        NSDictionary *data = [dict objectForKey:@"Data"];
-        if(data && [statusId intValue] == 0) {
-            self.responseData = data;
-        } else {
-            self.hasError = YES;
-            self.responseStatusCode = [statusId intValue];
-            self.errorDesc = [NSString stringWithFormat:@"%@", [status objectForKey:@"Memo"]];
-            NSLog(@"Server responsed error code:%d\n\
-                  desc: %@\n", self.responseStatusCode, self.errorDesc);
-        }
-    } else {
-        self.hasError = YES;
-        self.responseStatusCode = 1000;
-    }
-    
-report_completion:
-    [self reportCompletion];
-}
-
-- (void)requestFailed:(ASIHTTPRequest *)request
+- (NSMutableDictionary *) postValue
 {
-    NSLog(@"Request Failed");
-    NSLog(@"%@", self.request.error);
-    
-    self.hasError = YES;
-    self.errorDesc = @""; //to do
-    
-    //same block called when failed
-    [self reportCompletion];
+    if ( !_postValue )
+    {
+        _postValue = [[NSMutableDictionary alloc] init];
+    }
+    return _postValue;
 }
 
-#pragma mark - 
-#pragma mark URL generation
+- (NSMutableDictionary *) params
+{
+    if ( !_params )
+    {
+        _params = [[NSMutableDictionary alloc] init];
+        [_params setObject:@"iPhone" forKey:@"D"];
+        [_params setObject:@"2.0.0" forKey:@"V"];
+    }
+    return _params;
+}
 
-- (NSString *)hashQueryString:(NSString *)queryString {
-    NSMutableString *result = [NSMutableString stringWithString:@"&H="];
-    NSString *md5 = [queryString md5HexDigest];
-    [result appendFormat:@"%@", md5];
-    return result;
+- (void)setCompletionBlock:(WTCompletionBlock)completionBlock
+{
+    _completionBlock = [completionBlock copy];
+}
+
+- (void)addHashParam
+{
+    NSArray *names = [self.params allKeys];
+    NSArray *sortedNames = [names sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
+        NSString *str1 = (NSString *)obj1;
+        NSString *str2 = (NSString *)obj2;
+        return [str1 compare:str2];
+    }];
+    
+    NSMutableString *result = [NSMutableString stringWithCapacity:10];
+    for (int i = 0; i < [sortedNames count]; i++) {
+        if (i > 0)
+            [result appendString:@"&"];
+        NSString *name = [sortedNames objectAtIndex:i];
+        NSString *parameter = [self.params objectForKey:name];
+        [result appendString:[NSString stringWithFormat:@"%@=%@", [name URLEncodedString],
+                              [parameter URLEncodedString]]];
+    }
+    NSString *md5 = [result md5HexDigest];
+    [self.params setObject:md5 forKey:@"H"];
 }
 
 - (NSString *)queryString
@@ -160,7 +118,7 @@ report_completion:
         NSString *str1 = (NSString *)obj1;
         NSString *str2 = (NSString *)obj2;
         return [str1 compare:str2];
-    }];    
+    }];
     
     NSMutableString *result = [NSMutableString stringWithCapacity:10];
     for (int i = 0; i < [sortedNames count]; i++) {
@@ -168,54 +126,346 @@ report_completion:
             [result appendString:@"&"];
         NSString *name = [sortedNames objectAtIndex:i];
         NSString *parameter = [self.params objectForKey:name];
-        [result appendString:[NSString stringWithFormat:@"%@=%@", [name URLEncodedString], 
+        [result appendString:[NSString stringWithFormat:@"%@=%@", [name URLEncodedString],
                               [parameter URLEncodedString]]];
     }
-    NSString *hash = [self hashQueryString:result];
-    [result appendFormat:@"%@", hash];
     
     return result;
 }
 
-- (void)buildURL
-{
-    NSString* url = [NSString stringWithFormat:@"http://%@/%@", APIDomain, @"api/call"];
-    
-    if ([self.params count]) {
-        url = [NSString stringWithFormat:@"%@?%@", url, [self queryString]];
-    }
-    
-    NSURL *finalURL = [NSURL URLWithString:url];
-    
-    NSLog(@"requestURL: %@", finalURL);
-    
-    [self.request setURL:finalURL];
-}
-
 - (void)sendRequest
 {
-    if ([self.request url]) {
-        return;
-    }
-    
-//    if(self.isCurrentUserIDRequired && [NSUserDefaults getCurrentUserID])
-//        [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-//    
-//    if(self.isSessionRequired && [NSUserDefaults getCurrentUserSession]) {
-//        [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-//    }
-    
-    [self buildURL];
-    [self.request startAsynchronous];
+    [self sendRequestWithHttpMethod:HttpMethodGET];
 }
 
-#pragma mark -
-#pragma mark APIs
+- (void)sendRequestWithHttpMethod:(NSString *)httpMethod;
+{
+    
+    if ([self.params count])
+    {
+        if ( ![self.params objectForKey:@"H"] )
+        [self addHashParam];
+    }
+    
+    NSMutableURLRequest * request;
+    if ( [httpMethod isEqualToString:HttpMethodPOST] )
+    {
+        request= [self requestWithMethod:httpMethod path:[NSString stringWithFormat:@"%@?%@",pathString,[self queryString]] parameters:self.postValue];
+    }
+    if ( [httpMethod isEqualToString:HttpMethodGET] )
+    {
+        request = [self requestWithMethod:httpMethod path:pathString parameters:self.params];
+    }
+    if ( [httpMethod isEqualToString:HttpMethodCostomUpLoadAvatar] )
+    {
+        NSData *imageData = UIImageJPEGRepresentation(self.avatarImage, 1.0);
+        request = [self multipartFormRequestWithMethod:HttpMethodPOST path:[NSString stringWithFormat:@"%@?%@",pathString,[self queryString]] parameters:nil constructingBodyWithBlock: ^(id <AFMultipartFormData> formData)
+                   {
+                       [formData appendPartWithFileData:imageData name:@"Image" fileName:@"avatar.jpg" mimeType:@"image/jpeg"];
+                   }];
+    }
+    
+    NSLog(@"%@",request);
+    NSLog(@"%@",[[NSString alloc]initWithData:[request HTTPBody] encoding:self.stringEncoding]);
+    AFHTTPRequestOperation * operation = [self HTTPRequestOperationWithRequest:request success:^( AFHTTPRequestOperation *operation , id resposeObject)
+     {
+         NSDictionary *status = [resposeObject objectForKey:@"Status"];
+         NSString *statusId = [status objectForKey:@"Id"];
+         NSMutableDictionary * result = [[resposeObject objectForKey:@"Data"] mutableCopy];
+         if(result && [statusId intValue] == 0)
+         {
+             [result setObject:@"N" forKey:@"isFailed"];
+         }
+         else
+         {
+             NSString * errorDesc = [NSString stringWithFormat:@"%@", [status objectForKey:@"Memo"]];
+             [result setObject:@"Y" forKey:@"isFailed"];
+             [result setObject:statusId forKey:@"errorID"];
+             [result setObject:errorDesc forKey:@"errorDesc"];
+             NSLog(@"Server responsed error code:%d\n\
+                   desc: %@\n", [statusId intValue], errorDesc);
+         }
+         _completionBlock([[NSDictionary alloc] initWithDictionary: result]);
+     }
+    failure:^(AFHTTPRequestOperation *operation , NSError * error)
+     {
+         NSLog(@"Request Failed");
+         NSLog(@"%@", error);
+     }];
+    [self enqueueHTTPRequestOperation:operation];
+    self.params = nil;
+    self.postValue = nil;
+    self.avatarImage = nil;
+}
 
-- (void)login:(NSString *)num password:(NSString *)password {
+
+- (void)login:(NSString *)num password:(NSString *)password
+{
+    self.params = nil;
     [self.params setObject:@"User.LogOn" forKey:@"M"];
     [self.params setObject:num forKey:@"NO"];
     [self.params setObject:password forKey:@"Password"];
+    [self sendRequest];
+}
+
+- (void)logoff
+{
+    [self.params setObject:@"User.LogOff" forKey:@"M"];
+    [self sendRequest];
+}
+
+- (void)activeUserWithNo:(NSString *) studentNumber
+                password:(NSString *) password
+                    name:(NSString *) name
+{
+    [self.params setObject:@"User.Active" forKey:@"M"];
+    [self.params setObject:studentNumber forKey:@"NO"];
+    [self.params setObject:password forKey:@"Password"];
+    [self.params setObject:name forKey:@"Name"];
+    [self sendRequest];
+}
+
+- (void)getCourses
+{
+    [self.params setObject:@"TimeTable.Get" forKey:@"M"];
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self sendRequest];
+}
+
+- (void)updateUserDisplayName:(NSString *)display_name email:(NSString *)email weiboName:(NSString *)weibo phoneNum:(NSString *)phone qqAccount:(NSString *)qq
+{
+    [self.params setObject:@"User.Update" forKey:@"M"];
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    NSMutableDictionary *itemDict = [[NSMutableDictionary alloc] init];
+    if (display_name != nil) [itemDict setObject:display_name forKey:@"DisplayName"];
+    if (email != nil) [itemDict setObject:email forKey:@"Email"];
+    if (weibo != nil) [itemDict setObject:weibo forKey:@"SinaWeibo"];
+    if (phone != nil) [itemDict setObject:phone forKey:@"Phone"];
+    if (qq != nil) [itemDict setObject:qq forKey:@"QQ"];
+    NSDictionary *userDict = [NSDictionary dictionaryWithObject:itemDict forKey:@"User"];
+    NSString *userJSONStr = [userDict JSONRepresentation];
+    NSLog(@"userJSONStr %@", userJSONStr);
+    [self addHashParam];
+    [self.postValue setObject:userJSONStr forKey:@"User"];
+    [self sendRequestWithHttpMethod:HttpMethodPOST];
+}
+
+- (void)updatePassword:(NSString *)new withOldPassword:(NSString *)old
+{
+    [self.params setObject:@"User.Update.Password" forKey:@"M"];
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:new forKey:@"New"];
+    [self.params setObject:old forKey:@"Old"];
+    [self sendRequest];
+}
+
+- (void)resetPasswordWithNO:(NSString *) studentNumber
+                       Name:(NSString*) name
+{
+    [self.params setObject:@"User.Reset.Password" forKey:@"M"];
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:studentNumber forKey:@"NO"];
+    [self.params setObject:name forKey:@"Name"];
+    [self sendRequest];
+}
+
+- (void)getUserInformation
+{
+    [self.params setObject:@"User.Get" forKey:@"M"];
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self sendRequest];
+}
+
+- (void)updateUserAvatar:(UIImage *)image
+{
+    [self.params setObject:@"User.Update.Avatar" forKey:@"M"];
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    self.avatarImage = image;
+    [self sendRequestWithHttpMethod:HttpMethodCostomUpLoadAvatar];
+}
+
+
+- (void)getScheduleWithBeginDate:(NSDate *)begin endDate:(NSDate *)end
+{
+    [self.params setObject:@"Schedule.Get" forKey:@"M"];
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:[NSString standardDateStringCovertFromDate:begin] forKey:@"Begin"];
+    [self.params setObject:[NSString standardDateStringCovertFromDate:end] forKey:@"End"];
+    [self sendRequest];
+}
+
+- (void) setChannelFavored:(NSString *) channelId
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Channel.Favorite" forKey:@"M"];
+    [self.params setObject:channelId forKey:@"Id"];
+    [self sendRequest];
+    
+}
+     
+- (void) cancelChannelFavored:(NSString *) channelId
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Channel.UnFavorite" forKey:@"M"];
+    [self.params setObject:channelId forKey:@"Id"];
+    [self sendRequest];
+}
+
+- (void) getChannels
+{
+    [self.params setObject:@"Channels.Get" forKey:@"M"];
+    [self sendRequest];
+}
+
+- (void) getActivitiesInChannel:(NSString *) channelId
+                         inSort:(NSString *) sort
+                        Expired:(Boolean) isExpired
+                       nextPage:(int) nextPage;
+{
+    [self.params setObject:@"Activities.Get" forKey:@"M"];
+    if (channelId) [self.params setObject:channelId forKey:@"Channel_Ids"];
+    if (sort) [self.params setObject:sort forKey:@"Sort"];
+    if (isExpired) [self.params setObject:[NSString stringWithFormat:@"%d", isExpired] forKey:@"Expire"];
+    [self.params setObject:[NSString stringWithFormat:@"%d",nextPage] forKey:@"P"];
+    [self sendRequest];
+}
+
+- (void) setLikeActivitiy:(NSString *) activityId
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Activity.Like" forKey:@"M"];
+    [self.params setObject:activityId forKey:@"Id"];
+    [self sendRequest];
+}
+
+- (void) cancelLikeActivity:(NSString *) activityId
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Activity.UnLike" forKey:@"M"];
+    [self.params setObject:activityId forKey:@"Id"];
+    [self sendRequest];
+}
+
+- (void) setActivityFavored:(NSString *) activityId
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Activity.Favorite" forKey:@"M"];
+    [self.params setObject:activityId forKey:@"Id"];
+    [self sendRequest];
+}
+
+- (void) cancelActivityFavored:(NSString *) activityId
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Activity.UnFavorite" forKey:@"M"];
+    [self.params setObject:activityId forKey:@"Id"];
+    [self sendRequest];
+}
+
+- (void) getFavoritesWithNextPage:(int) nextPage
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Favorite.Get" forKey:@"M"];
+    [self.params setObject:[NSString stringWithFormat:@"%d",nextPage] forKey:@"P"];
+    [self sendRequest];
+}
+
+- (void) getAllInformationInSort:(NSString *) sort
+                        nextPage:(int)nextPage;
+{
+    [self.params setObject:@"Information.GetList" forKey:@"M"];
+    if ( sort ) [self.params setObject:sort forKey:@"Sort"];
+    [self.params setObject:[NSString stringWithFormat:@"%d",nextPage] forKey:@"P"];
+    [self sendRequest];
+}
+
+- (void) getDetailOfInformaion:(NSString *) informationId
+{
+    [self.params setObject:@"Information.Get" forKey:@"M"];
+    [self.params setObject:informationId forKey:@"Id"];
+    [self sendRequest];
+}
+
+- (void) readInformaion:(NSString *) informationId
+{
+    [self.params setObject:@"Information.Read" forKey:@"M"];
+    [self.params setObject:informationId forKey:@"Id"];
+    [self sendRequest];
+}
+
+- (void) getNewVersion
+{
+    [self.params setObject:@"System.Version" forKey:@"M"];
+    [self sendRequest];
+}
+
+- (void) getLatestStar
+{
+    [self.params setObject:@"Person.GetLatest" forKey:@"M"];
+    [self sendRequest];
+}
+
+- (void) getAllStarsWithNextPage:(int)nextPage;
+{
+    [self.params setObject:@"People.Get" forKey:@"M"];
+    [self.params setObject:[NSString stringWithFormat:@"%d",nextPage] forKey:@"P"];
+    [self sendRequest];
+}
+
+- (void) readStar:(int)starId
+{
+    [self.params setObject:@"Person.Read" forKey:@"M"];
+    [self.params setObject:@"Id" forKey:[NSString stringWithFormat:@"%d",starId]];
+    [self sendRequest];
+}
+
+- (void) setStarFavored:(int)starId
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Person.Favorite" forKey:@"M"];
+    [self.params setObject:@"Id" forKey:[NSString stringWithFormat:@"%d",starId]];
+    [self sendRequest];
+}
+
+- (void) cancelStarFaved:(int)starId
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Person.UnFavorite" forKey:@"M"];
+    [self.params setObject:@"Id" forKey:[NSString stringWithFormat:@"%d",starId]];
+    [self sendRequest];
+}
+
+- (void) likeStar:(int)starId
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Person.Like" forKey:@"M"];
+    [self.params setObject:@"Id" forKey:[NSString stringWithFormat:@"%d",starId]];
+    [self sendRequest];
+}
+
+- (void) unlikeStar:(int)starId
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Person.UnLike" forKey:@"M"];
+    [self.params setObject:@"Id" forKey:[NSString stringWithFormat:@"%d",starId]];
     [self sendRequest];
 }
 
