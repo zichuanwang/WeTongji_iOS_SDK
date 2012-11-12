@@ -53,7 +53,6 @@
 /* Begin PBXFileReference section */
 		E110DF2B16365B990087EA46 /* WeTongjiSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeTongjiSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E110DF6C163662220087EA46 /* WeTongjiSDK-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WeTongjiSDK-Info.plist"; sourceTree = "<group>"; };
-		E1B94B341635A22A00D76123 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		E1B94B391635A22A00D76123 /* WeTongjiSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeTongjiSDK.h; sourceTree = "<group>"; };
 		E1B94B731635A75300D76123 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		E1B94B741635A75300D76123 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -70,7 +69,6 @@
 		E1B94B7F1635A75300D76123 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		E1B94B9A1635A94200D76123 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
 		E1B94B9B1635A94200D76123 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
-		FF3645DC1647E73700D3A439 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		FF6C9462164A319500F94CB6 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		FF6C9463164A319500F94CB6 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		FF6C9464164A319500F94CB6 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -137,8 +135,6 @@
 		E1B94B331635A22A00D76123 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E1B94B341635A22A00D76123 /* Foundation.framework */,
-				FF3645DC1647E73700D3A439 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";

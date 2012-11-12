@@ -6,96 +6,125 @@
 //  Copyright (c) 2012年 WeTongji. All rights reserved.
 //
 
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <MobileCoreServices/MobileCoreServices.h>
 #import <UIKit/UIKit.h>
-#import "NSUserDefaults+Addition.h"
 #import "AFHTTPClient.h"
+#import "AFHTTPRequestOperation.h"
 
 #define GetActivitySortMethodLikeDesc   @"`like` DESC"
 #define GetActivitySortMethodBeginDesc  @"`begin` DESC"
 
-typedef void (^WTCompletionBlock)(id resposeObject);
+@class WTRequest;
 
-@interface WTClient : AFHTTPClient
+typedef void (^WTSuccessCompletionBlock)(id responseObject);
+typedef void (^WTFailureCompletionBlock)(NSError *error);
 
-+(WTClient *)getClient;
+@interface WTRequest : NSObject
 
-- (void)setCompletionBlock:(WTCompletionBlock) completionBlock;
+@property (nonatomic, readonly, strong) NSMutableDictionary *params;
+@property (nonatomic, readonly, strong) NSMutableDictionary *postValue;
+@property (nonatomic, readonly, strong) UIImage *avatarImage;
+@property (nonatomic, readonly) NSString *queryString;
 
-#pragma mark -
-#pragma mark user API
++ (WTRequest *)requestWithSuccessBlock:(WTSuccessCompletionBlock)success
+                          failureBlock:(WTFailureCompletionBlock)failure;
+
+#pragma mark - User API
 
 - (void)login:(NSString *)num password:(NSString *)password;
+
 - (void)logoff;
-- (void)activeUserWithNo:(NSString *) studentNumber
-                password:(NSString *) password
-                    name:(NSString *) name;
-- (void)updateUserDisplayName:(NSString *)display_name
+
+- (void)activeUserWithNo:(NSString *)studentNumber
+                password:(NSString *)password
+                    name:(NSString *)name;
+
+- (void)updateUserDisplayName:(NSString *)displayName
                         email:(NSString *)email
                     weiboName:(NSString *)weibo
                      phoneNum:(NSString *)phone
                     qqAccount:(NSString *)qq;
-- (void)updatePassword:(NSString *)new withOldPassword:(NSString *)old;
-- (void)updateUserAvatar:(UIImage *)image;
-- (void)getUserInformation;
-- (void)resetPasswordWithNO:(NSString *) studentNumber
-                       Name:(NSString*) name;
 
-#pragma mark -
-#pragma mark course API
+- (void)updatePassword:(NSString *)new oldPassword:(NSString *)old;
+
+- (void)updateUserAvatar:(UIImage *)image;
+
+- (void)getUserInformation;
+
+- (void)resetPasswordWithNO:(NSString *)studentNumber
+                       Name:(NSString*)name;
+
+#pragma mark - Course API
 
 - (void)getCourses;
 
-#pragma mark -
-#pragma mark calender API
+#pragma mark - calender API
 
 - (void)getScheduleWithBeginDate:(NSDate *)begin endDate:(NSDate *)end;
 
-#pragma mark -
-#pragma mark channel API
+#pragma mark - Channel API
 
-- (void) setChannelFavored:(NSString *) channelId;
-- (void) cancelChannelFavored:(NSString *) channelId;
-- (void) getChannels;
+- (void)setChannelFavored:(NSString *)channelID;
+ 
+- (void)cancelChannelFavored:(NSString *)channelID;
 
-#pragma mark -
-#pragma mark activity API
+- (void)getChannels;
 
-- (void) getActivitiesInChannel:(NSString *) channelId
-                         inSort:(NSString *) sort
-                        Expired:(Boolean) isExpired
-                       nextPage:(int) nextPage;
-- (void) setLikeActivitiy:(NSString *) activityId;
-- (void) cancelLikeActivity:(NSString *) activityId;
-- (void) setActivityFavored:(NSString *) activityId;
-- (void) cancelActivityFavored:(NSString *) activityId;
+#pragma mark - Activity API
 
-#pragma -
-#pragma - favorite API
+- (void)getActivitiesInChannel:(NSString *)channelID
+                        inSort:(NSString *)sort
+                       Expired:(BOOL)isExpired
+                      nextPage:(int)nextPage;
 
-- (void) getFavoritesWithNextPage:(int) nextPage;
+- (void)setLikeActivitiy:(NSString *)activityID;
 
-#pragma -
+- (void)cancelLikeActivity:(NSString *)activityID;
+
+- (void)setActivityFavored:(NSString *)activityID;
+
+- (void)cancelActivityFavored:(NSString *)activityID;
+
+#pragma - Favorite API
+
+- (void)getFavoritesWithNextPage:(int)nextPage;
+
 #pragma - Information API
 
-- (void) getAllInformationInSort:(NSString *) sort
-                        nextPage:(int) nextPage;
-- (void) getDetailOfInformaion:(NSString *) informationId;
-- (void) readInformaion:(NSString *) informationId;
+- (void)getAllInformationInSort:(NSString *)sort
+                       nextPage:(int)nextPage;
 
-#pragma -
+- (void)getDetailOfInformaion:(NSString *)informationID;
+
+- (void)readInformaion:(NSString *)informationID;
+
 #pragma - Vision API
 
-- (void) getNewVersion;
+- (void)getNewVersion;
 
-#pragma -
 #pragma - Star API
 
-- (void) getLatestStar;
-- (void) getAllStarsWithNextPage:(int)nextPage;
-- (void) readStar:(int)starId;
-- (void) setStarFavored:(int)starId;
-- (void) cancelStarFaved:(int)starId;
-- (void) likeStar:(int)starId;
-- (void) unlikeStar:(int)starId;
+- (void)getLatestStar;
+
+- (void)getAllStarsWithNextPage:(int)nextPage;
+
+- (void)readStar:(int)starID;
+
+- (void)setStarFavored:(int)starID;
+
+- (void)cancelStarFaved:(int)starID;
+
+- (void)likeStar:(int)starID;
+
+- (void)unlikeStar:(int)starID;
+
+@end
+
+@interface WTClient : AFHTTPClient
+
++ (WTClient *)sharedClient;
+
+- (void)enqueueRequest:(WTRequest *)request;
 
 @end
