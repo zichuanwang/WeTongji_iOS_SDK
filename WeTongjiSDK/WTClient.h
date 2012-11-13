@@ -14,6 +14,7 @@
 
 #define GetActivitySortMethodLikeDesc   @"`like` DESC"
 #define GetActivitySortMethodBeginDesc  @"`begin` DESC"
+#define GetActivitySortMethodCreateDesc @"`created_at` DESC"
 
 @class WTRequest;
 
