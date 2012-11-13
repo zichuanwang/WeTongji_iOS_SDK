@@ -56,9 +56,9 @@
 {
     if (!_params) {
         _params = [[NSMutableDictionary alloc] init];
-        [_params setObject:[NSBundle mainBundle].bundleIdentifier forKey:@"D"];
-        NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        [_params setObject:version forKey:@"V"];
+        _params[@"D"] = [NSBundle mainBundle].bundleIdentifier;
+        NSString *version = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
+        _params[@"V"] = version;
     }
     return _params;
 }
@@ -76,7 +76,7 @@
         if (i > 0)
             [result appendString:@"&"];
         NSString *name = [sortedNames objectAtIndex:i];
-        NSString *parameter = [self.params objectForKey:name];
+        NSString *parameter = self.params[name];
         [result appendString:[NSString stringWithFormat:@"%@=%@", [name URLEncodedString],
                               [parameter URLEncodedString]]];
     }
@@ -99,12 +99,12 @@
         if (i > 0)
             [result appendString:@"&"];
         NSString *name = [sortedNames objectAtIndex:i];
-        NSString *parameter = [self.params objectForKey:name];
+        NSString *parameter = self.params[name];
         [result appendString:[NSString stringWithFormat:@"%@=%@", [name URLEncodedString],
                               [parameter URLEncodedString]]];
     }
     NSString *md5 = [result md5HexDigest];
-    [self.params setObject:md5 forKey:@"H"];
+    self.params[@"H"] = md5;
 }
 
 #pragma mark - Configure API parameters
@@ -112,24 +112,24 @@
 #pragma mark User API
 
 - (void)login:(NSString *)num password:(NSString *)password {
-    [self.params setObject:@"User.LogOn" forKey:@"M"];
-    [self.params setObject:num forKey:@"NO"];
-    [self.params setObject:password forKey:@"Password"];
+    self.params[@"M"] = @"User.LogOn";
+    self.params[@"NO"] = num;
+    self.params[@"Password"] = password;
     [self addHashParam];
 }
 
 - (void)logoff {
-    [self.params setObject:@"User.LogOff" forKey:@"M"];
+    self.params[@"M"] = @"User.LogOff";
     [self addHashParam];
 }
 
 - (void)activeUserWithNo:(NSString *)studentNumber
                 password:(NSString *)password
                     name:(NSString *)name {
-    [self.params setObject:@"User.Active" forKey:@"M"];
-    [self.params setObject:studentNumber forKey:@"NO"];
-    [self.params setObject:password forKey:@"Password"];
-    [self.params setObject:name forKey:@"Name"];
+    self.params[@"M"] = @"User.Active";
+    self.params[@"NO"] = studentNumber;
+    self.params[@"Password"] = password;
+    self.params[@"Name"] = name;
     [self addHashParam];
 }
 
@@ -453,20 +453,20 @@
     NSLog(@"%@", [[NSString alloc] initWithData:[urlRequest HTTPBody] encoding:self.stringEncoding]);
     
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:^(AFHTTPRequestOperation *operation, id resposeObject) {
-        NSDictionary *status = [resposeObject objectForKey:@"Status"];
-        NSString *statusIDString = [status objectForKey:@"Id"];
+        NSDictionary *status = resposeObject[@"Status"];
+        NSString *statusIDString = status[@"Id"];
         NSInteger statusID = statusIDString.integerValue;
-        NSDictionary *result = [resposeObject objectForKey:@"Data"];
+        NSDictionary *result = resposeObject[@"Data"];
         
         if(result && statusID == 0) {
             if(rawRequest.successCompletionBlock) {
                 rawRequest.successCompletionBlock(result);
             }
         } else {
-            NSString *errorDesc = [NSString stringWithFormat:@"%@", [status objectForKey:@"Memo"]];
+            NSString *errorDesc = [NSString stringWithFormat:@"%@", status[@"Memo"]];
             NSError *error = [NSError errorWithDomain:[NSBundle mainBundle].bundleIdentifier
                                                  code:statusID
-                                             userInfo:[NSDictionary dictionaryWithObject:errorDesc forKey:@"errorDesc"]];
+                                             userInfo:@{@"errorDesc" : errorDesc}];
 
             NSLog(@"Server responsed error code:%d\n\
                   desc: %@\n", statusID, errorDesc);
