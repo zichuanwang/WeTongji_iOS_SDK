@@ -11,6 +11,7 @@
 #import <UIKit/UIKit.h>
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
+#import "NSUserDefaults+Addition.h"
 
 #define GetActivitySortMethodLikeDesc   @"`like` DESC"
 #define GetActivitySortMethodBeginDesc  @"`begin` DESC"
