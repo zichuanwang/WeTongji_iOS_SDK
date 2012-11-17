@@ -291,22 +291,53 @@
 
 #pragma Information API
 
-- (void)getAllInformationInSort:(NSString *)sort
+- (void)getAllInformationInType:(NSString *) type sort:(NSString *)sort
                        nextPage:(int)nextPage {
-    [self.params setObject:@"Information.GetList" forKey:@"M"];
+    NSString * resultM;
+    if ( [type isEqualToString:GetInformationTypeClubNews] || [type isEqualToString:GetInformationTypeSchoolNews] ){
+        resultM = [type stringByAppendingString:@".GetList"];
+    }
+    if ( [type isEqualToString:GetInformationTypeAround] || [type isEqualToString:GetInformationTypeForStaff] ) {
+        resultM = [type stringByAppendingString:@"s.Get"];
+    }
+    [self.params setObject:resultM forKey:@"M"];
     if (sort) [self.params setObject:sort forKey:@"Sort"];
     [self.params setObject:[NSString stringWithFormat:@"%d",nextPage] forKey:@"P"];
     [self addHashParam];
 }
 
-- (void)getDetailOfInformaion:(NSString *)informationID {
-    [self.params setObject:@"Information.Get" forKey:@"M"];
+- (void)getDetailOfInformaion:(NSString *)informationID inType:(NSString *)type {
+    [self.params setObject:[type stringByAppendingString:@".Get"] forKey:@"M"];
     [self.params setObject:informationID forKey:@"Id"];
     [self addHashParam];
 }
 
-- (void)readInformaion:(NSString *)informationID {
-    [self.params setObject:@"Information.Read" forKey:@"M"];
+- (void)readInformaion:(NSString *)informationID inType:(NSString *) type {
+    [self.params setObject:[type stringByAppendingString:@".Read"]  forKey:@"M"];
+    [self.params setObject:informationID forKey:@"Id"];
+    [self addHashParam];
+}
+
+- (void)setInformationFavored:(NSString *)informationID inType:(NSString *) type{
+    [self.params setObject:[type stringByAppendingString:@".Favorite"]  forKey:@"M"];
+    [self.params setObject:informationID forKey:@"Id"];
+    [self addHashParam];
+}
+
+- (void)setInformationUnFavored:(NSString *)informationID inType:(NSString *) type{
+    [self.params setObject:[type stringByAppendingString:@".UnFavorite"]  forKey:@"M"];
+    [self.params setObject:informationID forKey:@"Id"];
+    [self addHashParam];
+}
+
+- (void)setInformationLike:(NSString *)informationID inType:(NSString *) type{
+    [self.params setObject:[type stringByAppendingString:@".Like"]  forKey:@"M"];
+    [self.params setObject:informationID forKey:@"Id"];
+    [self addHashParam];
+}
+
+- (void)setInformationUnLike:(NSString *)informationID inType:(NSString *) type{
+    [self.params setObject:[type stringByAppendingString:@".UnLike"]  forKey:@"M"];
     [self.params setObject:informationID forKey:@"Id"];
     [self addHashParam];
 }
@@ -423,7 +454,6 @@
     NSMutableURLRequest *urlRequest;
     NSString *HTTPMethod = rawRequest.HTTPMethod;
     NSDictionary *params = rawRequest.params;
-    
     if([HTTPMethod isEqualToString:HttpMethodGET]) {
         urlRequest = [self requestWithMethod:HTTPMethod
                                      path:PATH_STRING
@@ -447,10 +477,9 @@
                                                          mimeType:@"image/jpeg"];
                              }];
     }
-    
+    [urlRequest setTimeoutInterval:10];
     NSLog(@"%@", urlRequest);
     NSLog(@"%@", [[NSString alloc] initWithData:[urlRequest HTTPBody] encoding:self.stringEncoding]);
-    
     AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:^(AFHTTPRequestOperation *operation, id resposeObject) {
         NSDictionary *status = resposeObject[@"Status"];
         NSString *statusIDString = status[@"Id"];

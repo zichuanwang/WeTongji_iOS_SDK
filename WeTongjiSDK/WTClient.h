@@ -17,6 +17,11 @@
 #define GetActivitySortMethodBeginDesc  @"`begin` DESC"
 #define GetActivitySortMethodCreateDesc @"`created_at` DESC"
 
+#define GetInformationTypeSchoolNews @"SchoolNews"
+#define GetInformationTypeClubNews @"ClubNews"
+#define GetInformationTypeAround @"Around"
+#define GetInformationTypeForStaff @"ForStaff"
+
 @class WTRequest;
 
 typedef void (^WTSuccessCompletionBlock)(id responseObject);
@@ -94,12 +99,27 @@ typedef void (^WTFailureCompletionBlock)(NSError *error);
 
 #pragma - Information API
 
-- (void)getAllInformationInSort:(NSString *)sort
+- (void)getAllInformationInType:(NSString *) type
+                           sort:(NSString *)sort
                        nextPage:(int)nextPage;
 
-- (void)getDetailOfInformaion:(NSString *)informationID;
+- (void)getDetailOfInformaion:(NSString *)informationID
+                       inType:(NSString *)type;
 
-- (void)readInformaion:(NSString *)informationID;
+- (void)readInformaion:(NSString *)informationID
+                inType:(NSString *) type;
+
+- (void)setInformationFavored:(NSString *)informationID
+                       inType:(NSString *) type;
+
+- (void)setInformationUnFavored:(NSString *)informationID
+                         inType:(NSString *) type;
+
+- (void)setInformationLike:(NSString *)informationID
+                    inType:(NSString *) type;
+
+- (void)setInformationUnLike:(NSString *)informationID
+                      inType:(NSString *) type;
 
 #pragma - Vision API
 
