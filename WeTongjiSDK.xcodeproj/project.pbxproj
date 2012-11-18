@@ -15,12 +15,12 @@
 		E110DF4616365D760087EA46 /* SBJsonParser.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B7D1635A75300D76123 /* SBJsonParser.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E110DF4716365D760087EA46 /* SBJsonWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B7F1635A75300D76123 /* SBJsonWriter.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E110DF5416365E050087EA46 /* NSString+URLEncoding.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B9A1635A94200D76123 /* NSString+URLEncoding.h */; settings = {ATTRIBUTES = (); }; };
-		E110DF6216365E050087EA46 /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B741635A75300D76123 /* NSObject+SBJSON.h */; settings = {ATTRIBUTES = (); }; };
-		E110DF6316365E050087EA46 /* NSString+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B761635A75300D76123 /* NSString+SBJSON.h */; settings = {ATTRIBUTES = (); }; };
-		E110DF6416365E050087EA46 /* SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B781635A75300D76123 /* SBJSON.h */; settings = {ATTRIBUTES = (); }; };
-		E110DF6516365E050087EA46 /* SBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7A1635A75300D76123 /* SBJsonBase.h */; settings = {ATTRIBUTES = (); }; };
-		E110DF6616365E050087EA46 /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7C1635A75300D76123 /* SBJsonParser.h */; settings = {ATTRIBUTES = (); }; };
-		E110DF6716365E050087EA46 /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7E1635A75300D76123 /* SBJsonWriter.h */; settings = {ATTRIBUTES = (); }; };
+		E110DF6216365E050087EA46 /* NSObject+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B741635A75300D76123 /* NSObject+SBJSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E110DF6316365E050087EA46 /* NSString+SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B761635A75300D76123 /* NSString+SBJSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E110DF6416365E050087EA46 /* SBJSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B781635A75300D76123 /* SBJSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E110DF6516365E050087EA46 /* SBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7A1635A75300D76123 /* SBJsonBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E110DF6616365E050087EA46 /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7C1635A75300D76123 /* SBJsonParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E110DF6716365E050087EA46 /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7E1635A75300D76123 /* SBJsonWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF6C9475164A319500F94CB6 /* AFHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = FF6C9462164A319500F94CB6 /* AFHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF6C9476164A319500F94CB6 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6C9463164A319500F94CB6 /* AFHTTPClient.m */; };
 		FF6C9478164A319500F94CB6 /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = FF6C9464164A319500F94CB6 /* AFHTTPRequestOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -42,7 +42,7 @@
 		FF6C948F164A319500F94CB6 /* UIImageView+AFNetworking.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6C9474164A319500F94CB6 /* UIImageView+AFNetworking.m */; };
 		FF9DCF01164BF36400EA30E9 /* WTClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6C9492164A31BA00F94CB6 /* WTClient.m */; };
 		FF9DCF02164BF38300EA30E9 /* WeTongjiSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B391635A22A00D76123 /* WeTongjiSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FF9DCF03164BF38D00EA30E9 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B731635A75300D76123 /* JSON.h */; };
+		FF9DCF03164BF38D00EA30E9 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B731635A75300D76123 /* JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFB03729164BEF9D00157B7D /* WTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = FF6C9491164A31BA00F94CB6 /* WTClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFBEB27F164B3F0F0004AF4C /* NSString+Addition.h in Headers */ = {isa = PBXBuildFile; fileRef = FFBEB27D164B3F0F0004AF4C /* NSString+Addition.h */; };
 		FFBEB280164B3F0F0004AF4C /* NSString+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBEB27E164B3F0F0004AF4C /* NSString+Addition.m */; };
@@ -230,19 +230,19 @@
 				FF9DCF02164BF38300EA30E9 /* WeTongjiSDK.h in Headers */,
 				FF6C9475164A319500F94CB6 /* AFHTTPClient.h in Headers */,
 				FFFF0F2716496B120049370C /* NSUserDefaults+Addition.h in Headers */,
+				FF9DCF03164BF38D00EA30E9 /* JSON.h in Headers */,
+				E110DF6416365E050087EA46 /* SBJSON.h in Headers */,
 				FF6C947B164A319500F94CB6 /* AFImageRequestOperation.h in Headers */,
 				FF6C948E164A319500F94CB6 /* UIImageView+AFNetworking.h in Headers */,
 				FF6C9478164A319500F94CB6 /* AFHTTPRequestOperation.h in Headers */,
 				FF6C9488164A319500F94CB6 /* AFURLConnectionOperation.h in Headers */,
-				FFB03729164BEF9D00157B7D /* WTClient.h in Headers */,
-				FF9DCF03164BF38D00EA30E9 /* JSON.h in Headers */,
-				E110DF5416365E050087EA46 /* NSString+URLEncoding.h in Headers */,
 				E110DF6216365E050087EA46 /* NSObject+SBJSON.h in Headers */,
 				E110DF6316365E050087EA46 /* NSString+SBJSON.h in Headers */,
-				E110DF6416365E050087EA46 /* SBJSON.h in Headers */,
 				E110DF6516365E050087EA46 /* SBJsonBase.h in Headers */,
 				E110DF6616365E050087EA46 /* SBJsonParser.h in Headers */,
 				E110DF6716365E050087EA46 /* SBJsonWriter.h in Headers */,
+				FFB03729164BEF9D00157B7D /* WTClient.h in Headers */,
+				E110DF5416365E050087EA46 /* NSString+URLEncoding.h in Headers */,
 				FF6C947E164A319500F94CB6 /* AFJSONRequestOperation.h in Headers */,
 				FF6C9481164A319500F94CB6 /* AFNetworkActivityIndicatorManager.h in Headers */,
 				FF6C9484164A319500F94CB6 /* AFNetworking.h in Headers */,
