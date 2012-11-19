@@ -279,6 +279,24 @@
     [self addHashParam];
 }
 
+- (void)setActivityScheduled:(NSString *)activityID
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Activity.Schedule" forKey:@"M"];
+    [self.params setObject:activityID forKey:@"Id"];
+    [self addHashParam];
+}
+
+- (void)cancelActivityScheduled:(NSString *)activityID
+{
+    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
+    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    [self.params setObject:@"Activity.UnSchedule" forKey:@"M"];
+    [self.params setObject:activityID forKey:@"Id"];
+    [self addHashParam];
+}
+
 #pragma Favorite API
 
 - (void)getFavoritesWithNextPage:(int)nextPage {

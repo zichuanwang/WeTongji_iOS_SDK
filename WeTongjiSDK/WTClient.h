@@ -93,6 +93,10 @@ typedef void (^WTFailureCompletionBlock)(NSError *error);
 
 - (void)cancelActivityFavored:(NSString *)activityID;
 
+- (void)setActivityScheduled:(NSString *)activityID;
+
+- (void)cancelActivityScheduled:(NSString *)activityID;
+
 #pragma - Favorite API
 
 - (void)getFavoritesWithNextPage:(int)nextPage;
