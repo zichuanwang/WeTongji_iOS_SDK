@@ -21,6 +21,15 @@
 		E110DF6516365E050087EA46 /* SBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7A1635A75300D76123 /* SBJsonBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E110DF6616365E050087EA46 /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7C1635A75300D76123 /* SBJsonParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E110DF6716365E050087EA46 /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7E1635A75300D76123 /* SBJsonWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C033B716690A4E004738EF /* WTElectricityBalanceQueryService.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C033B516690A4E004738EF /* WTElectricityBalanceQueryService.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C033B816690A4E004738EF /* WTElectricityBalanceQueryService.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C033B616690A4E004738EF /* WTElectricityBalanceQueryService.m */; };
+		E1C033BF166914D8004738EF /* WTCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C033BD166914D8004738EF /* WTCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E1C033D416692225004738EF /* TFHpple.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C033CE16692225004738EF /* TFHpple.h */; };
+		E1C033D516692225004738EF /* TFHpple.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C033CF16692225004738EF /* TFHpple.m */; };
+		E1C033D616692225004738EF /* TFHppleElement.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C033D016692225004738EF /* TFHppleElement.h */; };
+		E1C033D716692225004738EF /* TFHppleElement.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C033D116692225004738EF /* TFHppleElement.m */; };
+		E1C033D816692225004738EF /* XPathQuery.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C033D216692225004738EF /* XPathQuery.h */; };
+		E1C033D916692225004738EF /* XPathQuery.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C033D316692225004738EF /* XPathQuery.m */; };
 		FF6C9475164A319500F94CB6 /* AFHTTPClient.h in Headers */ = {isa = PBXBuildFile; fileRef = FF6C9462164A319500F94CB6 /* AFHTTPClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF6C9476164A319500F94CB6 /* AFHTTPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = FF6C9463164A319500F94CB6 /* AFHTTPClient.m */; };
 		FF6C9478164A319500F94CB6 /* AFHTTPRequestOperation.h in Headers */ = {isa = PBXBuildFile; fileRef = FF6C9464164A319500F94CB6 /* AFHTTPRequestOperation.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -69,6 +78,15 @@
 		E1B94B7F1635A75300D76123 /* SBJsonWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SBJsonWriter.m; sourceTree = "<group>"; };
 		E1B94B9A1635A94200D76123 /* NSString+URLEncoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+URLEncoding.h"; sourceTree = "<group>"; };
 		E1B94B9B1635A94200D76123 /* NSString+URLEncoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+URLEncoding.m"; sourceTree = "<group>"; };
+		E1C033B516690A4E004738EF /* WTElectricityBalanceQueryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTElectricityBalanceQueryService.h; sourceTree = "<group>"; };
+		E1C033B616690A4E004738EF /* WTElectricityBalanceQueryService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTElectricityBalanceQueryService.m; sourceTree = "<group>"; };
+		E1C033BD166914D8004738EF /* WTCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTCommon.h; sourceTree = "<group>"; };
+		E1C033CE16692225004738EF /* TFHpple.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHpple.h; sourceTree = "<group>"; };
+		E1C033CF16692225004738EF /* TFHpple.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHpple.m; sourceTree = "<group>"; };
+		E1C033D016692225004738EF /* TFHppleElement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TFHppleElement.h; sourceTree = "<group>"; };
+		E1C033D116692225004738EF /* TFHppleElement.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TFHppleElement.m; sourceTree = "<group>"; };
+		E1C033D216692225004738EF /* XPathQuery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XPathQuery.h; sourceTree = "<group>"; };
+		E1C033D316692225004738EF /* XPathQuery.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XPathQuery.m; sourceTree = "<group>"; };
 		FF6C9462164A319500F94CB6 /* AFHTTPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPClient.h; sourceTree = "<group>"; };
 		FF6C9463164A319500F94CB6 /* AFHTTPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFHTTPClient.m; sourceTree = "<group>"; };
 		FF6C9464164A319500F94CB6 /* AFHTTPRequestOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFHTTPRequestOperation.h; sourceTree = "<group>"; };
@@ -142,11 +160,13 @@
 		E1B94B361635A22A00D76123 /* WeTongjiSDK */ = {
 			isa = PBXGroup;
 			children = (
+				E1C033BA16690DC8004738EF /* ElectricityBalance */,
 				E1B94B991635A91F00D76123 /* Categories */,
 				E1B94B5A1635A73200D76123 /* External */,
 				FF6C9491164A31BA00F94CB6 /* WTClient.h */,
 				FF6C9492164A31BA00F94CB6 /* WTClient.m */,
 				E1B94B391635A22A00D76123 /* WeTongjiSDK.h */,
+				E1C033BD166914D8004738EF /* WTCommon.h */,
 				E110DF6B1636620D0087EA46 /* Supporting Files */,
 			);
 			path = WeTongjiSDK;
@@ -156,6 +176,7 @@
 			isa = PBXGroup;
 			children = (
 				FF6C9461164A319500F94CB6 /* AFNetworking */,
+				E1C033CD16692225004738EF /* Hpple */,
 				E1B94B721635A75300D76123 /* SBJSON */,
 			);
 			name = External;
@@ -192,6 +213,28 @@
 				FFBEB27E164B3F0F0004AF4C /* NSString+Addition.m */,
 			);
 			name = Categories;
+			sourceTree = "<group>";
+		};
+		E1C033BA16690DC8004738EF /* ElectricityBalance */ = {
+			isa = PBXGroup;
+			children = (
+				E1C033B516690A4E004738EF /* WTElectricityBalanceQueryService.h */,
+				E1C033B616690A4E004738EF /* WTElectricityBalanceQueryService.m */,
+			);
+			name = ElectricityBalance;
+			sourceTree = "<group>";
+		};
+		E1C033CD16692225004738EF /* Hpple */ = {
+			isa = PBXGroup;
+			children = (
+				E1C033CE16692225004738EF /* TFHpple.h */,
+				E1C033CF16692225004738EF /* TFHpple.m */,
+				E1C033D016692225004738EF /* TFHppleElement.h */,
+				E1C033D116692225004738EF /* TFHppleElement.m */,
+				E1C033D216692225004738EF /* XPathQuery.h */,
+				E1C033D316692225004738EF /* XPathQuery.m */,
+			);
+			path = Hpple;
 			sourceTree = "<group>";
 		};
 		FF6C9461164A319500F94CB6 /* AFNetworking */ = {
@@ -249,6 +292,11 @@
 				FF6C9485164A319500F94CB6 /* AFPropertyListRequestOperation.h in Headers */,
 				FF6C948B164A319500F94CB6 /* AFXMLRequestOperation.h in Headers */,
 				FFBEB27F164B3F0F0004AF4C /* NSString+Addition.h in Headers */,
+				E1C033B716690A4E004738EF /* WTElectricityBalanceQueryService.h in Headers */,
+				E1C033BF166914D8004738EF /* WTCommon.h in Headers */,
+				E1C033D416692225004738EF /* TFHpple.h in Headers */,
+				E1C033D616692225004738EF /* TFHppleElement.h in Headers */,
+				E1C033D816692225004738EF /* XPathQuery.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,6 +381,10 @@
 				FF6C948C164A319500F94CB6 /* AFXMLRequestOperation.m in Sources */,
 				FF6C948F164A319500F94CB6 /* UIImageView+AFNetworking.m in Sources */,
 				FFBEB280164B3F0F0004AF4C /* NSString+Addition.m in Sources */,
+				E1C033B816690A4E004738EF /* WTElectricityBalanceQueryService.m in Sources */,
+				E1C033D516692225004738EF /* TFHpple.m in Sources */,
+				E1C033D716692225004738EF /* TFHppleElement.m in Sources */,
+				E1C033D916692225004738EF /* XPathQuery.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -350,8 +402,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
 				INFOPLIST_FILE = "WeTongjiSDK/WeTongjiSDK-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = "";
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
@@ -376,8 +430,10 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_VERSION = "";
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				HEADER_SEARCH_PATHS = "${SDKROOT}/usr/include/libxml2/**";
 				INFOPLIST_FILE = "WeTongjiSDK/WeTongjiSDK-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Bundles";
+				LIBRARY_SEARCH_PATHS = "";
 				LINK_WITH_STANDARD_LIBRARIES = NO;
 				MACH_O_TYPE = mh_object;
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
