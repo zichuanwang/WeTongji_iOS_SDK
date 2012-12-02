@@ -337,32 +337,24 @@
 }
 
 - (void)setInformationFavored:(NSString *)informationID inType:(NSString *) type{
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
     [self.params setObject:[type stringByAppendingString:@".Favorite"]  forKey:@"M"];
     [self.params setObject:informationID forKey:@"Id"];
     [self addHashParam];
 }
 
 - (void)setInformationUnFavored:(NSString *)informationID inType:(NSString *) type{
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
     [self.params setObject:[type stringByAppendingString:@".UnFavorite"]  forKey:@"M"];
     [self.params setObject:informationID forKey:@"Id"];
     [self addHashParam];
 }
 
 - (void)setInformationLike:(NSString *)informationID inType:(NSString *) type{
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
     [self.params setObject:[type stringByAppendingString:@".Like"]  forKey:@"M"];
     [self.params setObject:informationID forKey:@"Id"];
     [self addHashParam];
 }
 
 - (void)setInformationUnLike:(NSString *)informationID inType:(NSString *) type{
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
     [self.params setObject:[type stringByAppendingString:@".UnLike"]  forKey:@"M"];
     [self.params setObject:informationID forKey:@"Id"];
     [self addHashParam];
@@ -388,41 +380,41 @@
     [self addHashParam];
 }
 
-- (void)readStar:(NSString *)starID {
+- (void)readStar:(int)starID {
     [self.params setObject:@"Person.Read" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%@",starID] forKey:@"Id"];
+    [self.params setObject:@"Id" forKey:[NSString stringWithFormat:@"%d",starID]];
     [self addHashParam];
 }
 
-- (void)setStarFavored:(NSString *)starID {
+- (void)setStarFavored:(int)starID {
     [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
     [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
     [self.params setObject:@"Person.Favorite" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%@",starID] forKey:@"Id"];
+    [self.params setObject:@"Id" forKey:[NSString stringWithFormat:@"%d",starID]];
     [self addHashParam];
 }
 
-- (void)cancelStarFaved:(NSString *)starID {
+- (void)cancelStarFaved:(int)starID {
     [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
     [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
     [self.params setObject:@"Person.UnFavorite" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%@",starID] forKey:@"Id"];
+    [self.params setObject:@"Id" forKey:[NSString stringWithFormat:@"%d",starID]];
     [self addHashParam];
 }
 
-- (void)likeStar:(NSString *)starID {
+- (void)likeStar:(int)starID {
     [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
     [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
     [self.params setObject:@"Person.Like" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%@",starID] forKey:@"Id"];
+    [self.params setObject:@"Id" forKey:[NSString stringWithFormat:@"%d",starID]];
     [self addHashParam];
 }
 
-- (void)unlikeStar:(NSString *)starID {
+- (void)unlikeStar:(int)starID {
     [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
     [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
     [self.params setObject:@"Person.UnLike" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%@",starID] forKey:@"Id"];
+    [self.params setObject:@"Id" forKey:[NSString stringWithFormat:@"%d",starID]];
     [self addHashParam];
 }
 

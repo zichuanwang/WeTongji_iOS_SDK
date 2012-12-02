@@ -133,15 +133,15 @@
 
 - (void)getAllStarsWithNextPage:(int)nextPage;
 
-- (void)readStar:(NSString *)starID;
+- (void)readStar:(int)starID;
 
-- (void)setStarFavored:(NSString *)starID;
+- (void)setStarFavored:(int)starID;
 
-- (void)cancelStarFaved:(NSString *)starID;
+- (void)cancelStarFaved:(int)starID;
 
-- (void)likeStar:(NSString *)starID;
+- (void)likeStar:(int)starID;
 
-- (void)unlikeStar:(NSString *)starID;
+- (void)unlikeStar:(int)starID;
 
 @end
 
