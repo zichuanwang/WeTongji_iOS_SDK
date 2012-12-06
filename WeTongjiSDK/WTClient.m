@@ -183,8 +183,6 @@
 - (void)resetPasswordWithNO:(NSString *)studentNumber
                        Name:(NSString*)name {
     [self.params setObject:@"User.Reset.Password" forKey:@"M"];
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
     [self.params setObject:studentNumber forKey:@"NO"];
     [self.params setObject:name forKey:@"Name"];
     [self addHashParam];
