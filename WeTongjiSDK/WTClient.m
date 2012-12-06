@@ -426,7 +426,7 @@
 
 @end
 
-@interface WTClient()
+@interface WTClient() <UIWebViewDelegate>
 
 @end
 
@@ -443,7 +443,6 @@
     static dispatch_once_t WTClientPredicate;
     dispatch_once(&WTClientPredicate, ^{
         client = [[WTClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL_STRING]];
-        // ???
         client.parameterEncoding = AFFormURLParameterEncoding;
     });
     

@@ -9,6 +9,7 @@
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <MobileCoreServices/MobileCoreServices.h>
 #import <UIKit/UIKit.h>
+#import "WTCommon.h"
 #import "AFHTTPClient.h"
 #import "AFHTTPRequestOperation.h"
 #import "NSUserDefaults+Addition.h"
@@ -23,9 +24,6 @@
 #define GetInformationTypeForStaff @"ForStaff"
 
 @class WTRequest;
-
-typedef void (^WTSuccessCompletionBlock)(id responseObject);
-typedef void (^WTFailureCompletionBlock)(NSError *error);
 
 @interface WTRequest : NSObject
 
