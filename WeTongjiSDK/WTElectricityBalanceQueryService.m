@@ -60,14 +60,18 @@ typedef enum {
     self = [super init];
     if(self) {
         [self loadDistrictBuildingMap];
-        
-        self.webView = [[UIWebView alloc] init];
-        self.webView.delegate = self;
-        
-        self.districtIndex = DistrictBuildingIndexInvalid;
-        self.buildingIndex = DistrictBuildingIndexInvalid;
     }
     return self;
+}
+
+#pragma mark - Properties
+
+- (UIWebView *)webView {
+    if(_webView == nil) {
+        _webView = [[UIWebView alloc] init];
+        _webView.delegate = self;
+    }
+    return _webView;
 }
 
 #pragma mark - Logic methods
@@ -78,14 +82,16 @@ typedef enum {
 }
 
 - (void)configDistrictBuildingIndex {
+    self.districtIndex = DistrictBuildingIndexInvalid;
+    self.buildingIndex = DistrictBuildingIndexInvalid;
+    
     NSArray *districtIndexArray = self.districtBuildingMap[kDistrictIndexArray];
     [districtIndexArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         if([self.district isEqualToString:obj]) {
-            self.districtIndex = idx;
+            self.districtIndex = idx + 1;
             *stop = YES;
         }
     }];
-    self.districtIndex += 1;
     
     NSArray *buildingIndexArray = self.districtBuildingMap[self.district];
     [buildingIndexArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
@@ -96,14 +102,15 @@ typedef enum {
     }];
 }
 
-- (NSString *)parserBalanceWithHTMLData:(NSData *)HTMLData {
+- (NSArray *)parserBalanceWithHTMLData:(NSData *)HTMLData {
     NSDateFormatter *form = [[NSDateFormatter alloc] init];
     [form setDateFormat:@"yyyy-MM-dd"];
-    NSString *todayDateString = [form stringFromDate:[[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24]];
+    NSString *todayDateString = [form stringFromDate:[NSDate date]];
     
     TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:HTMLData];
     NSArray *elements = [xpathParser searchWithXPathQuery:@"//td"];
     
+    // Try to find today's element.
     __block NSUInteger todayElementIndex = -1;
     [elements enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
         TFHppleElement *element = obj;
@@ -113,13 +120,52 @@ typedef enum {
         }
     }];
     
+    // If there is no today's element, try yesterday.
+    if(todayElementIndex == -1) {
+        todayDateString = [form stringFromDate:[[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24]];
+        [elements enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+            TFHppleElement *element = obj;
+            if([todayDateString isEqualToString:element.text]) {
+                todayElementIndex = idx;
+                *stop = YES;
+            }
+        }];
+    }
+    
+    // Still can't find, return nil.
     if(todayElementIndex == -1)
         return nil;
     
-    NSUInteger resultElementIndex = todayElementIndex + 3;
-    if(elements.count > resultElementIndex) {
-        TFHppleElement *resultElement = elements[resultElementIndex];
-        NSString *result = [NSString stringWithFormat:@"%@ kWh", resultElement.text];
+    NSUInteger beginBalanceElementIndex = todayElementIndex + 3;
+    NSUInteger endBalanceElementIndex = beginBalanceElementIndex + 4 * 9;
+    if(elements.count > beginBalanceElementIndex) {
+        TFHppleElement *todayBalanceElement = elements[beginBalanceElementIndex];
+        NSString *todayBalance = [NSString stringWithFormat:@"%@", todayBalanceElement.text];
+        float todayBalanceValue = todayBalance.floatValue;
+        NSMutableArray *result = [NSMutableArray arrayWithObject:@(todayBalanceValue)];
+        
+        if(elements.count > endBalanceElementIndex) {
+            float avarageUse = 0;
+            for(NSInteger i = 0; i < 9; i++) {
+                NSInteger elementIndex = beginBalanceElementIndex + i * 4;
+                TFHppleElement *balanceElement = elements[elementIndex];
+                float elementValue = [balanceElement.text floatValue];
+                
+                TFHppleElement *formerBalanceElement = elements[elementIndex + 4];
+                float formerElementValue = [formerBalanceElement.text floatValue];
+                
+                if(elementValue > formerElementValue) {
+                    avarageUse = (i == 0) ? 0 : (elementValue - todayBalanceValue) / i;
+                    break;
+                }
+                
+                if(i == 8) {
+                    avarageUse = (formerElementValue - todayBalanceValue) / 9;
+                }
+            }
+            [result addObject:@(avarageUse)];
+        }
+        
         return result;
     }    
     return nil;
@@ -155,6 +201,7 @@ typedef enum {
     
     NSURL *url =[[NSURL alloc] initWithString:BASE_URL_STRING];
     NSURLRequest *request =  [[NSURLRequest alloc] initWithURL:url];
+    self.webView = nil;
     [self.webView loadRequest:request];
     
     self.isBusy = YES;
@@ -166,13 +213,13 @@ typedef enum {
 - (void)webViewDidFinishLoad:(UIWebView *)webView {
     switch (self.processState) {
         case WTElectricityBalanceQueryProcessStateLoading: {
-            [self.webView stringByEvaluatingJavaScriptFromString:@"document.form1.DistrictDown.options[2].selected=true;"];
+            [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.form1.DistrictDown.options[%d].selected=true;", self.districtIndex]];
             [self.webView stringByEvaluatingJavaScriptFromString:@"document.form1.DistrictDown.onchange()"];
             self.processState = WTElectricityBalanceQueryProcessStateSelectingDistrict;
             break;
         }
         case WTElectricityBalanceQueryProcessStateSelectingDistrict: {
-            [self.webView stringByEvaluatingJavaScriptFromString:@"document.form1.BuildingDown.options[10].selected=true;"];
+            [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.form1.BuildingDown.options[%d].selected=true;", self.buildingIndex]];
             [self.webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"document.form1.RoomnameText.value=\"%@\"", self.room]];
             [webView stringByEvaluatingJavaScriptFromString:@"document.form1.Submit.click();"];
             self.processState = WTElectricityBalanceQueryProcessStateQuerying;
@@ -183,15 +230,15 @@ typedef enum {
                 NSString *HTMLString = [self.webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.innerHTML"];
                 NSString *UTF8String = [HTMLString stringByReplacingOccurrencesOfString:@"gb2312" withString:@"UTF-8"];
                 NSLog(@"UTF8 string: %@", UTF8String);
-                NSString *balance = [self parserBalanceWithHTMLData:[UTF8String dataUsingEncoding:NSUTF8StringEncoding]];
-                if(balance == nil || balance.length == 0) {
+                NSArray *result = [self parserBalanceWithHTMLData:[UTF8String dataUsingEncoding:NSUTF8StringEncoding]];
+                if(result == nil) {
                     if(self.failureCompletionBlock) {
-                        NSError *error = [[NSError alloc] initWithDomain:@"WeTongji" code:-1 userInfo:nil];
+                        NSError *error = [[NSError alloc] initWithDomain:@"com.tac.wetongji" code:-1 userInfo:nil];
                         self.failureCompletionBlock(error);
                     }
                 } else {
                     if(self.successCompletionBlock) {
-                        self.successCompletionBlock(balance);
+                        self.successCompletionBlock(result);
                     }
                 }
                 self.isBusy = NO;

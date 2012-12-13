@@ -8,6 +8,11 @@
 
 #import "WTCommon.h"
 
+typedef enum {
+    WTElectricityBalanceQueryServiceResultIndexTodayBalance,
+    WTElectricityBalanceQueryServiceResultIndexAvarageUse,
+} WTElectricityBalanceQueryServiceResultIndex;
+
 @interface WTElectricityBalanceQueryService : NSObject
 
 - (void)getElectricChargeBalanceWithDistrict:(NSString *)district
