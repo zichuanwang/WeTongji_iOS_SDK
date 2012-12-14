@@ -105,24 +105,14 @@ typedef enum {
 - (NSArray *)parserBalanceWithHTMLData:(NSData *)HTMLData {
     NSDateFormatter *form = [[NSDateFormatter alloc] init];
     [form setDateFormat:@"yyyy-MM-dd"];
-    NSString *todayDateString = [form stringFromDate:[NSDate date]];
     
     TFHpple *xpathParser = [[TFHpple alloc] initWithHTMLData:HTMLData];
     NSArray *elements = [xpathParser searchWithXPathQuery:@"//td"];
     
     // Try to find today's element.
     __block NSUInteger todayElementIndex = -1;
-    [elements enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        TFHppleElement *element = obj;
-        if([todayDateString isEqualToString:element.text]) {
-            todayElementIndex = idx;
-            *stop = YES;
-        }
-    }];
-    
-    // If there is no today's element, try yesterday.
-    if(todayElementIndex == -1) {
-        todayDateString = [form stringFromDate:[[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24]];
+    for(int i = 0; i < 3; i++) {
+        NSString *todayDateString = [form stringFromDate:[[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24 * i]];
         [elements enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             TFHppleElement *element = obj;
             if([todayDateString isEqualToString:element.text]) {
@@ -130,6 +120,9 @@ typedef enum {
                 *stop = YES;
             }
         }];
+        if(todayElementIndex != -1) {
+            break;
+        }
     }
     
     // Still can't find, return nil.
