@@ -58,7 +58,7 @@ typedef enum {
 
 - (id)init {
     self = [super init];
-    if(self) {
+    if (self) {
         [self loadDistrictBuildingMap];
     }
     return self;
@@ -67,7 +67,7 @@ typedef enum {
 #pragma mark - Properties
 
 - (UIWebView *)webView {
-    if(_webView == nil) {
+    if (_webView == nil) {
         _webView = [[UIWebView alloc] init];
         _webView.delegate = self;
     }
@@ -87,7 +87,7 @@ typedef enum {
     
     NSArray *districtIndexArray = self.districtBuildingMap[kDistrictIndexArray];
     [districtIndexArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if([self.district isEqualToString:obj]) {
+        if ([self.district isEqualToString:obj]) {
             self.districtIndex = idx + 1;
             *stop = YES;
         }
@@ -95,7 +95,7 @@ typedef enum {
     
     NSArray *buildingIndexArray = self.districtBuildingMap[self.district];
     [buildingIndexArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
-        if([self.building isEqualToString:obj]) {
+        if ([self.building isEqualToString:obj]) {
             self.buildingIndex = idx;
             *stop = YES;
         }
@@ -115,29 +115,29 @@ typedef enum {
         NSString *todayDateString = [form stringFromDate:[[NSDate date] dateByAddingTimeInterval:-60 * 60 * 24 * i]];
         [elements enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
             TFHppleElement *element = obj;
-            if([todayDateString isEqualToString:element.text]) {
+            if ([todayDateString isEqualToString:element.text]) {
                 todayElementIndex = idx;
                 *stop = YES;
             }
         }];
-        if(todayElementIndex != -1) {
+        if (todayElementIndex != -1) {
             break;
         }
     }
     
     // Still can't find, return nil.
-    if(todayElementIndex == -1)
+    if (todayElementIndex == -1)
         return nil;
     
     NSUInteger beginBalanceElementIndex = todayElementIndex + 3;
     NSUInteger endBalanceElementIndex = beginBalanceElementIndex + 4 * 9;
-    if(elements.count > beginBalanceElementIndex) {
+    if (elements.count > beginBalanceElementIndex) {
         TFHppleElement *todayBalanceElement = elements[beginBalanceElementIndex];
         NSString *todayBalance = [NSString stringWithFormat:@"%@", todayBalanceElement.text];
         float todayBalanceValue = todayBalance.floatValue;
         NSMutableArray *result = [NSMutableArray arrayWithObject:@(todayBalanceValue)];
         
-        if(elements.count > endBalanceElementIndex) {
+        if (elements.count > endBalanceElementIndex) {
             float avarageUse = 0;
             for(NSInteger i = 0; i < 9; i++) {
                 NSInteger elementIndex = beginBalanceElementIndex + i * 4;
@@ -147,12 +147,12 @@ typedef enum {
                 TFHppleElement *formerBalanceElement = elements[elementIndex + 4];
                 float formerElementValue = [formerBalanceElement.text floatValue];
                 
-                if(elementValue > formerElementValue) {
+                if (elementValue > formerElementValue) {
                     avarageUse = (i == 0) ? 0 : (elementValue - todayBalanceValue) / i;
                     break;
                 }
                 
-                if(i == 8) {
+                if (i == 8) {
                     avarageUse = (formerElementValue - todayBalanceValue) / 9;
                 }
             }
@@ -172,10 +172,10 @@ typedef enum {
                                         room:(NSString *)room
                                 successBlock:(WTSuccessCompletionBlock)success
                                 failureBlock:(WTFailureCompletionBlock)failure {
-    if(self.isBusy)
+    if (self.isBusy)
         return;
     
-    if(!(district && building && room))
+    if (!(district && building && room))
         return;
     
     self.district = district;
@@ -184,7 +184,7 @@ typedef enum {
     
     [self configDistrictBuildingIndex];
     
-    if(self.districtIndex == DistrictBuildingIndexInvalid
+    if (self.districtIndex == DistrictBuildingIndexInvalid
        || self.buildingIndex == DistrictBuildingIndexInvalid
        || self.room.length == 0)
         return;
@@ -219,18 +219,18 @@ typedef enum {
             break;
         }
         case WTElectricityBalanceQueryProcessStateQuerying: {
-            if(self.successCompletionBlock) {
+            if (self.successCompletionBlock) {
                 NSString *HTMLString = [self.webView stringByEvaluatingJavaScriptFromString:@"document.documentElement.innerHTML"];
                 NSString *UTF8String = [HTMLString stringByReplacingOccurrencesOfString:@"gb2312" withString:@"UTF-8"];
                 NSLog(@"UTF8 string: %@", UTF8String);
                 NSArray *result = [self parserBalanceWithHTMLData:[UTF8String dataUsingEncoding:NSUTF8StringEncoding]];
-                if(result == nil) {
-                    if(self.failureCompletionBlock) {
+                if (result == nil) {
+                    if (self.failureCompletionBlock) {
                         NSError *error = [[NSError alloc] initWithDomain:@"com.tac.wetongji" code:-1 userInfo:nil];
                         self.failureCompletionBlock(error);
                     }
                 } else {
-                    if(self.successCompletionBlock) {
+                    if (self.successCompletionBlock) {
                         self.successCompletionBlock(result);
                     }
                 }
@@ -244,7 +244,7 @@ typedef enum {
 }
 
 - (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
-    if(self.failureCompletionBlock) {
+    if (self.failureCompletionBlock) {
         self.failureCompletionBlock(error);
     }
     self.isBusy = NO;

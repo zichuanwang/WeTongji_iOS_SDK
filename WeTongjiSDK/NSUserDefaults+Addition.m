@@ -35,7 +35,7 @@ typedef enum {
 + (void)initialize_1_1_0 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL hasInit = [userDefaults boolForKey:kUserDefaultsInitialized_1_1_0];
-    if(hasInit)
+    if (hasInit)
         return;
     [userDefaults setBool:YES forKey:kUserDefaultsInitialized_1_1_0];
     [userDefaults setBool:NO forKey:kShowExpireActivities];
@@ -46,7 +46,7 @@ typedef enum {
 + (void)initialize_1_0_0 {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     BOOL hasInit = [userDefaults boolForKey:kUserDefaultsInitialized];
-    if(hasInit)
+    if (hasInit)
         return;
     [userDefaults setBool:YES forKey:kUserDefaultsInitialized];
     for(int i = 0; i < 4; i++) {
@@ -88,7 +88,7 @@ typedef enum {
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:4];
     for(int i = 0; i < 4; i++) {
         NSString *channelKey = [NSString stringWithFormat:@"follow_channel_%d", i];
-        if([userDefaults boolForKey:channelKey])
+        if ([userDefaults boolForKey:channelKey])
             [result addObject:[NSNumber numberWithInt:i]];
     }
     return result;
@@ -99,8 +99,8 @@ typedef enum {
     NSMutableString *result = nil;
     for(int i = 0; i < 4; i++) {
         NSString *channelKey = [NSString stringWithFormat:@"follow_channel_%d", i];
-        if([userDefaults boolForKey:channelKey]) {
-            if(result)
+        if ([userDefaults boolForKey:channelKey]) {
+            if (result)
                 [result appendFormat:@",%d", i + 1];
             else 
                 result = [NSMutableString stringWithFormat:@"%d", i + 1];
@@ -145,7 +145,7 @@ typedef enum {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     for(int i = 0; i < ChannelSortMethodCount; i++) {
         NSString *channelSortKey = [NSString stringWithFormat:@"sort_channel_%d", i];
-        if([userDefaults boolForKey:channelSortKey])
+        if ([userDefaults boolForKey:channelSortKey])
             return i;
     }
     return 0;

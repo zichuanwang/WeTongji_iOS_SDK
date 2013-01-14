@@ -477,17 +477,17 @@
     NSMutableURLRequest *urlRequest;
     NSString *HTTPMethod = rawRequest.HTTPMethod;
     NSDictionary *params = rawRequest.params;
-    if([HTTPMethod isEqualToString:HttpMethodGET]) {
+    if ([HTTPMethod isEqualToString:HttpMethodGET]) {
         urlRequest = [self requestWithMethod:HTTPMethod
                                      path:PATH_STRING
                                parameters:params];
-    } else if([HTTPMethod isEqualToString:HttpMethodPOST]) {
+    } else if ([HTTPMethod isEqualToString:HttpMethodPOST]) {
         NSString *queryString= rawRequest.queryString;
         NSDictionary *postValue = rawRequest.postValue;
         urlRequest= [self requestWithMethod:HTTPMethod
                                     path:[NSString stringWithFormat:@"%@?%@", PATH_STRING, queryString]
                               parameters:postValue];
-    } else if([HTTPMethod isEqualToString:HttpMethodUpLoadAvatar]) {
+    } else if ([HTTPMethod isEqualToString:HttpMethodUpLoadAvatar]) {
         NSData *imageData = UIImageJPEGRepresentation(rawRequest.avatarImage, 1.0);
         NSString *queryString= rawRequest.queryString;
         urlRequest = [self multipartFormRequestWithMethod:HttpMethodPOST
@@ -509,8 +509,8 @@
         NSInteger statusID = statusIDString.integerValue;
         NSDictionary *result = resposeObject[@"Data"];
         
-        if(result && statusID == 0) {
-            if(rawRequest.successCompletionBlock) {
+        if (result && statusID == 0) {
+            if (rawRequest.successCompletionBlock) {
                 rawRequest.successCompletionBlock(result);
             }
         } else {
@@ -522,12 +522,12 @@
             NSLog(@"Server responsed error code:%d\n\
                   desc: %@\n", statusID, errorDesc);
             
-            if(rawRequest.failureCompletionBlock) {
+            if (rawRequest.failureCompletionBlock) {
                 rawRequest.failureCompletionBlock(error);
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if(rawRequest.failureCompletionBlock) {
+        if (rawRequest.failureCompletionBlock) {
             rawRequest.failureCompletionBlock(error);
         }
     }];

@@ -35,7 +35,7 @@ NSDictionary *DictionaryForNode(xmlNodePtr currentNode, NSMutableDictionary *par
 
       if ([[resultForNode objectForKey:@"nodeName"] isEqual:@"text"] && parentResult)
         {
-            if(parentContent)
+            if (parentContent)
             {
                 [parentResult setObject:[currentNodeContent stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] forKey:@"nodeContent"];
                 return nil;
@@ -118,7 +118,7 @@ NSArray *PerformXPathQuery(xmlDocPtr doc, NSString *query)
 
   /* Create xpath evaluation context */
   xpathCtx = xmlXPathNewContext(doc);
-  if(xpathCtx == NULL)
+  if (xpathCtx == NULL)
     {
       NSLog(@"Unable to create XPath context.");
       return nil;
@@ -126,7 +126,7 @@ NSArray *PerformXPathQuery(xmlDocPtr doc, NSString *query)
 
   /* Evaluate xpath expression */
   xpathObj = xmlXPathEvalExpression((xmlChar *)[query cStringUsingEncoding:NSUTF8StringEncoding], xpathCtx);
-  if(xpathObj == NULL) {
+  if (xpathObj == NULL) {
     NSLog(@"Unable to evaluate XPath.");
     xmlXPathFreeContext(xpathCtx);
     return nil;
