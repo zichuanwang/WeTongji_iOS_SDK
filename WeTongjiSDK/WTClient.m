@@ -303,7 +303,7 @@
     self.params[@"M"] = @"SchoolNews.GetList";
     if (sort)
         self.params[@"Sort"] = sort;
-    self.params[@"P"] = page;
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
     [self addHashParam];
 }
 
