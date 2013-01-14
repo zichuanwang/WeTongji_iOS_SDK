@@ -313,13 +313,13 @@ didReceiveResponse:(NSURLResponse *)response
         if ([contentRange hasPrefix:@"bytes"]) {
             NSArray *byteRanges = [contentRange componentsSeparatedByCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@" -/"]];
             if ([byteRanges count] == 4) {
-                fileOffset = [[byteRanges objectAtIndex:1] longLongValue];
-                totalContentLength = [[byteRanges objectAtIndex:2] longLongValue] ?: -1; // if this is "*", it's converted to 0, but -1 is default.
+                fileOffset = [byteRanges[1] longLongValue];
+                totalContentLength = [byteRanges[2] longLongValue] ?: -1; // if this is "*", it's converted to 0, but -1 is default.
             }
         }
     } else {
         if ([self.outputStream propertyForKey:NSStreamFileCurrentOffsetKey]) {
-            [self.outputStream setProperty:[NSNumber numberWithInteger:0] forKey:NSStreamFileCurrentOffsetKey];
+            [self.outputStream setProperty:@0 forKey:NSStreamFileCurrentOffsetKey];
         } else {
             if ([[self.outputStream propertyForKey:NSStreamDataWrittenToMemoryStreamKey] length] > 0) {
                 self.outputStream = [NSOutputStream outputStreamToMemory];

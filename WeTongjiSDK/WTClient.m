@@ -74,7 +74,7 @@
     for (int i = 0; i < [sortedNames count]; i++) {
         if (i > 0)
             [result appendString:@"&"];
-        NSString *name = [sortedNames objectAtIndex:i];
+        NSString *name = sortedNames[i];
         NSString *parameter = self.params[name];
         [result appendString:[NSString stringWithFormat:@"%@=%@", [name URLEncodedString],
                               [parameter URLEncodedString]]];
@@ -97,7 +97,7 @@
     for (int i = 0; i < [sortedNames count]; i++) {
         if (i > 0)
             [result appendString:@"&"];
-        NSString *name = [sortedNames objectAtIndex:i];
+        NSString *name = sortedNames[i];
         NSString *parameter = self.params[name];
         [result appendString:[NSString stringWithFormat:@"%@=%@", [name URLEncodedString],
                               [parameter URLEncodedString]]];
@@ -137,97 +137,97 @@
                     weiboName:(NSString *)weibo
                      phoneNum:(NSString *)phone
                     qqAccount:(NSString *)qq {
-    [self.params setObject:@"User.Update" forKey:@"M"];
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    (self.params)[@"M"] = @"User.Update";
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
     
     NSMutableDictionary *itemDict = [[NSMutableDictionary alloc] init];
-    if (displayName != nil) [itemDict setObject:displayName forKey:@"DisplayName"];
-    if (email != nil) [itemDict setObject:email forKey:@"Email"];
-    if (weibo != nil) [itemDict setObject:weibo forKey:@"SinaWeibo"];
-    if (phone != nil) [itemDict setObject:phone forKey:@"Phone"];
-    if (qq != nil) [itemDict setObject:qq forKey:@"QQ"];
-    NSDictionary *userDict = [NSDictionary dictionaryWithObject:itemDict forKey:@"User"];
+    if (displayName != nil) itemDict[@"DisplayName"] = displayName;
+    if (email != nil) itemDict[@"Email"] = email;
+    if (weibo != nil) itemDict[@"SinaWeibo"] = weibo;
+    if (phone != nil) itemDict[@"Phone"] = phone;
+    if (qq != nil) itemDict[@"QQ"] = qq;
+    NSDictionary *userDict = @{@"User": itemDict};
     NSString *userJSONStr = [userDict JSONRepresentation];
     
     [self addHashParam];
-    [self.postValue setObject:userJSONStr forKey:@"User"];
+    (self.postValue)[@"User"] = userJSONStr;
     self.HTTPMethod = HttpMethodPOST;
 }
 
 - (void)updatePassword:(NSString *)new oldPassword:(NSString *)old {
-    [self.params setObject:@"User.Update.Password" forKey:@"M"];
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:new forKey:@"New"];
-    [self.params setObject:old forKey:@"Old"];
+    (self.params)[@"M"] = @"User.Update.Password";
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"New"] = new;
+    (self.params)[@"Old"] = old;
     [self addHashParam];
 }
 
 - (void)updateUserAvatar:(UIImage *)image {
-    [self.params setObject:@"User.Update.Avatar" forKey:@"M"];
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    (self.params)[@"M"] = @"User.Update.Avatar";
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
     self.avatarImage = image;
     self.HTTPMethod = HttpMethodUpLoadAvatar;
     [self addHashParam];
 }
 
 - (void)getUserInformation {
-    [self.params setObject:@"User.Get" forKey:@"M"];
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    (self.params)[@"M"] = @"User.Get";
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
     [self addHashParam];
 }
 
 - (void)resetPasswordWithNO:(NSString *)studentNumber
                        Name:(NSString*)name {
-    [self.params setObject:@"User.Reset.Password" forKey:@"M"];
-    [self.params setObject:studentNumber forKey:@"NO"];
-    [self.params setObject:name forKey:@"Name"];
+    (self.params)[@"M"] = @"User.Reset.Password";
+    (self.params)[@"NO"] = studentNumber;
+    (self.params)[@"Name"] = name;
     [self addHashParam];
 }
 
 #pragma mark Course API
 
 - (void)getCourses {
-    [self.params setObject:@"TimeTable.Get" forKey:@"M"];
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
+    (self.params)[@"M"] = @"TimeTable.Get";
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
     [self addHashParam];
 }
 
 #pragma mark Calender API
 
 - (void)getScheduleWithBeginDate:(NSDate *)begin endDate:(NSDate *)end {
-    [self.params setObject:@"Schedule.Get" forKey:@"M"];
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:[NSString standardDateStringCovertFromDate:begin] forKey:@"Begin"];
-    [self.params setObject:[NSString standardDateStringCovertFromDate:end] forKey:@"End"];
+    (self.params)[@"M"] = @"Schedule.Get";
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"Begin"] = [NSString standardDateStringCovertFromDate:begin];
+    (self.params)[@"End"] = [NSString standardDateStringCovertFromDate:end];
     [self addHashParam];
 }
 
 #pragma mark Channel API
 
 - (void)setChannelFavored:(NSString *)channelID {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Channel.Favorite" forKey:@"M"];
-    [self.params setObject:channelID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Channel.Favorite";
+    (self.params)[@"Id"] = channelID;
     [self addHashParam];
 }
 
 - (void)cancelChannelFavored:(NSString *)channelID {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Channel.UnFavorite" forKey:@"M"];
-    [self.params setObject:channelID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Channel.UnFavorite";
+    (self.params)[@"Id"] = channelID;
     [self addHashParam];
 }
 
 - (void)getChannels {
-    [self.params setObject:@"Channels.Get" forKey:@"M"];
+    (self.params)[@"M"] = @"Channels.Get";
     [self addHashParam];
 }
 
@@ -237,77 +237,77 @@
                         inSort:(NSString *)sort
                        Expired:(BOOL)isExpired
                       nextPage:(int)nextPage {
-    [self.params setObject:@"Activities.Get" forKey:@"M"];
-    if (channelID) [self.params setObject:channelID forKey:@"Channel_Ids"];
-    if (sort) [self.params setObject:sort forKey:@"Sort"];
-    if (isExpired) [self.params setObject:[NSString stringWithFormat:@"%d", isExpired] forKey:@"Expire"];
-    [self.params setObject:[NSString stringWithFormat:@"%d",nextPage] forKey:@"P"];
+    (self.params)[@"M"] = @"Activities.Get";
+    if (channelID) (self.params)[@"Channel_Ids"] = channelID;
+    if (sort) (self.params)[@"Sort"] = sort;
+    if (isExpired) (self.params)[@"Expire"] = [NSString stringWithFormat:@"%d", isExpired];
+    (self.params)[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
     [self addHashParam];
 }
 
 - (void)setLikeActivitiy:(NSString *)activityID {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Activity.Like" forKey:@"M"];
-    [self.params setObject:activityID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Activity.Like";
+    (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
 - (void)cancelLikeActivity:(NSString *)activityID {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Activity.UnLike" forKey:@"M"];
-    [self.params setObject:activityID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Activity.UnLike";
+    (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
 - (void)setActivityFavored:(NSString *)activityID {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Activity.Favorite" forKey:@"M"];
-    [self.params setObject:activityID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Activity.Favorite";
+    (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
 - (void)cancelActivityFavored:(NSString *)activityID {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Activity.UnFavorite" forKey:@"M"];
-    [self.params setObject:activityID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Activity.UnFavorite";
+    (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
 - (void)setActivityScheduled:(NSString *)activityID
 {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Activity.Schedule" forKey:@"M"];
-    [self.params setObject:activityID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Activity.Schedule";
+    (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
 - (void)cancelActivityScheduled:(NSString *)activityID
 {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Activity.UnSchedule" forKey:@"M"];
-    [self.params setObject:activityID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Activity.UnSchedule";
+    (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
 #pragma Favorite API
 
 - (void)getFavoritesWithNextPage:(int)nextPage {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Favorite.Get" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%d",nextPage] forKey:@"P"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Favorite.Get";
+    (self.params)[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
     [self addHashParam];
 }
 
 #pragma Information API
 
-- (void)getAllInformationInType:(NSString *) type sort:(NSString *)sort
+- (void)getAllInformationInType:(NSString *)type sort:(NSString *)sort
                        nextPage:(int)nextPage {
     NSString * resultM;
     if ( [type isEqualToString:GetInformationTypeClubNews] || [type isEqualToString:GetInformationTypeSchoolNews] ){
@@ -316,111 +316,111 @@
     if ( [type isEqualToString:GetInformationTypeAround] || [type isEqualToString:GetInformationTypeForStaff] ) {
         resultM = [type stringByAppendingString:@"s.Get"];
     }
-    [self.params setObject:resultM forKey:@"M"];
-    if (sort) [self.params setObject:sort forKey:@"Sort"];
-    [self.params setObject:[NSString stringWithFormat:@"%d",nextPage] forKey:@"P"];
+    (self.params)[@"M"] = resultM;
+    if (sort) (self.params)[@"Sort"] = sort;
+    (self.params)[@"P"] = [NSString stringWithFormat:@"%d", nextPage];
     [self addHashParam];
 }
 
 - (void)getDetailOfInformaion:(NSString *)informationID inType:(NSString *)type {
-    [self.params setObject:[type stringByAppendingString:@".Get"] forKey:@"M"];
-    [self.params setObject:informationID forKey:@"Id"];
+    (self.params)[@"M"] = [type stringByAppendingString:@".Get"];
+    (self.params)[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)readInformaion:(NSString *)informationID inType:(NSString *) type {
-    [self.params setObject:[type stringByAppendingString:@".Read"]  forKey:@"M"];
-    [self.params setObject:informationID forKey:@"Id"];
+    (self.params)[@"M"] = [type stringByAppendingString:@".Read"];
+    (self.params)[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationFavored:(NSString *)informationID inType:(NSString *) type{
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:[type stringByAppendingString:@".Favorite"]  forKey:@"M"];
-    [self.params setObject:informationID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = [type stringByAppendingString:@".Favorite"];
+    (self.params)[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationUnFavored:(NSString *)informationID inType:(NSString *) type{
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:[type stringByAppendingString:@".UnFavorite"]  forKey:@"M"];
-    [self.params setObject:informationID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = [type stringByAppendingString:@".UnFavorite"];
+    (self.params)[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationLike:(NSString *)informationID inType:(NSString *) type{
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:[type stringByAppendingString:@".Like"]  forKey:@"M"];
-    [self.params setObject:informationID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = [type stringByAppendingString:@".Like"];
+    (self.params)[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationUnLike:(NSString *)informationID inType:(NSString *) type{
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:[type stringByAppendingString:@".UnLike"]  forKey:@"M"];
-    [self.params setObject:informationID forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = [type stringByAppendingString:@".UnLike"];
+    (self.params)[@"Id"] = informationID;
     [self addHashParam];
 }
 
 #pragma Vision API
 
 - (void)getNewVersion {
-    [self.params setObject:@"System.Version" forKey:@"M"];
+    (self.params)[@"M"] = @"System.Version";
     [self addHashParam];
 }
 
 #pragma Star API
 
 - (void)getLatestStar {
-    [self.params setObject:@"Person.GetLatest" forKey:@"M"];
+    (self.params)[@"M"] = @"Person.GetLatest";
     [self addHashParam];
 }
 
 - (void)getAllStarsWithNextPage:(int)nextPage {
-    [self.params setObject:@"People.Get" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%d",nextPage] forKey:@"P"];
+    (self.params)[@"M"] = @"People.Get";
+    (self.params)[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
     [self addHashParam];
 }
 
 - (void)readStar:(NSString *)starID {
-    [self.params setObject:@"Person.Read" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%@",starID] forKey:@"Id"];
+    (self.params)[@"M"] = @"Person.Read";
+    (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)setStarFavored:(NSString *)starID {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Person.Favorite" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%@",starID] forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Person.Favorite";
+    (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)cancelStarFaved:(NSString *)starID {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Person.UnFavorite" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%@",starID] forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Person.UnFavorite";
+    (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)likeStar:(NSString *)starID {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Person.Like" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%@",starID] forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Person.Like";
+    (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)unlikeStar:(NSString *)starID {
-    [self.params setObject:[NSUserDefaults getCurrentUserID] forKey:@"U"];
-    [self.params setObject:[NSUserDefaults getCurrentUserSession] forKey:@"S"];
-    [self.params setObject:@"Person.UnLike" forKey:@"M"];
-    [self.params setObject:[NSString stringWithFormat:@"%@",starID] forKey:@"Id"];
+    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    (self.params)[@"M"] = @"Person.UnLike";
+    (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 

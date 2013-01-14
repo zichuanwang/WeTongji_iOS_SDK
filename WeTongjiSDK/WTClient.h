@@ -18,10 +18,10 @@
 #define GetActivitySortMethodBeginDesc  @"`begin` DESC"
 #define GetActivitySortMethodCreateDesc @"`created_at` DESC"
 
-#define GetInformationTypeSchoolNews @"SchoolNews"
-#define GetInformationTypeClubNews @"ClubNews"
-#define GetInformationTypeAround @"Around"
-#define GetInformationTypeForStaff @"ForStaff"
+#define GetInformationTypeSchoolNews    @"SchoolNews"
+#define GetInformationTypeClubNews      @"ClubNews"
+#define GetInformationTypeAround        @"Around"
+#define GetInformationTypeForStaff      @"ForStaff"
 
 @class WTRequest;
 

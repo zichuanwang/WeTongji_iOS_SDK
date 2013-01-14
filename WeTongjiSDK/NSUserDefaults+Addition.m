@@ -66,7 +66,7 @@ typedef enum {
 + (void)setChannelFollowStatus:(NSArray *)channelsStatus {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     for(int i = 0; i < channelsStatus.count; i++) {
-        NSNumber *channelStatus = [channelsStatus objectAtIndex:i];
+        NSNumber *channelStatus = channelsStatus[i];
         NSString *channelKey = [NSString stringWithFormat:@"follow_channel_%d", i];
         [userDefaults setBool:channelStatus.boolValue forKey:channelKey];
     }
@@ -78,7 +78,7 @@ typedef enum {
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:4];
     for(int i = 0; i < 4; i++) {
         NSString *channelKey = [NSString stringWithFormat:@"follow_channel_%d", i];
-        [result addObject:[NSNumber numberWithBool:[userDefaults boolForKey:channelKey]]];
+        [result addObject:@([userDefaults boolForKey:channelKey])];
     }
     return result;
 }
@@ -89,7 +89,7 @@ typedef enum {
     for(int i = 0; i < 4; i++) {
         NSString *channelKey = [NSString stringWithFormat:@"follow_channel_%d", i];
         if ([userDefaults boolForKey:channelKey])
-            [result addObject:[NSNumber numberWithInt:i]];
+            [result addObject:@(i)];
     }
     return result;
 }
@@ -124,7 +124,7 @@ typedef enum {
 + (void)setChannelSortMethodArray:(NSArray *)sortMethods {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
     for(int i = 0; i < sortMethods.count; i++) {
-        NSNumber *channelStatus = [sortMethods objectAtIndex:i];
+        NSNumber *channelStatus = sortMethods[i];
         NSString *channelKey = [NSString stringWithFormat:@"sort_channel_%d", i];
         [userDefaults setBool:channelStatus.boolValue forKey:channelKey];
     }
@@ -136,7 +136,7 @@ typedef enum {
     NSMutableArray *result = [NSMutableArray arrayWithCapacity:2];
     for(int i = 0; i < ChannelSortMethodCount; i++) {
         NSString *channelSortKey = [NSString stringWithFormat:@"sort_channel_%d", i];
-        [result addObject:[NSNumber numberWithBool:[userDefaults boolForKey:channelSortKey]]];
+        [result addObject:@([userDefaults boolForKey:channelSortKey])];
     }
     return result;
 }
@@ -152,7 +152,7 @@ typedef enum {
 }
 
 + (NSArray *)getChannelNameArray {
-    return [NSArray arrayWithObjects:@"学术讲座", @"赛事信息", @"文娱活动", @"企业招聘", nil];
+    return @[@"学术讲座", @"赛事信息", @"文娱活动", @"企业招聘"];
 }
 
 + (NSString *)getStringForKey:(NSString *)key {

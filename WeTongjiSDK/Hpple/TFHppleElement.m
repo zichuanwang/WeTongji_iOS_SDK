@@ -64,19 +64,19 @@ static NSString * const TFHppleTextNodeName            = @"text";
 
 - (NSString *) content
 {
-  return [node objectForKey:TFHppleNodeContentKey];
+  return node[TFHppleNodeContentKey];
 }
 
 
 - (NSString *) tagName
 {
-  return [node objectForKey:TFHppleNodeNameKey];
+  return node[TFHppleNodeNameKey];
 }
 
 - (NSArray *) children
 {
   NSMutableArray *children = [NSMutableArray array];
-  for (NSDictionary *child in [node objectForKey:TFHppleNodeChildrenKey]) {
+  for (NSDictionary *child in node[TFHppleNodeChildrenKey]) {
       TFHppleElement *element = [TFHppleElement hppleElementWithNode:child];
       element.parent = self;
       [children addObject:element];
@@ -88,7 +88,7 @@ static NSString * const TFHppleTextNodeName            = @"text";
 {
   NSArray * children = self.children;
   if (children.count)
-    return [children objectAtIndex:0];
+    return children[0];
   return nil;
 }
 
@@ -96,10 +96,9 @@ static NSString * const TFHppleTextNodeName            = @"text";
 - (NSDictionary *) attributes
 {
   NSMutableDictionary * translatedAttributes = [NSMutableDictionary dictionary];
-  for (NSDictionary * attributeDict in [node objectForKey:TFHppleNodeAttributeArrayKey]) {
-      if ([attributeDict objectForKey:TFHppleNodeContentKey] && [attributeDict objectForKey:TFHppleNodeAttributeNameKey]) {
-          [translatedAttributes setObject:[attributeDict objectForKey:TFHppleNodeContentKey]
-                                   forKey:[attributeDict objectForKey:TFHppleNodeAttributeNameKey]];
+  for (NSDictionary * attributeDict in node[TFHppleNodeAttributeArrayKey]) {
+      if (attributeDict[TFHppleNodeContentKey] && attributeDict[TFHppleNodeAttributeNameKey]) {
+          translatedAttributes[attributeDict[TFHppleNodeAttributeNameKey]] = attributeDict[TFHppleNodeContentKey];
       }
   }
   return translatedAttributes;
@@ -107,7 +106,7 @@ static NSString * const TFHppleTextNodeName            = @"text";
 
 - (NSString *) objectForKey:(NSString *) theKey
 {
-  return [[self attributes] objectForKey:theKey];
+  return [self attributes][theKey];
 }
 
 - (id) description
@@ -117,7 +116,7 @@ static NSString * const TFHppleTextNodeName            = @"text";
 
 - (BOOL)hasChildren
 {
-    if ([node objectForKey:TFHppleNodeChildrenKey])
+    if (node[TFHppleNodeChildrenKey])
         return YES;
     else
         return NO;

@@ -93,7 +93,7 @@
 {
   NSArray * elements = [self searchWithXPathQuery:xPathOrCSS];
   if ([elements count] >= 1) {
-    return [elements objectAtIndex:0];
+    return elements[0];
   }
 
   return nil;
