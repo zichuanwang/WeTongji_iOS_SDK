@@ -39,9 +39,9 @@
 
 - (void)login:(NSString *)num password:(NSString *)password;
 
-- (void)logoff;
+- (void)logout;
 
-- (void)activeUserWithNo:(NSString *)studentNumber
+- (void)activateUserWithNo:(NSString *)studentNumber
                 password:(NSString *)password
                     name:(NSString *)name;
 
@@ -60,11 +60,7 @@
 - (void)resetPasswordWithNO:(NSString *)studentNumber
                        Name:(NSString*)name;
 
-#pragma mark - Course API
-
-- (void)getCourses;
-
-#pragma mark - calender API
+#pragma mark - Schedule API
 
 - (void)getScheduleWithBeginDate:(NSDate *)begin endDate:(NSDate *)end;
 
@@ -95,9 +91,15 @@
 
 - (void)cancelActivityScheduled:(NSString *)activityID;
 
-#pragma - Favorite API
+#pragma mark - Favorite API
 
 - (void)getFavoritesWithNextPage:(int)nextPage;
+
+#pragma - News API
+
+- (void)getNewsInTypes:(NSArray *)type
+            sortMethod:(NSString *)sort
+                  page:(unsigned int)page;
 
 #pragma - Information API
 
@@ -123,7 +125,7 @@
 - (void)setInformationUnLike:(NSString *)informationID
                       inType:(NSString *) type;
 
-#pragma - Vision API
+#pragma mark - Vision API
 
 - (void)getNewVersion;
 

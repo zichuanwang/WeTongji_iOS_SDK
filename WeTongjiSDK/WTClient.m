@@ -107,7 +107,6 @@
 }
 
 #pragma mark - Configure API parameters
-
 #pragma mark User API
 
 - (void)login:(NSString *)num password:(NSString *)password {
@@ -117,12 +116,12 @@
     [self addHashParam];
 }
 
-- (void)logoff {
+- (void)logout {
     self.params[@"M"] = @"User.LogOff";
     [self addHashParam];
 }
 
-- (void)activeUserWithNo:(NSString *)studentNumber
+- (void)activateUserWithNo:(NSString *)studentNumber
                 password:(NSString *)password
                     name:(NSString *)name {
     self.params[@"M"] = @"User.Active";
@@ -188,16 +187,7 @@
     [self addHashParam];
 }
 
-#pragma mark Course API
-
-- (void)getCourses {
-    (self.params)[@"M"] = @"TimeTable.Get";
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
-    [self addHashParam];
-}
-
-#pragma mark Calender API
+#pragma mark Schedule API
 
 - (void)getScheduleWithBeginDate:(NSDate *)begin endDate:(NSDate *)end {
     (self.params)[@"M"] = @"Schedule.Get";
@@ -305,7 +295,21 @@
     [self addHashParam];
 }
 
+#pragma News API
+
+- (void)getNewsInTypes:(NSArray *)type
+            sortMethod:(NSString *)sort
+                  page:(unsigned int)page {
+    self.params[@"M"] = @"SchoolNews.GetList";
+    if (sort)
+        self.params[@"Sort"] = sort;
+    self.params[@"P"] = page;
+    [self addHashParam];
+}
+
 #pragma Information API
+
+// TODO: Remove the following information methods
 
 - (void)getAllInformationInType:(NSString *)type sort:(NSString *)sort
                        nextPage:(int)nextPage {
