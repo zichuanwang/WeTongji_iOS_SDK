@@ -15,9 +15,6 @@ typedef enum {
     ChannelEnterprise = 3,
 } ChannelName;
 
-#define kUserDefaultsInitialized            @"kUserDefaultsInitialized"
-#define kUserDefaultsInitialized_1_1_0      @"kUserDefaultsInitialized_1_1_0"
-
 #define kCurrentUserID              @"kCurrentUserID"
 #define kCurrentUserSession         @"kCurrentUserSession"
 #define kCurrentUIStyle             @"kCurrentUIStyle"
@@ -26,42 +23,6 @@ typedef enum {
 #define kShowExpireActivities       @"kShowExpireActivities"
 
 @implementation NSUserDefaults (Addition)
-
-+ (void)initialize {
-    [NSUserDefaults initialize_1_0_0];
-    [NSUserDefaults initialize_1_1_0];
-}
-
-+ (void)initialize_1_1_0 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL hasInit = [userDefaults boolForKey:kUserDefaultsInitialized_1_1_0];
-    if (hasInit)
-        return;
-    [userDefaults setBool:YES forKey:kUserDefaultsInitialized_1_1_0];
-    [userDefaults setBool:NO forKey:kShowExpireActivities];
-    
-    [userDefaults synchronize];
-}
-
-+ (void)initialize_1_0_0 {
-    NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-    BOOL hasInit = [userDefaults boolForKey:kUserDefaultsInitialized];
-    if (hasInit)
-        return;
-    [userDefaults setBool:YES forKey:kUserDefaultsInitialized];
-    for(int i = 0; i < 4; i++) {
-        NSString *channelKey = [NSString stringWithFormat:@"follow_channel_%d", i];
-        [userDefaults setBool:YES forKey:channelKey];
-    }
-    for(int i = 0; i < 2; i++) {
-        NSString *channelSortKey = [NSString stringWithFormat:@"sort_channel_%d", i];
-        [userDefaults setBool:NO forKey:channelSortKey];
-    }
-    [userDefaults setBool:YES forKey:@"sort_channel_0"];
-    
-    [userDefaults synchronize];
- 
-}
 
 + (void)setChannelFollowStatus:(NSArray *)channelsStatus {
     NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];

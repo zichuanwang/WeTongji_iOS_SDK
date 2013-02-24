@@ -23,8 +23,6 @@ typedef enum {
 
 @interface NSUserDefaults (Addition)
 
-+ (void)initialize;
-
 + (void)setChannelFollowStatus:(NSArray *)channels;
 + (NSArray *)getChannelFollowStatusArray;
 + (NSString *)getChannelFollowStatusString;
