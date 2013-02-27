@@ -9,7 +9,7 @@
 #import "WTClient.h"
 #import "AFJSONRequestOperation.h"
 #import "NSString+URLEncoding.h"
-#import "NSString+Addition.h"
+#import "NSString+WTSDKAddition.h"
 #import "JSON.h"
 
 #define HttpMethodGET           @"GET"
@@ -20,6 +20,7 @@
 
 @property (nonatomic, copy) WTSuccessCompletionBlock successCompletionBlock;
 @property (nonatomic, copy) WTFailureCompletionBlock failureCompletionBlock;
+@property (nonatomic, copy) WTSuccessCompletionBlock preSuccessCompletionBlock;
 @property (nonatomic, copy) NSString *HTTPMethod;
 
 @property (nonatomic, strong) NSMutableDictionary *params;
@@ -113,6 +114,9 @@
     self.params[@"M"] = @"User.LogOn";
     self.params[@"NO"] = num;
     self.params[@"Password"] = password;
+    [self setPreSuccessCompletionBlock: ^(id responseData) {
+        [NSUserDefaults setCurrentUserID:responseData[@"User"][@"UID"] session:responseData[@"Session"]];
+    }];
     [self addHashParam];
 }
 
@@ -471,50 +475,66 @@
 #pragma mark - Public methods
 
 - (void)enqueueRequest:(WTRequest *)request {
-    AFHTTPRequestOperation *operation = [self generateRequestOperation:request];
+    AFHTTPRequestOperation *operation = [self generateRequestOperationWithRawRequest:request];
     [self enqueueHTTPRequestOperation:operation];
 }
 
 #pragma mark - Logic methods
 
-- (AFHTTPRequestOperation *)generateRequestOperation:(WTRequest *)rawRequest {
-    NSMutableURLRequest *urlRequest;
+- (NSMutableURLRequest *)generateURLRequestWithRawRequest:(WTRequest *)rawRequest {
+    
+    NSMutableURLRequest *URLRequest;
     NSString *HTTPMethod = rawRequest.HTTPMethod;
     NSDictionary *params = rawRequest.params;
-    if ([HTTPMethod isEqualToString:HttpMethodGET]) {
-        urlRequest = [self requestWithMethod:HTTPMethod
-                                     path:PATH_STRING
-                               parameters:params];
-    } else if ([HTTPMethod isEqualToString:HttpMethodPOST]) {
+    
+    if([HTTPMethod isEqualToString:HttpMethodGET]) {
+        
+        URLRequest = [self requestWithMethod:HTTPMethod
+                                        path:PATH_STRING
+                                  parameters:params];
+        
+    } else if([HTTPMethod isEqualToString:HttpMethodPOST]) {
+        
         NSString *queryString= rawRequest.queryString;
         NSDictionary *postValue = rawRequest.postValue;
-        urlRequest= [self requestWithMethod:HTTPMethod
-                                    path:[NSString stringWithFormat:@"%@?%@", PATH_STRING, queryString]
-                              parameters:postValue];
-    } else if ([HTTPMethod isEqualToString:HttpMethodUpLoadAvatar]) {
+        URLRequest= [self requestWithMethod:HTTPMethod
+                                       path:[NSString stringWithFormat:@"%@?%@", PATH_STRING, queryString]
+                                 parameters:postValue];
+        
+    } else if([HTTPMethod isEqualToString:HttpMethodUpLoadAvatar]) {
+        
         NSData *imageData = UIImageJPEGRepresentation(rawRequest.avatarImage, 1.0);
         NSString *queryString= rawRequest.queryString;
-        urlRequest = [self multipartFormRequestWithMethod:HttpMethodPOST
-                                                  path:[NSString stringWithFormat:@"%@?%@", PATH_STRING, queryString]
-                                            parameters:nil
-                             constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                                 [formData appendPartWithFileData:imageData
-                                                             name:@"Image"
-                                                         fileName:@"avatar.jpg"
-                                                         mimeType:@"image/jpeg"];
-                             }];
+        URLRequest = [self multipartFormRequestWithMethod:HttpMethodPOST
+                                                     path:[NSString stringWithFormat:@"%@?%@", PATH_STRING, queryString]
+                                               parameters:nil
+                                constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
+                                    [formData appendPartWithFileData:imageData
+                                                                name:@"Image"
+                                                            fileName:@"avatar.jpg"
+                                                            mimeType:@"image/jpeg"];
+                                }];
     }
-    [urlRequest setTimeoutInterval:10];
-    NSLog(@"%@", urlRequest);
-    NSLog(@"%@", [[NSString alloc] initWithData:[urlRequest HTTPBody] encoding:self.stringEncoding]);
-    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:urlRequest success:^(AFHTTPRequestOperation *operation, id resposeObject) {
+    [URLRequest setTimeoutInterval:10];
+    
+    NSLog(@"%@", URLRequest);
+    NSLog(@"%@", [[NSString alloc] initWithData:[URLRequest HTTPBody] encoding:self.stringEncoding]);
+    
+    return URLRequest;
+}
+
+- (AFHTTPRequestOperation *)generateRequestOperationWithURLRequest:(NSMutableURLRequest *)URLRequest rawRequest:(WTRequest *)rawRequest {
+    AFHTTPRequestOperation *operation = [self HTTPRequestOperationWithRequest:URLRequest success:^(AFHTTPRequestOperation *operation, id resposeObject) {
         NSDictionary *status = resposeObject[@"Status"];
         NSString *statusIDString = status[@"Id"];
         NSInteger statusID = statusIDString.integerValue;
         NSDictionary *result = resposeObject[@"Data"];
         
-        if (result && statusID == 0) {
-            if (rawRequest.successCompletionBlock) {
+        if(result && statusID == 0) {
+            if (rawRequest.preSuccessCompletionBlock) {
+                rawRequest.preSuccessCompletionBlock(result);
+            }
+            if(rawRequest.successCompletionBlock) {
                 rawRequest.successCompletionBlock(result);
             }
         } else {
@@ -522,19 +542,26 @@
             NSError *error = [NSError errorWithDomain:[NSBundle mainBundle].bundleIdentifier
                                                  code:statusID
                                              userInfo:@{@"errorDesc" : errorDesc}];
-
+            
             NSLog(@"Server responsed error code:%d\n\
                   desc: %@\n", statusID, errorDesc);
             
-            if (rawRequest.failureCompletionBlock) {
+            if(rawRequest.failureCompletionBlock) {
                 rawRequest.failureCompletionBlock(error);
             }
         }
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        if (rawRequest.failureCompletionBlock) {
+        if(rawRequest.failureCompletionBlock) {
             rawRequest.failureCompletionBlock(error);
         }
     }];
+    
+    return operation;
+}
+
+- (AFHTTPRequestOperation *)generateRequestOperationWithRawRequest:(WTRequest *)rawRequest {
+    NSMutableURLRequest *URLRequest = [self generateURLRequestWithRawRequest:rawRequest];
+    AFHTTPRequestOperation *operation = [self generateRequestOperationWithURLRequest:URLRequest rawRequest:rawRequest];
     return operation;
 }
 

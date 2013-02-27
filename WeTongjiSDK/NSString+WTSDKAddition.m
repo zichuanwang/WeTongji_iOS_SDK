@@ -1,14 +1,14 @@
 //
-//  NSString+Addition.m
+//  NSString+WTSDKAddition.m
 //  WeTongji
 //
 //  Created by 紫川 王 on 12-4-26.
 //  Copyright (c) 2012年 Tongji Apple Club. All rights reserved.
 //
 
-#import "NSString+Addition.h"
+#import "NSString+WTSDKAddition.h"
 
-@implementation NSString (Addition)
+@implementation NSString (WTSDKAddition)
 
 + (NSString *)standardDateStringCovertFromDate:(NSDate *)date {
     NSDateFormatter *form = [[NSDateFormatter alloc] init];

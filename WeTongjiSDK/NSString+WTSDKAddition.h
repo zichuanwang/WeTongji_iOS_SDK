@@ -1,5 +1,5 @@
 //
-//  NSString+Addition.h
+//  NSString+WTSDKAddition.h
 //  WeTongji
 //
 //  Created by 紫川 王 on 12-4-26.
@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
-@interface NSString (Addition)
+@interface NSString (WTSDKAddition)
 
 + (NSString *)standardDateStringCovertFromDate:(NSDate *)date;
 

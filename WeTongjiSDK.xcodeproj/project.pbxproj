@@ -53,10 +53,10 @@
 		FF9DCF02164BF38300EA30E9 /* WeTongjiSDK.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B391635A22A00D76123 /* WeTongjiSDK.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FF9DCF03164BF38D00EA30E9 /* JSON.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B731635A75300D76123 /* JSON.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		FFB03729164BEF9D00157B7D /* WTClient.h in Headers */ = {isa = PBXBuildFile; fileRef = FF6C9491164A31BA00F94CB6 /* WTClient.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FFBEB27F164B3F0F0004AF4C /* NSString+Addition.h in Headers */ = {isa = PBXBuildFile; fileRef = FFBEB27D164B3F0F0004AF4C /* NSString+Addition.h */; };
-		FFBEB280164B3F0F0004AF4C /* NSString+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBEB27E164B3F0F0004AF4C /* NSString+Addition.m */; };
-		FFFF0F2716496B120049370C /* NSUserDefaults+Addition.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFF0F2516496B110049370C /* NSUserDefaults+Addition.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		FFFF0F2816496B120049370C /* NSUserDefaults+Addition.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFF0F2616496B110049370C /* NSUserDefaults+Addition.m */; };
+		FFBEB27F164B3F0F0004AF4C /* NSString+WTSDKAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = FFBEB27D164B3F0F0004AF4C /* NSString+WTSDKAddition.h */; };
+		FFBEB280164B3F0F0004AF4C /* NSString+WTSDKAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = FFBEB27E164B3F0F0004AF4C /* NSString+WTSDKAddition.m */; };
+		FFFF0F2716496B120049370C /* NSUserDefaults+WTSDKAddition.h in Headers */ = {isa = PBXBuildFile; fileRef = FFFF0F2516496B110049370C /* NSUserDefaults+WTSDKAddition.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		FFFF0F2816496B120049370C /* NSUserDefaults+WTSDKAddition.m in Sources */ = {isa = PBXBuildFile; fileRef = FFFF0F2616496B110049370C /* NSUserDefaults+WTSDKAddition.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -108,10 +108,10 @@
 		FF6C9474164A319500F94CB6 /* UIImageView+AFNetworking.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+AFNetworking.m"; sourceTree = "<group>"; };
 		FF6C9491164A31BA00F94CB6 /* WTClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WTClient.h; sourceTree = "<group>"; };
 		FF6C9492164A31BA00F94CB6 /* WTClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WTClient.m; sourceTree = "<group>"; };
-		FFBEB27D164B3F0F0004AF4C /* NSString+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Addition.h"; sourceTree = "<group>"; };
-		FFBEB27E164B3F0F0004AF4C /* NSString+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Addition.m"; sourceTree = "<group>"; };
-		FFFF0F2516496B110049370C /* NSUserDefaults+Addition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+Addition.h"; sourceTree = "<group>"; };
-		FFFF0F2616496B110049370C /* NSUserDefaults+Addition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+Addition.m"; sourceTree = "<group>"; };
+		FFBEB27D164B3F0F0004AF4C /* NSString+WTSDKAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+WTSDKAddition.h"; sourceTree = "<group>"; };
+		FFBEB27E164B3F0F0004AF4C /* NSString+WTSDKAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+WTSDKAddition.m"; sourceTree = "<group>"; };
+		FFFF0F2516496B110049370C /* NSUserDefaults+WTSDKAddition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSUserDefaults+WTSDKAddition.h"; sourceTree = "<group>"; };
+		FFFF0F2616496B110049370C /* NSUserDefaults+WTSDKAddition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSUserDefaults+WTSDKAddition.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -205,12 +205,12 @@
 		E1B94B991635A91F00D76123 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				FFFF0F2516496B110049370C /* NSUserDefaults+Addition.h */,
-				FFFF0F2616496B110049370C /* NSUserDefaults+Addition.m */,
+				FFFF0F2516496B110049370C /* NSUserDefaults+WTSDKAddition.h */,
+				FFFF0F2616496B110049370C /* NSUserDefaults+WTSDKAddition.m */,
 				E1B94B9A1635A94200D76123 /* NSString+URLEncoding.h */,
 				E1B94B9B1635A94200D76123 /* NSString+URLEncoding.m */,
-				FFBEB27D164B3F0F0004AF4C /* NSString+Addition.h */,
-				FFBEB27E164B3F0F0004AF4C /* NSString+Addition.m */,
+				FFBEB27D164B3F0F0004AF4C /* NSString+WTSDKAddition.h */,
+				FFBEB27E164B3F0F0004AF4C /* NSString+WTSDKAddition.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -272,7 +272,7 @@
 			files = (
 				FF9DCF02164BF38300EA30E9 /* WeTongjiSDK.h in Headers */,
 				FF6C9475164A319500F94CB6 /* AFHTTPClient.h in Headers */,
-				FFFF0F2716496B120049370C /* NSUserDefaults+Addition.h in Headers */,
+				FFFF0F2716496B120049370C /* NSUserDefaults+WTSDKAddition.h in Headers */,
 				FF9DCF03164BF38D00EA30E9 /* JSON.h in Headers */,
 				E110DF6416365E050087EA46 /* SBJSON.h in Headers */,
 				FF6C947B164A319500F94CB6 /* AFImageRequestOperation.h in Headers */,
@@ -291,7 +291,7 @@
 				FF6C9484164A319500F94CB6 /* AFNetworking.h in Headers */,
 				FF6C9485164A319500F94CB6 /* AFPropertyListRequestOperation.h in Headers */,
 				FF6C948B164A319500F94CB6 /* AFXMLRequestOperation.h in Headers */,
-				FFBEB27F164B3F0F0004AF4C /* NSString+Addition.h in Headers */,
+				FFBEB27F164B3F0F0004AF4C /* NSString+WTSDKAddition.h in Headers */,
 				E1C033B716690A4E004738EF /* WTElectricityBalanceQueryService.h in Headers */,
 				E1C033BF166914D8004738EF /* WTCommon.h in Headers */,
 				E1C033D416692225004738EF /* TFHpple.h in Headers */,
@@ -370,7 +370,7 @@
 				E110DF4516365D760087EA46 /* SBJsonBase.m in Sources */,
 				E110DF4616365D760087EA46 /* SBJsonParser.m in Sources */,
 				E110DF4716365D760087EA46 /* SBJsonWriter.m in Sources */,
-				FFFF0F2816496B120049370C /* NSUserDefaults+Addition.m in Sources */,
+				FFFF0F2816496B120049370C /* NSUserDefaults+WTSDKAddition.m in Sources */,
 				FF6C9476164A319500F94CB6 /* AFHTTPClient.m in Sources */,
 				FF6C9479164A319500F94CB6 /* AFHTTPRequestOperation.m in Sources */,
 				FF6C947C164A319500F94CB6 /* AFImageRequestOperation.m in Sources */,
@@ -380,7 +380,7 @@
 				FF6C9489164A319500F94CB6 /* AFURLConnectionOperation.m in Sources */,
 				FF6C948C164A319500F94CB6 /* AFXMLRequestOperation.m in Sources */,
 				FF6C948F164A319500F94CB6 /* UIImageView+AFNetworking.m in Sources */,
-				FFBEB280164B3F0F0004AF4C /* NSString+Addition.m in Sources */,
+				FFBEB280164B3F0F0004AF4C /* NSString+WTSDKAddition.m in Sources */,
 				E1C033B816690A4E004738EF /* WTElectricityBalanceQueryService.m in Sources */,
 				E1C033D516692225004738EF /* TFHpple.m in Sources */,
 				E1C033D716692225004738EF /* TFHppleElement.m in Sources */,
