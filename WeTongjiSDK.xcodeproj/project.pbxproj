@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		E10A8D6D16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.h in Headers */ = {isa = PBXBuildFile; fileRef = E10A8D6B16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.h */; };
+		E10A8D6E16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.m in Sources */ = {isa = PBXBuildFile; fileRef = E10A8D6C16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.m */; };
 		E110DF3816365D760087EA46 /* NSString+URLEncoding.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B9B1635A94200D76123 /* NSString+URLEncoding.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E110DF4216365D760087EA46 /* NSObject+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B751635A75300D76123 /* NSObject+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		E110DF4316365D760087EA46 /* NSString+SBJSON.m in Sources */ = {isa = PBXBuildFile; fileRef = E1B94B771635A75300D76123 /* NSString+SBJSON.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
@@ -60,6 +62,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		E10A8D6B16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSError+WTSDKClientErrorGenerator.h"; sourceTree = "<group>"; };
+		E10A8D6C16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+WTSDKClientErrorGenerator.m"; sourceTree = "<group>"; };
 		E110DF2B16365B990087EA46 /* WeTongjiSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeTongjiSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E110DF6C163662220087EA46 /* WeTongjiSDK-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WeTongjiSDK-Info.plist"; sourceTree = "<group>"; };
 		E1B94B391635A22A00D76123 /* WeTongjiSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeTongjiSDK.h; sourceTree = "<group>"; };
@@ -211,6 +215,8 @@
 				E1B94B9B1635A94200D76123 /* NSString+URLEncoding.m */,
 				FFBEB27D164B3F0F0004AF4C /* NSString+WTSDKAddition.h */,
 				FFBEB27E164B3F0F0004AF4C /* NSString+WTSDKAddition.m */,
+				E10A8D6B16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.h */,
+				E10A8D6C16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -297,6 +303,7 @@
 				E1C033D416692225004738EF /* TFHpple.h in Headers */,
 				E1C033D616692225004738EF /* TFHppleElement.h in Headers */,
 				E1C033D816692225004738EF /* XPathQuery.h in Headers */,
+				E10A8D6D16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -385,6 +392,7 @@
 				E1C033D516692225004738EF /* TFHpple.m in Sources */,
 				E1C033D716692225004738EF /* TFHppleElement.m in Sources */,
 				E1C033D916692225004738EF /* XPathQuery.m in Sources */,
+				E10A8D6E16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

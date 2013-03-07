@@ -11,6 +11,7 @@
 #import "NSString+URLEncoding.h"
 #import "NSString+WTSDKAddition.h"
 #import "JSON.h"
+#import "NSError+WTSDKClientErrorGenerator.h"
 
 #define HttpMethodGET           @"GET"
 #define HttpMethodPOST          @"POST"
@@ -27,6 +28,9 @@
 @property (nonatomic, strong) NSMutableDictionary *postValue;
 @property (nonatomic, strong) UIImage *avatarImage;
 
+@property (nonatomic, assign) BOOL valid;
+@property (nonatomic, strong) NSError *error;
+
 @end
 
 @implementation WTRequest
@@ -40,6 +44,14 @@
     result.failureCompletionBlock = failure;
     result.HTTPMethod = HttpMethodGET;
     return result;
+}
+
+- (id)init {
+    self = [super init];
+    if (self) {
+        self.valid = true;
+    }
+    return self;
 }
 
 #pragma mark - Properties
@@ -107,6 +119,17 @@
     self.params[@"H"] = md5;
 }
 
+- (void)addUserIDAndSessionParams {
+    if ([NSUserDefaults getCurrentUserID] && [NSUserDefaults getCurrentUserSession]) {
+        (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
+        (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    } else {
+        self.valid = false;
+        NSError *error = [NSError createErrorWithErrorCode:ErrorCodeNeedUserLogin];
+        self.error = error;
+    }
+}
+
 #pragma mark - Configure API parameters
 #pragma mark User API
 
@@ -141,8 +164,7 @@
                      phoneNum:(NSString *)phone
                     qqAccount:(NSString *)qq {
     (self.params)[@"M"] = @"User.Update";
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     
     NSMutableDictionary *itemDict = [[NSMutableDictionary alloc] init];
     if (displayName != nil) itemDict[@"DisplayName"] = displayName;
@@ -160,8 +182,7 @@
 
 - (void)updatePassword:(NSString *)new oldPassword:(NSString *)old {
     (self.params)[@"M"] = @"User.Update.Password";
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"New"] = new;
     (self.params)[@"Old"] = old;
     [self addHashParam];
@@ -169,8 +190,7 @@
 
 - (void)updateUserAvatar:(UIImage *)image {
     (self.params)[@"M"] = @"User.Update.Avatar";
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     self.avatarImage = image;
     self.HTTPMethod = HttpMethodUpLoadAvatar;
     [self addHashParam];
@@ -178,8 +198,7 @@
 
 - (void)getUserInformation {
     (self.params)[@"M"] = @"User.Get";
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     [self addHashParam];
 }
 
@@ -195,8 +214,7 @@
 
 - (void)getScheduleWithBeginDate:(NSDate *)begin endDate:(NSDate *)end {
     (self.params)[@"M"] = @"Schedule.Get";
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"Begin"] = [NSString standardDateStringCovertFromDate:begin];
     (self.params)[@"End"] = [NSString standardDateStringCovertFromDate:end];
     [self addHashParam];
@@ -205,16 +223,14 @@
 #pragma mark Channel API
 
 - (void)setChannelFavored:(NSString *)channelID {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Channel.Favorite";
     (self.params)[@"Id"] = channelID;
     [self addHashParam];
 }
 
 - (void)cancelChannelFavored:(NSString *)channelID {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Channel.UnFavorite";
     (self.params)[@"Id"] = channelID;
     [self addHashParam];
@@ -240,32 +256,28 @@
 }
 
 - (void)setLikeActivitiy:(NSString *)activityID {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Activity.Like";
     (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
 - (void)cancelLikeActivity:(NSString *)activityID {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Activity.UnLike";
     (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
 - (void)setActivityFavored:(NSString *)activityID {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Activity.Favorite";
     (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
 - (void)cancelActivityFavored:(NSString *)activityID {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Activity.UnFavorite";
     (self.params)[@"Id"] = activityID;
     [self addHashParam];
@@ -273,8 +285,7 @@
 
 - (void)setActivityScheduled:(NSString *)activityID
 {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Activity.Schedule";
     (self.params)[@"Id"] = activityID;
     [self addHashParam];
@@ -282,8 +293,7 @@
 
 - (void)cancelActivityScheduled:(NSString *)activityID
 {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Activity.UnSchedule";
     (self.params)[@"Id"] = activityID;
     [self addHashParam];
@@ -292,8 +302,7 @@
 #pragma Favorite API
 
 - (void)getFavoritesWithNextPage:(int)nextPage {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Favorite.Get";
     (self.params)[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
     [self addHashParam];
@@ -343,32 +352,28 @@
 }
 
 - (void)setInformationFavored:(NSString *)informationID inType:(NSString *) type{
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = [type stringByAppendingString:@".Favorite"];
     (self.params)[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationUnFavored:(NSString *)informationID inType:(NSString *) type{
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = [type stringByAppendingString:@".UnFavorite"];
     (self.params)[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationLike:(NSString *)informationID inType:(NSString *) type{
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = [type stringByAppendingString:@".Like"];
     (self.params)[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationUnLike:(NSString *)informationID inType:(NSString *) type{
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = [type stringByAppendingString:@".UnLike"];
     (self.params)[@"Id"] = informationID;
     [self addHashParam];
@@ -401,34 +406,45 @@
 }
 
 - (void)setStarFavored:(NSString *)starID {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Person.Favorite";
     (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)cancelStarFaved:(NSString *)starID {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Person.UnFavorite";
     (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)likeStar:(NSString *)starID {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Person.Like";
     (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)unlikeStar:(NSString *)starID {
-    (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-    (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+    [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Person.UnLike";
     (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
+    [self addHashParam];
+}
+
+#pragma Search API
+
+- (void)search:(NSString *)command {
+    [self addUserIDAndSessionParams];
+    (self.params)[@"M"] = @"User.Find";
+    // TODO: 现在只支持根据学号和姓名检索
+    NSArray *parseredArray = [command componentsSeparatedByString:@" "];
+    if (parseredArray.count >= 2) {
+        (self.params)[@"NO"] = parseredArray[0];
+        (self.params)[@"Name"] = parseredArray[1];
+    }
+    
     [self addHashParam];
 }
 
@@ -438,7 +454,7 @@
 
 @end
 
-#define BASE_URL_STRING @"http://we.tongji.edu.cn"
+#define BASE_URL_STRING @"http://leiz.name:8080"
 #define PATH_STRING     @"/api/call"
 
 @implementation WTClient
@@ -475,6 +491,9 @@
 #pragma mark - Public methods
 
 - (void)enqueueRequest:(WTRequest *)request {
+    if (!request.isValid) {
+        request.failureCompletionBlock(request.error);
+    }
     AFHTTPRequestOperation *operation = [self generateRequestOperationWithRawRequest:request];
     [self enqueueHTTPRequestOperation:operation];
 }

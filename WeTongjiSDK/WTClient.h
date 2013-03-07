@@ -27,10 +27,12 @@
 
 @interface WTRequest : NSObject
 
-@property (nonatomic, readonly, strong) NSMutableDictionary *params;
-@property (nonatomic, readonly, strong) NSMutableDictionary *postValue;
-@property (nonatomic, readonly, strong) UIImage *avatarImage;
+@property (nonatomic, readonly) NSMutableDictionary *params;
+@property (nonatomic, readonly) NSMutableDictionary *postValue;
+@property (nonatomic, readonly) UIImage *avatarImage;
 @property (nonatomic, readonly) NSString *queryString;
+@property (nonatomic, readonly, getter = isValid) BOOL valid;
+@property (nonatomic, readonly) NSError *error;
 
 + (WTRequest *)requestWithSuccessBlock:(WTSuccessCompletionBlock)success
                           failureBlock:(WTFailureCompletionBlock)failure;
@@ -144,6 +146,10 @@
 - (void)likeStar:(NSString *)starID;
 
 - (void)unlikeStar:(NSString *)starID;
+
+#pragma - Search API
+
+- (void)search:(NSString *)command;
 
 @end
 
