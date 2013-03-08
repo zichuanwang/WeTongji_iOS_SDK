@@ -6,5 +6,7 @@
 //  Copyright (c) 2012年 WeTongji. All rights reserved.
 //
 
+
 #import "WTClient.h"
+#import "WTRequest.h"
 #import "WTElectricityBalanceQueryService.h"
