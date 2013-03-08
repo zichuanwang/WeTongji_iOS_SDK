@@ -155,4 +155,20 @@
 
 - (void)search:(NSString *)command;
 
+#pragma - Friend API
+
+- (void)inviteFriend:(NSString *)userID;
+
+- (void)removeFriend:(NSString *)userID;
+
+- (void)getFriendsList;
+
+- (void)acceptFriendInvitation:(NSString *)invitationID;
+
+- (void)ignoreFriendInvitation:(NSString *)invitationID;
+
+#pragma - Notification API
+
+- (void)getNotificationList;
+
 @end

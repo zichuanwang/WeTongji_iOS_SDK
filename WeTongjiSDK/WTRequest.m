@@ -443,4 +443,53 @@
     [self addHashParam];
 }
 
+#pragma Friend API 
+
+- (void)inviteFriend:(NSString *)userID {
+    [self addUserIDAndSessionParams];
+    (self.params)[@"M"] = @"Friend.Invite";
+    if (userID)
+        (self.params)[@"Id"] = userID;
+    [self addHashParam];
+}
+
+- (void)removeFriend:(NSString *)userID {
+    [self addUserIDAndSessionParams];
+    (self.params)[@"M"] = @"Friend.Remove";
+    if (userID)
+        (self.params)[@"Id"] = userID;
+    [self addHashParam];
+}
+
+- (void)getFriendsList {
+    [self addUserIDAndSessionParams];
+    (self.params)[@"M"] = @"Friends.Get";
+    [self addHashParam];
+}
+
+- (void)acceptFriendInvitation:(NSString *)invitationID {
+    [self addUserIDAndSessionParams];
+    (self.params)[@"M"] = @"Friend.Invite.Accept";
+    if (invitationID)
+        (self.params)[@"Id"] = invitationID;
+    [self addHashParam];
+}
+
+- (void)ignoreFriendInvitation:(NSString *)invitationID {
+    [self addUserIDAndSessionParams];
+    (self.params)[@"M"] = @"Friend.Invite.Reject";
+    if (invitationID)
+        (self.params)[@"Id"] = invitationID;
+    [self addHashParam];
+}
+
+#pragma Notification API
+
+- (void)getNotificationList {
+    [self addUserIDAndSessionParams];
+    // TODO:
+    (self.params)[@"M"] = @"Friend.Invites.Get";
+    [self addHashParam];
+}
+
 @end
