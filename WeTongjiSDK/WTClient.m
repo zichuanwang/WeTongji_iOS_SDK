@@ -53,6 +53,7 @@
 - (void)enqueueRequest:(WTRequest *)request {
     if (!request.isValid) {
         request.failureCompletionBlock(request.error);
+        return;
     }
     AFHTTPRequestOperation *operation = [self generateRequestOperationWithRawRequest:request];
     [self enqueueHTTPRequestOperation:operation];
@@ -94,6 +95,7 @@
                                                             mimeType:@"image/jpeg"];
                                 }];
     }
+    // 设置超时时间
     [URLRequest setTimeoutInterval:10];
     
     NSLog(@"%@", URLRequest);
@@ -120,7 +122,7 @@
             NSString *errorDesc = [NSString stringWithFormat:@"%@", status[@"Memo"]];
             NSError *error = [NSError errorWithDomain:[NSBundle mainBundle].bundleIdentifier
                                                  code:statusID
-                                             userInfo:@{@"errorDesc" : errorDesc}];
+                                             userInfo:@{@"NSLocalizedDescription" : errorDesc}];
             
             NSLog(@"Server responsed error code:%d\n\
                   desc: %@\n", statusID, errorDesc);

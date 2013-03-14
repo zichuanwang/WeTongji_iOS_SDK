@@ -23,6 +23,8 @@
 		E110DF6516365E050087EA46 /* SBJsonBase.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7A1635A75300D76123 /* SBJsonBase.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E110DF6616365E050087EA46 /* SBJsonParser.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7C1635A75300D76123 /* SBJsonParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E110DF6716365E050087EA46 /* SBJsonWriter.h in Headers */ = {isa = PBXBuildFile; fileRef = E1B94B7E1635A75300D76123 /* SBJsonWriter.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E177E64816EFA4670029130F /* Base64.h in Headers */ = {isa = PBXBuildFile; fileRef = E177E64616EFA4670029130F /* Base64.h */; };
+		E177E64916EFA4670029130F /* Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = E177E64716EFA4670029130F /* Base64.m */; };
 		E1C033B716690A4E004738EF /* WTElectricityBalanceQueryService.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C033B516690A4E004738EF /* WTElectricityBalanceQueryService.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		E1C033B816690A4E004738EF /* WTElectricityBalanceQueryService.m in Sources */ = {isa = PBXBuildFile; fileRef = E1C033B616690A4E004738EF /* WTElectricityBalanceQueryService.m */; };
 		E1C033BF166914D8004738EF /* WTCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = E1C033BD166914D8004738EF /* WTCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -68,6 +70,8 @@
 		E10A8D6C16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSError+WTSDKClientErrorGenerator.m"; sourceTree = "<group>"; };
 		E110DF2B16365B990087EA46 /* WeTongjiSDK.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeTongjiSDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E110DF6C163662220087EA46 /* WeTongjiSDK-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "WeTongjiSDK-Info.plist"; sourceTree = "<group>"; };
+		E177E64616EFA4670029130F /* Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Base64.h; sourceTree = "<group>"; };
+		E177E64716EFA4670029130F /* Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Base64.m; sourceTree = "<group>"; };
 		E1B94B391635A22A00D76123 /* WeTongjiSDK.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = WeTongjiSDK.h; sourceTree = "<group>"; };
 		E1B94B731635A75300D76123 /* JSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSON.h; sourceTree = "<group>"; };
 		E1B94B741635A75300D76123 /* NSObject+SBJSON.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+SBJSON.h"; sourceTree = "<group>"; };
@@ -215,14 +219,16 @@
 		E1B94B991635A91F00D76123 /* Categories */ = {
 			isa = PBXGroup;
 			children = (
-				FFFF0F2516496B110049370C /* NSUserDefaults+WTSDKAddition.h */,
-				FFFF0F2616496B110049370C /* NSUserDefaults+WTSDKAddition.m */,
+				E177E64616EFA4670029130F /* Base64.h */,
+				E177E64716EFA4670029130F /* Base64.m */,
+				E10A8D6B16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.h */,
+				E10A8D6C16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.m */,
 				E1B94B9A1635A94200D76123 /* NSString+URLEncoding.h */,
 				E1B94B9B1635A94200D76123 /* NSString+URLEncoding.m */,
 				FFBEB27D164B3F0F0004AF4C /* NSString+WTSDKAddition.h */,
 				FFBEB27E164B3F0F0004AF4C /* NSString+WTSDKAddition.m */,
-				E10A8D6B16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.h */,
-				E10A8D6C16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.m */,
+				FFFF0F2516496B110049370C /* NSUserDefaults+WTSDKAddition.h */,
+				FFFF0F2616496B110049370C /* NSUserDefaults+WTSDKAddition.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -311,6 +317,7 @@
 				E1C033D816692225004738EF /* XPathQuery.h in Headers */,
 				E10A8D6D16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.h in Headers */,
 				E1F6C70016EA211800B5382A /* WTRequest.h in Headers */,
+				E177E64816EFA4670029130F /* Base64.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,7 +348,7 @@
 		E1B94B281635A22A00D76123 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0450;
+				LastUpgradeCheck = 0460;
 				ORGANIZATIONNAME = WeTongji;
 			};
 			buildConfigurationList = E1B94B2B1635A22A00D76123 /* Build configuration list for PBXProject "WeTongjiSDK" */;
@@ -401,6 +408,7 @@
 				E1C033D916692225004738EF /* XPathQuery.m in Sources */,
 				E10A8D6E16E8DD2A008B72E7 /* NSError+WTSDKClientErrorGenerator.m in Sources */,
 				E1F6C70116EA211800B5382A /* WTRequest.m in Sources */,
+				E177E64916EFA4670029130F /* Base64.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -411,7 +419,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_WARN_OBJCPP_ARC_ABI = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
@@ -439,7 +446,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				CLANG_WARN_OBJCPP_ARC_ABI = NO;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -485,7 +491,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALID_ARCHS = "armv7 armv7s i386";
@@ -506,7 +512,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

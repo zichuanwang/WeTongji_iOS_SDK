@@ -15,7 +15,7 @@
     switch (errorCode) {
         case ErrorCodeNeedUserLogin:
         {
-            errorDesc = @"此功能需要用户登录后使用";
+            errorDesc = @"此功能需要用户登录后使用。";
         }
             break;
             
@@ -24,7 +24,7 @@
     }
     NSError *error = [NSError errorWithDomain:[NSBundle mainBundle].bundleIdentifier
                                          code:errorCode
-                                     userInfo:@{@"errorDesc" : errorDesc}];
+                                     userInfo:@{@"NSLocalizedDescription" : errorDesc}];
     return error;
 }
 

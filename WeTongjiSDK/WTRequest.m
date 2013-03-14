@@ -11,6 +11,10 @@
 #import "NSString+WTSDKAddition.h"
 #import "JSON.h"
 #import "NSError+WTSDKClientErrorGenerator.h"
+#import <Security/Security.h>
+#import "Base64.h"
+
+#define API_VERSION @"2.0"
 
 @interface WTRequest()
 
@@ -64,8 +68,8 @@
     if (!_params) {
         _params = [[NSMutableDictionary alloc] init];
         _params[@"D"] = [NSBundle mainBundle].bundleIdentifier;
-        NSString *version = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
-        _params[@"V"] = version;
+        //NSString *version = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
+        _params[@"V"] = API_VERSION;
     }
     return _params;
 }
@@ -125,13 +129,83 @@
     }
 }
 
+- (SecKeyRef)getPublicKeyRef {
+    NSString *keyPath = [[NSBundle mainBundle] pathForResource:@"public_key" ofType:@"der"];
+    NSData *keyData = [[NSData alloc] initWithContentsOfFile:keyPath];
+    SecCertificateRef myCertificate = SecCertificateCreateWithData(kCFAllocatorDefault, (__bridge CFDataRef)keyData);
+    SecPolicyRef myPolicy = SecPolicyCreateBasicX509();
+    SecTrustRef myTrust;
+    OSStatus status = SecTrustCreateWithCertificates(myCertificate, myPolicy, &myTrust);
+    SecTrustResultType trustResult;
+    if (status == noErr) {
+        status = SecTrustEvaluate(myTrust, &trustResult);
+    }
+    SecKeyRef result = SecTrustCopyPublicKey(myTrust);
+    
+    CFRelease(myPolicy);
+    CFRelease(myTrust);
+    
+    return result;
+}
+
+- (NSString *)RSAEncryptText:(NSString *)plainText {
+    
+    SecKeyRef key = [self getPublicKeyRef];
+    
+    size_t cipherBufferSize = SecKeyGetBlockSize(key);
+    uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
+    memset((void *)cipherBuffer, 0 * 0, cipherBufferSize);
+    
+    NSData *plainTextBytes = [plainText dataUsingEncoding:NSUTF8StringEncoding];
+    size_t blockSize = cipherBufferSize;
+    size_t blockCount = (size_t)ceil([plainTextBytes length] / (double)blockSize);
+    NSMutableData *encryptedData = [NSMutableData dataWithCapacity:0];
+    
+    for (int i = 0; i < blockCount; i++) {
+        
+        int bufferSize = MIN(blockSize, [plainTextBytes length] - i * blockSize);
+        NSData *buffer = [plainTextBytes subdataWithRange:NSMakeRange(i * blockSize, bufferSize)];
+        
+        OSStatus status = SecKeyEncrypt(key,
+                                        kSecPaddingPKCS1,
+                                        (const uint8_t *)[buffer bytes],
+                                        [buffer length],
+                                        cipherBuffer,
+                                        &cipherBufferSize);
+        
+        if (status == noErr) {
+            NSData *encryptedBytes = [NSData dataWithBytes:(const void *)cipherBuffer length:cipherBufferSize];
+            [encryptedData appendData:encryptedBytes];
+            
+        } else {
+            
+            if (cipherBuffer) {
+                free(cipherBuffer);
+            }
+            return nil;
+        }
+    }
+    if (cipherBuffer)
+        free(cipherBuffer);
+        
+    NSString *encryptResult = [NSString stringWithFormat:@"%@", [encryptedData base64EncodedString]];
+    
+    CFRelease(key);
+    
+    return encryptResult;
+}
+
 #pragma mark - Configure API parameters
 #pragma mark User API
 
 - (void)login:(NSString *)num password:(NSString *)password {
     self.params[@"M"] = @"User.LogOn";
     self.params[@"NO"] = num;
-    self.params[@"Password"] = password;
+    if ([API_VERSION isEqualToString:@"1.0"])
+        self.params[@"Password"] = password;
+    else if ([API_VERSION isEqualToString:@"2.0"]) {
+        self.params[@"Password"] = [self RSAEncryptText:password];
+    }
     [self setPreSuccessCompletionBlock: ^(id responseData) {
         [NSUserDefaults setCurrentUserID:responseData[@"User"][@"UID"] session:responseData[@"Session"]];
     }];
@@ -449,7 +523,7 @@
     [self addUserIDAndSessionParams];
     (self.params)[@"M"] = @"Friend.Invite";
     if (userID)
-        (self.params)[@"Id"] = userID;
+        (self.params)[@"UID"] = userID;
     [self addHashParam];
 }
 
