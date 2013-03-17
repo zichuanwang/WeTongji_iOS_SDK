@@ -80,22 +80,21 @@
 
 #pragma mark - Activity API
 
-- (void)getActivitiesInChannel:(NSString *)channelID
-                        inSort:(NSString *)sort
-                       Expired:(BOOL)isExpired
-                      nextPage:(int)nextPage;
++ (BOOL)shouldActivityOrderByDesc:(NSUInteger)orderMethod
+                       smartOrder:(BOOL)smartOrder
+                       showExpire:(BOOL)showExpire;
 
-- (void)setLikeActivitiy:(NSString *)activityID;
+- (void)getActivitiesInTypes:(NSArray *)showTypesArray
+                 orderMethod:(NSUInteger)orderMethod
+                  smartOrder:(BOOL)smartOrder
+                  showExpire:(BOOL)showExpire
+                        page:(NSUInteger)page;
 
-- (void)cancelLikeActivity:(NSString *)activityID;
+- (void)setActivitiyLiked:(BOOL)liked activityID:(NSString *)activityID;
 
-- (void)setActivityFavored:(NSString *)activityID;
+- (void)setActivityFavored:(BOOL)favored activityID:(NSString *)activityID;
 
-- (void)cancelActivityFavored:(NSString *)activityID;
-
-- (void)setActivityScheduled:(NSString *)activityID;
-
-- (void)cancelActivityScheduled:(NSString *)activityID;
+- (void)setActivityScheduled:(BOOL)scheduled activityID:(NSString *)activityID;
 
 #pragma mark - Favorite API
 
@@ -103,13 +102,13 @@
 
 #pragma - News API
 
-- (void)getNewsInTypes:(NSArray *)type
-            sortMethod:(NSString *)sort
-                  page:(unsigned int)page;
+- (void)getNewsInTypes:(NSArray *)showTypesArray
+            sortMethod:(NSString *)sortMethod
+                  page:(NSUInteger)page;
 
 #pragma - Information API
 
-- (void)getAllInformationInType:(NSString *) type
+- (void)getAllInformationInType:(NSString *)type
                            sort:(NSString *)sort
                        nextPage:(int)nextPage;
 

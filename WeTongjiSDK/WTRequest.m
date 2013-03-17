@@ -312,58 +312,130 @@
 
 #pragma mark Activity API
 
-- (void)getActivitiesInChannel:(NSString *)channelID
-                        inSort:(NSString *)sort
-                       Expired:(BOOL)isExpired
-                      nextPage:(int)nextPage {
++ (NSString *)generateActivityShowTypesParam:(NSArray *)showTypesArray {
+    if (!showTypesArray)
+        return [NSString stringWithFormat:@"1,2,3,4"];
+    
+    NSMutableString *showTypesString = [NSMutableString string];
+    for (int i = 0; i < showTypesArray.count; i++) {
+        NSNumber *showTypeNumber = showTypesArray[i];
+        if (showTypeNumber.boolValue) {
+            [showTypesString appendFormat:@"%@%d", (i == 0 ? @"" : @","), i + 1];
+        }
+    }
+    return showTypesString;
+}
+
+#define GetActivitySortMethodLikeAsc        @"`like`"
+#define GetActivitySortMethodBeginAsc       @"`begin`"
+#define GetActivitySortMethodPublishAsc     @"`created_at`"
+#define GetActivitySortMethodLikeDesc       @"`like` DESC"
+#define GetActivitySortMethodBeginDesc      @"`begin` DESC"
+#define GetActivitySortMethodPublishDesc    @"`created_at` DESC"
+
+typedef enum {
+    ActivityOrderByPublishDate  = 1 << 0,
+    ActivityOrderByPopularity   = 1 << 1,
+    ActivityOrderByStartDate    = 1 << 2,
+} ActivityOrderMethod;
+
++ (BOOL)shouldActivityOrderByDesc:(NSUInteger)orderMethod
+                     smartOrder:(BOOL)smartOrder
+                     showExpire:(BOOL)showExpire {
+    BOOL result = NO;
+    switch (orderMethod) {
+        case ActivityOrderByPublishDate:
+        {
+            result = smartOrder;
+        }
+            break;
+        case ActivityOrderByPopularity:
+        {
+            result = smartOrder;
+        }
+            break;
+        case ActivityOrderByStartDate:
+        {
+            result = (showExpire && smartOrder) || (!showExpire && !smartOrder);
+        }
+            break;
+        default:
+            break;
+    }
+    return result;
+}
+
++ (NSString *)generateActivityOrderMethodParam:(NSUInteger)orderMethod
+                                    smartOrder:(BOOL)smartOrder
+                                    showExpire:(BOOL)showExpire {
+    NSString *result = nil;
+    BOOL shouldOrderByDesc = [WTRequest shouldActivityOrderByDesc:orderMethod
+                                                       smartOrder:smartOrder
+                                                       showExpire:showExpire];
+    switch (orderMethod) {
+        case ActivityOrderByPublishDate:
+        {
+            result = shouldOrderByDesc ? GetActivitySortMethodPublishDesc : GetActivitySortMethodPublishAsc;
+        }
+            break;
+        case ActivityOrderByPopularity:
+        {
+            result = shouldOrderByDesc ? GetActivitySortMethodLikeDesc : GetActivitySortMethodLikeAsc;
+        }
+            break;
+        case ActivityOrderByStartDate:
+        {
+            result = shouldOrderByDesc ? GetActivitySortMethodBeginDesc : GetActivitySortMethodBeginAsc;
+        }
+            break;
+        default:
+            break;
+    }
+    return result;
+}
+
+- (void)getActivitiesInTypes:(NSArray *)showTypesArray
+                 orderMethod:(NSUInteger)orderMethod
+                  smartOrder:(BOOL)smartOrder
+                  showExpire:(BOOL)showExpire
+                        page:(NSUInteger)page {
+    
+    if([NSUserDefaults getCurrentUserID] && [NSUserDefaults getCurrentUserSession]) {
+        [self addUserIDAndSessionParams];
+    }
+    
     (self.params)[@"M"] = @"Activities.Get";
-    if (channelID) (self.params)[@"Channel_Ids"] = channelID;
-    if (sort) (self.params)[@"Sort"] = sort;
-    if (isExpired) (self.params)[@"Expire"] = [NSString stringWithFormat:@"%d", isExpired];
-    (self.params)[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
+
+    self.params[@"Channel_Ids"] = [WTRequest generateActivityShowTypesParam:showTypesArray];
+    
+    self.params[@"Sort"] = [WTRequest generateActivityOrderMethodParam:orderMethod
+                                                           smartOrder:smartOrder
+                                                           showExpire:showExpire];
+    
+    self.params[@"Expire"] = [NSString stringWithFormat:@"%d", showExpire];
+    
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
+    
     [self addHashParam];
 }
 
-- (void)setLikeActivitiy:(NSString *)activityID {
+- (void)setActivitiyLiked:(BOOL)liked activityID:(NSString *)activityID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Activity.Like";
+    (self.params)[@"M"] = liked ? @"Activity.Like" : @"Activity.UnLike";
     (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
-- (void)cancelLikeActivity:(NSString *)activityID {
+- (void)setActivityFavored:(BOOL)favored activityID:(NSString *)activityID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Activity.UnLike";
+    (self.params)[@"M"] = favored ? @"Activity.Favorite" : @"Activity.UnFavorite";
     (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
 
-- (void)setActivityFavored:(NSString *)activityID {
+- (void)setActivityScheduled:(BOOL)scheduled activityID:(NSString *)activityID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Activity.Favorite";
-    (self.params)[@"Id"] = activityID;
-    [self addHashParam];
-}
-
-- (void)cancelActivityFavored:(NSString *)activityID {
-    [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Activity.UnFavorite";
-    (self.params)[@"Id"] = activityID;
-    [self addHashParam];
-}
-
-- (void)setActivityScheduled:(NSString *)activityID
-{
-    [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Activity.Schedule";
-    (self.params)[@"Id"] = activityID;
-    [self addHashParam];
-}
-
-- (void)cancelActivityScheduled:(NSString *)activityID
-{
-    [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Activity.UnSchedule";
+    (self.params)[@"M"] = scheduled ? @"Activity.Schedule" : @"Activity.UnSchedule";
     (self.params)[@"Id"] = activityID;
     [self addHashParam];
 }
@@ -379,12 +451,12 @@
 
 #pragma News API
 
-- (void)getNewsInTypes:(NSArray *)type
-            sortMethod:(NSString *)sort
-                  page:(unsigned int)page {
+- (void)getNewsInTypes:(NSArray *)showTypesArray
+            sortMethod:(NSString *)sortMethod
+                  page:(NSUInteger)page {
     self.params[@"M"] = @"SchoolNews.GetList";
-    if (sort)
-        self.params[@"Sort"] = sort;
+    if (sortMethod)
+        self.params[@"Sort"] = sortMethod;
     self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
     [self addHashParam];
 }
