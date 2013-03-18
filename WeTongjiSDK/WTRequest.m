@@ -14,7 +14,8 @@
 #import <Security/Security.h>
 #import "Base64.h"
 
-#define API_VERSION @"2.0"
+#define DEVICE_IDENTIFIER   @"iOS"
+#define API_VERSION         @"2.0"
 
 @interface WTRequest()
 
@@ -67,7 +68,7 @@
 {
     if (!_params) {
         _params = [[NSMutableDictionary alloc] init];
-        _params[@"D"] = [NSBundle mainBundle].bundleIdentifier;
+        _params[@"D"] = DEVICE_IDENTIFIER;
         //NSString *version = [NSBundle mainBundle].infoDictionary[@"CFBundleShortVersionString"];
         _params[@"V"] = API_VERSION;
     }
