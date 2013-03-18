@@ -14,7 +14,7 @@
 
 @end
 
-#define BASE_URL_STRING @"http://leiz.name:8080"
+#define BASE_URL_STRING @"http://we.tongji.edu.cn"
 #define PATH_STRING     @"/api/call"
 
 @implementation WTClient

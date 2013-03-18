@@ -15,7 +15,7 @@
 #import "Base64.h"
 
 #define DEVICE_IDENTIFIER   @"iOS"
-#define API_VERSION         @"2.0"
+#define API_VERSION         @"3.0"
 
 @interface WTRequest()
 
