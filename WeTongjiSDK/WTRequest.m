@@ -202,10 +202,10 @@
 - (void)login:(NSString *)num password:(NSString *)password {
     self.params[@"M"] = @"User.LogOn";
     self.params[@"NO"] = num;
-    if ([API_VERSION isEqualToString:@"1.0"])
-        self.params[@"Password"] = password;
-    else if ([API_VERSION isEqualToString:@"2.0"]) {
+    if ([API_VERSION isEqualToString:@"3.0"])
         self.params[@"Password"] = [self RSAEncryptText:password];
+    else {
+        self.params[@"Password"] = password;
     }
     [self setPreSuccessCompletionBlock: ^(id responseData) {
         [NSUserDefaults setCurrentUserID:responseData[@"User"][@"UID"] session:responseData[@"Session"]];
