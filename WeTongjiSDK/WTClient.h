@@ -19,4 +19,6 @@
 
 - (void)enqueueRequest:(WTRequest *)request;
 
+- (void)logout;
+
 @end

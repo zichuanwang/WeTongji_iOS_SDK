@@ -45,8 +45,6 @@
 
 - (void)login:(NSString *)num password:(NSString *)password;
 
-- (void)logout;
-
 - (void)activateUserWithNo:(NSString *)studentNumber
                   password:(NSString *)password
                       name:(NSString *)name;

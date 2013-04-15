@@ -213,10 +213,6 @@
     [self addHashParam];
 }
 
-- (void)logout {
-    [NSUserDefaults setCurrentUserID:nil session:nil];
-}
-
 - (void)activateUserWithNo:(NSString *)studentNumber
                   password:(NSString *)password
                       name:(NSString *)name {

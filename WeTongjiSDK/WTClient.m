@@ -52,6 +52,10 @@
 
 #pragma mark - Public methods
 
+- (void)logout {
+    [NSUserDefaults setCurrentUserID:nil session:nil];
+}
+
 - (void)enqueueRequest:(WTRequest *)request {
     if (!request.isValid) {
         request.failureCompletionBlock(request.error);
