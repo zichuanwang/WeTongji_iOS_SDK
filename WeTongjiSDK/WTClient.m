@@ -9,11 +9,13 @@
 #import "WTClient.h"
 #import "AFJSONRequestOperation.h"
 #import "WTRequest.h"
+#import "NSError+WTSDKClientErrorGenerator.h"
 
 @interface WTClient()
 
 @end
 
+// r#define BASE_URL_STRING @"http://leiz.name:8080"
 #define BASE_URL_STRING @"http://we.tongji.edu.cn"
 #define PATH_STRING     @"/api/call"
 
@@ -119,13 +121,16 @@
                 rawRequest.successCompletionBlock(result);
             }
         } else {
-            NSString *errorDesc = [NSString stringWithFormat:@"%@", status[@"Memo"]];
-            NSError *error = [NSError errorWithDomain:[NSBundle mainBundle].bundleIdentifier
-                                                 code:statusID
-                                             userInfo:@{@"NSLocalizedDescription" : errorDesc}];
-            
-            NSLog(@"Server responsed error code:%d\n\
-                  desc: %@\n", statusID, errorDesc);
+            NSError *error = [NSError createErrorWithErrorCode:statusID];
+            if (!error) {
+                NSString *errorDesc = [NSString stringWithFormat:@"%@", status[@"Memo"]];
+                error = [NSError errorWithDomain:[NSBundle mainBundle].bundleIdentifier
+                                            code:statusID
+                                        userInfo:@{@"NSLocalizedDescription" : errorDesc}];
+                
+                NSLog(@"Server responsed error code:%d\n\
+                      desc: %@\n", statusID, errorDesc);
+            }
             
             if(rawRequest.failureCompletionBlock) {
                 rawRequest.failureCompletionBlock(error);

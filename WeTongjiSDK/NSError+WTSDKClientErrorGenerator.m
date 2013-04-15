@@ -19,9 +19,18 @@
         }
             break;
             
+        case ErrorCodeUserSessionExpired:
+        {
+            errorDesc = @"用户认证已过期，请重新登录。";
+        }
+          
         default:
             break;
     }
+    
+    if (errorDesc == nil)
+        return nil;
+    
     NSError *error = [NSError errorWithDomain:[NSBundle mainBundle].bundleIdentifier
                                          code:errorCode
                                      userInfo:@{@"NSLocalizedDescription" : errorDesc}];

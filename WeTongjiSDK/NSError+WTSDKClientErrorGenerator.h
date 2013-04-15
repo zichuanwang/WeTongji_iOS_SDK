@@ -11,7 +11,21 @@
 @interface NSError (WTSDKClientErrorGenerator)
 
 typedef enum {
-    ErrorCodeNeedUserLogin = 10000,
+    ErrorCodeParamIllegal               = 1,
+    ErrorCodeMethodInvalid              = 2,
+    ErrorCodeParamInvalid               = 3,
+    ErrorCodeSystemParamIncomplete      = 4,
+    ErrorCodeNeedUserLogin              = 5,
+    ErrorCodeUserSessionExpired         = 6,
+    ErrorCodeParamIncomplete            = 7,
+    ErrorCodeUserAlreadyRegistered      = 8,
+    ErrorCodeUserNameAndNoNotMatching   = 9,
+    ErrorCodePasswordFormatInvalid      = 10,
+    ErrorCodeAccountNotActivated        = 11,
+    ErrorCodeUserNoNotFound             = 12,
+    ErrorCodeAccountOrPasswordError     = 13,
+    ErrorCodeUserNoHasNoAccount         = 14,
+    ErrorCodeFriendInvitationForbidden  = 15,
 } WTSDKClientErrorCode;
 
 + (NSError *)createErrorWithErrorCode:(WTSDKClientErrorCode)errorCode;

@@ -214,8 +214,7 @@
 }
 
 - (void)logout {
-    self.params[@"M"] = @"User.LogOff";
-    [self addHashParam];
+    [NSUserDefaults setCurrentUserID:nil session:nil];
 }
 
 - (void)activateUserWithNo:(NSString *)studentNumber
