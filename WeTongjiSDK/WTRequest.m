@@ -457,6 +457,13 @@ typedef enum {
     [self addHashParam];
 }
 
+- (void)setNewsLiked:(BOOL)liked newsID:(NSString *)newsID {
+    [self addUserIDAndSessionParams];
+    (self.params)[@"M"] = liked ? @"SchoolNews.Like" : @"SchoolNews.UnLike";
+    (self.params)[@"Id"] = newsID;
+    [self addHashParam];
+}
+
 #pragma Information API
 
 // TODO: Remove the following information methods

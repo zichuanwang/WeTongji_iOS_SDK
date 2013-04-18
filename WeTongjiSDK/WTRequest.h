@@ -104,6 +104,8 @@
             sortMethod:(NSString *)sortMethod
                   page:(NSUInteger)page;
 
+- (void)setNewsLiked:(BOOL)liked newsID:(NSString *)newsID;
+
 #pragma - Information API
 
 - (void)getAllInformationInType:(NSString *)type
