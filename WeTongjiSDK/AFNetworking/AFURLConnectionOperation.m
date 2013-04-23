@@ -21,6 +21,7 @@
 // THE SOFTWARE.
 
 #import "AFURLConnectionOperation.h"
+#import "AFImageRequestOperation.h"
 
 #if defined(__IPHONE_OS_VERSION_MIN_REQUIRED)
 #import <UIKit/UIKit.h>
@@ -667,6 +668,9 @@ didReceiveResponse:(NSURLResponse *)response
 - (NSCachedURLResponse *)connection:(NSURLConnection *)connection
                   willCacheResponse:(NSCachedURLResponse *)cachedResponse
 {
+    if (![self isKindOfClass:[AFImageRequestOperation class]])
+        return nil;
+    
     if (self.cacheResponse) {
         return self.cacheResponse(connection, cachedResponse);
     } else {
