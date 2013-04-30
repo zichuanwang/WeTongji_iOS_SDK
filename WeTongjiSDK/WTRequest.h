@@ -23,7 +23,7 @@
 
 #define HttpMethodGET           @"GET"
 #define HttpMethodPOST          @"POST"
-#define HttpMethodUpLoadAvatar  @"UPLOAD_AVATAR"
+#define HttpMethodUpLoadImage   @"UPLOAD_IMAGE"
 
 @interface WTRequest : NSObject
 
@@ -33,7 +33,7 @@
 @property (nonatomic, copy,     readonly) NSString *HTTPMethod;
 @property (nonatomic, strong,   readonly) NSMutableDictionary *params;
 @property (nonatomic, strong,   readonly) NSMutableDictionary *postValue;
-@property (nonatomic, strong,   readonly) UIImage *avatarImage;
+@property (nonatomic, strong,   readonly) UIImage *uploadImage;
 @property (nonatomic, copy,     readonly) NSString *queryString;
 @property (nonatomic, assign,   readonly, getter = isValid) BOOL valid;
 @property (nonatomic, strong,   readonly) NSError *error;
@@ -169,5 +169,18 @@
 #pragma - Notification API
 
 - (void)getNotificationList;
+
+#pragma - Billboard
+
+- (void)getBillboardPostsInPage:(NSUInteger)page;
+
+- (void)addBillboardPostWithTitle:(NSString *)title
+                          content:(NSString *)content
+                            image:(UIImage *)image;
+
+- (void)commentBillboardPostWithPostID:(NSString *)postID
+                               comment:(NSString *)comment;
+
+- (void)getBillboardPostCommentsWithPostID:(NSString *)postID page:(NSUInteger)page;
 
 @end

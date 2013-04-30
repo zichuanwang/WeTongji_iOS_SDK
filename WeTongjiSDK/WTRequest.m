@@ -26,7 +26,7 @@
 
 @property (nonatomic, strong)   NSMutableDictionary *params;
 @property (nonatomic, strong)   NSMutableDictionary *postValue;
-@property (nonatomic, strong)   UIImage *avatarImage;
+@property (nonatomic, strong)   UIImage *uploadImage;
 
 @property (nonatomic, assign)   BOOL valid;
 @property (nonatomic, strong)   NSError *error;
@@ -99,6 +99,8 @@
 #pragma mark - Logic methods
 
 - (void)addHashParam {
+    // 3.0 API 不再使用
+    return;
     NSArray *names = [self.params allKeys];
     NSArray *sortedNames = [names sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2) {
         NSString *str1 = (NSString *)obj1;
@@ -121,8 +123,8 @@
 
 - (void)addUserIDAndSessionParams {
     if ([NSUserDefaults getCurrentUserID] && [NSUserDefaults getCurrentUserSession]) {
-        (self.params)[@"U"] = [NSUserDefaults getCurrentUserID];
-        (self.params)[@"S"] = [NSUserDefaults getCurrentUserSession];
+        self.params[@"U"] = [NSUserDefaults getCurrentUserID];
+        self.params[@"S"] = [NSUserDefaults getCurrentUserSession];
     } else {
         self.valid = false;
         NSError *error = [NSError createErrorWithErrorCode:ErrorCodeNeedUserLogin];
@@ -228,7 +230,7 @@
                     weiboName:(NSString *)weibo
                      phoneNum:(NSString *)phone
                     qqAccount:(NSString *)qq {
-    (self.params)[@"M"] = @"User.Update";
+    self.params[@"M"] = @"User.Update";
     [self addUserIDAndSessionParams];
     
     NSMutableDictionary *itemDict = [[NSMutableDictionary alloc] init];
@@ -246,42 +248,42 @@
 }
 
 - (void)updatePassword:(NSString *)new oldPassword:(NSString *)old {
-    (self.params)[@"M"] = @"User.Update.Password";
+    self.params[@"M"] = @"User.Update.Password";
     [self addUserIDAndSessionParams];
-    (self.params)[@"New"] = new;
-    (self.params)[@"Old"] = old;
+    self.params[@"New"] = new;
+    self.params[@"Old"] = old;
     [self addHashParam];
 }
 
 - (void)updateUserAvatar:(UIImage *)image {
-    (self.params)[@"M"] = @"User.Update.Avatar";
+    self.params[@"M"] = @"User.Update.Avatar";
     [self addUserIDAndSessionParams];
-    self.avatarImage = image;
-    self.HTTPMethod = HttpMethodUpLoadAvatar;
+    self.uploadImage = image;
+    self.HTTPMethod = HttpMethodUpLoadImage;
     [self addHashParam];
 }
 
 - (void)getUserInformation {
-    (self.params)[@"M"] = @"User.Get";
+    self.params[@"M"] = @"User.Get";
     [self addUserIDAndSessionParams];
     [self addHashParam];
 }
 
 - (void)resetPasswordWithNO:(NSString *)studentNumber
                        Name:(NSString*)name {
-    (self.params)[@"M"] = @"User.Reset.Password";
-    (self.params)[@"NO"] = studentNumber;
-    (self.params)[@"Name"] = name;
+    self.params[@"M"] = @"User.Reset.Password";
+    self.params[@"NO"] = studentNumber;
+    self.params[@"Name"] = name;
     [self addHashParam];
 }
 
 #pragma mark Schedule API
 
 - (void)getScheduleWithBeginDate:(NSDate *)begin endDate:(NSDate *)end {
-    (self.params)[@"M"] = @"Schedule.Get";
+    self.params[@"M"] = @"Schedule.Get";
     [self addUserIDAndSessionParams];
-    (self.params)[@"Begin"] = [NSString standardDateStringCovertFromDate:begin];
-    (self.params)[@"End"] = [NSString standardDateStringCovertFromDate:end];
+    self.params[@"Begin"] = [NSString standardDateStringCovertFromDate:begin];
+    self.params[@"End"] = [NSString standardDateStringCovertFromDate:end];
     [self addHashParam];
 }
 
@@ -289,20 +291,20 @@
 
 - (void)setChannelFavored:(NSString *)channelID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Channel.Favorite";
-    (self.params)[@"Id"] = channelID;
+    self.params[@"M"] = @"Channel.Favorite";
+    self.params[@"Id"] = channelID;
     [self addHashParam];
 }
 
 - (void)cancelChannelFavored:(NSString *)channelID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Channel.UnFavorite";
-    (self.params)[@"Id"] = channelID;
+    self.params[@"M"] = @"Channel.UnFavorite";
+    self.params[@"Id"] = channelID;
     [self addHashParam];
 }
 
 - (void)getChannels {
-    (self.params)[@"M"] = @"Channels.Get";
+    self.params[@"M"] = @"Channels.Get";
     [self addHashParam];
 }
 
@@ -400,7 +402,7 @@ typedef enum {
         [self addUserIDAndSessionParams];
     }
     
-    (self.params)[@"M"] = @"Activities.Get";
+    self.params[@"M"] = @"Activities.Get";
 
     self.params[@"Channel_Ids"] = [WTRequest generateActivityShowTypesParam:showTypesArray];
     
@@ -417,22 +419,22 @@ typedef enum {
 
 - (void)setActivitiyLiked:(BOOL)liked activityID:(NSString *)activityID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = liked ? @"Activity.Like" : @"Activity.UnLike";
-    (self.params)[@"Id"] = activityID;
+    self.params[@"M"] = liked ? @"Activity.Like" : @"Activity.UnLike";
+    self.params[@"Id"] = activityID;
     [self addHashParam];
 }
 
 - (void)setActivityFavored:(BOOL)favored activityID:(NSString *)activityID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = favored ? @"Activity.Favorite" : @"Activity.UnFavorite";
-    (self.params)[@"Id"] = activityID;
+    self.params[@"M"] = favored ? @"Activity.Favorite" : @"Activity.UnFavorite";
+    self.params[@"Id"] = activityID;
     [self addHashParam];
 }
 
 - (void)setActivityScheduled:(BOOL)scheduled activityID:(NSString *)activityID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = scheduled ? @"Activity.Schedule" : @"Activity.UnSchedule";
-    (self.params)[@"Id"] = activityID;
+    self.params[@"M"] = scheduled ? @"Activity.Schedule" : @"Activity.UnSchedule";
+    self.params[@"Id"] = activityID;
     [self addHashParam];
 }
 
@@ -440,8 +442,8 @@ typedef enum {
 
 - (void)getFavoritesWithNextPage:(int)nextPage {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Favorite.Get";
-    (self.params)[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
+    self.params[@"M"] = @"Favorite.Get";
+    self.params[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
     [self addHashParam];
 }
 
@@ -459,8 +461,8 @@ typedef enum {
 
 - (void)setNewsLiked:(BOOL)liked newsID:(NSString *)newsID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = liked ? @"SchoolNews.Like" : @"SchoolNews.UnLike";
-    (self.params)[@"Id"] = newsID;
+    self.params[@"M"] = liked ? @"SchoolNews.Like" : @"SchoolNews.UnLike";
+    self.params[@"Id"] = newsID;
     [self addHashParam];
 }
 
@@ -477,103 +479,103 @@ typedef enum {
     if ( [type isEqualToString:GetInformationTypeAround] || [type isEqualToString:GetInformationTypeForStaff] ) {
         resultM = [type stringByAppendingString:@"s.Get"];
     }
-    (self.params)[@"M"] = resultM;
-    if (sort) (self.params)[@"Sort"] = sort;
-    (self.params)[@"P"] = [NSString stringWithFormat:@"%d", nextPage];
+    self.params[@"M"] = resultM;
+    if (sort) self.params[@"Sort"] = sort;
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", nextPage];
     [self addHashParam];
 }
 
 - (void)getDetailOfInformaion:(NSString *)informationID inType:(NSString *)type {
-    (self.params)[@"M"] = [type stringByAppendingString:@".Get"];
-    (self.params)[@"Id"] = informationID;
+    self.params[@"M"] = [type stringByAppendingString:@".Get"];
+    self.params[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)readInformaion:(NSString *)informationID inType:(NSString *) type {
-    (self.params)[@"M"] = [type stringByAppendingString:@".Read"];
-    (self.params)[@"Id"] = informationID;
+    self.params[@"M"] = [type stringByAppendingString:@".Read"];
+    self.params[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationFavored:(NSString *)informationID inType:(NSString *) type{
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = [type stringByAppendingString:@".Favorite"];
-    (self.params)[@"Id"] = informationID;
+    self.params[@"M"] = [type stringByAppendingString:@".Favorite"];
+    self.params[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationUnFavored:(NSString *)informationID inType:(NSString *) type{
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = [type stringByAppendingString:@".UnFavorite"];
-    (self.params)[@"Id"] = informationID;
+    self.params[@"M"] = [type stringByAppendingString:@".UnFavorite"];
+    self.params[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationLike:(NSString *)informationID inType:(NSString *) type{
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = [type stringByAppendingString:@".Like"];
-    (self.params)[@"Id"] = informationID;
+    self.params[@"M"] = [type stringByAppendingString:@".Like"];
+    self.params[@"Id"] = informationID;
     [self addHashParam];
 }
 
 - (void)setInformationUnLike:(NSString *)informationID inType:(NSString *) type{
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = [type stringByAppendingString:@".UnLike"];
-    (self.params)[@"Id"] = informationID;
+    self.params[@"M"] = [type stringByAppendingString:@".UnLike"];
+    self.params[@"Id"] = informationID;
     [self addHashParam];
 }
 
 #pragma Vision API
 
 - (void)getNewVersion {
-    (self.params)[@"M"] = @"System.Version";
+    self.params[@"M"] = @"System.Version";
     [self addHashParam];
 }
 
 #pragma Star API
 
 - (void)getLatestStar {
-    (self.params)[@"M"] = @"Person.GetLatest";
+    self.params[@"M"] = @"Person.GetLatest";
     [self addHashParam];
 }
 
 - (void)getAllStarsWithNextPage:(int)nextPage {
-    (self.params)[@"M"] = @"People.Get";
-    (self.params)[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
+    self.params[@"M"] = @"People.Get";
+    self.params[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
     [self addHashParam];
 }
 
 - (void)readStar:(NSString *)starID {
-    (self.params)[@"M"] = @"Person.Read";
-    (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
+    self.params[@"M"] = @"Person.Read";
+    self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)setStarFavored:(NSString *)starID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Person.Favorite";
-    (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
+    self.params[@"M"] = @"Person.Favorite";
+    self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)cancelStarFaved:(NSString *)starID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Person.UnFavorite";
-    (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
+    self.params[@"M"] = @"Person.UnFavorite";
+    self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)likeStar:(NSString *)starID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Person.Like";
-    (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
+    self.params[@"M"] = @"Person.Like";
+    self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
 - (void)unlikeStar:(NSString *)starID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Person.UnLike";
-    (self.params)[@"Id"] = [NSString stringWithFormat:@"%@",starID];
+    self.params[@"M"] = @"Person.UnLike";
+    self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
@@ -581,12 +583,12 @@ typedef enum {
 
 - (void)search:(NSString *)command {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"User.Find";
+    self.params[@"M"] = @"User.Find";
     // TODO: 现在只支持根据学号和姓名检索
     NSArray *parseredArray = [command componentsSeparatedByString:@" "];
     if (parseredArray.count >= 2) {
-        (self.params)[@"NO"] = parseredArray[0];
-        (self.params)[@"Name"] = parseredArray[1];
+        self.params[@"NO"] = parseredArray[0];
+        self.params[@"Name"] = parseredArray[1];
     }
     
     [self addHashParam];
@@ -596,39 +598,39 @@ typedef enum {
 
 - (void)inviteFriend:(NSString *)userID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Friend.Invite";
+    self.params[@"M"] = @"Friend.Invite";
     if (userID)
-        (self.params)[@"UID"] = userID;
+        self.params[@"UID"] = userID;
     [self addHashParam];
 }
 
 - (void)removeFriend:(NSString *)userID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Friend.Remove";
+    self.params[@"M"] = @"Friend.Remove";
     if (userID)
-        (self.params)[@"Id"] = userID;
+        self.params[@"Id"] = userID;
     [self addHashParam];
 }
 
 - (void)getFriendsList {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Friends.Get";
+    self.params[@"M"] = @"Friends.Get";
     [self addHashParam];
 }
 
 - (void)acceptFriendInvitation:(NSString *)invitationID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Friend.Invite.Accept";
+    self.params[@"M"] = @"Friend.Invite.Accept";
     if (invitationID)
-        (self.params)[@"Id"] = invitationID;
+        self.params[@"Id"] = invitationID;
     [self addHashParam];
 }
 
 - (void)ignoreFriendInvitation:(NSString *)invitationID {
     [self addUserIDAndSessionParams];
-    (self.params)[@"M"] = @"Friend.Invite.Reject";
+    self.params[@"M"] = @"Friend.Invite.Reject";
     if (invitationID)
-        (self.params)[@"Id"] = invitationID;
+        self.params[@"Id"] = invitationID;
     [self addHashParam];
 }
 
@@ -637,7 +639,49 @@ typedef enum {
 - (void)getNotificationList {
     [self addUserIDAndSessionParams];
     // TODO:
-    (self.params)[@"M"] = @"Friend.Invites.Get";
+    self.params[@"M"] = @"Friend.Invites.Get";
+    [self addHashParam];
+}
+
+#pragma Billboard API
+
+- (void)getBillboardPostsInPage:(NSUInteger)page {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Billboard.Get";
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
+    [self addHashParam];
+}
+
+- (void)addBillboardPostWithTitle:(NSString *)title
+                          content:(NSString *)content
+                            image:(UIImage *)image {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Billboard.Story.Add";
+    self.params[@"Title"] = title;
+    if (content)
+        self.params[@"Body"] = content;
+    
+    if (image)
+        self.uploadImage = image;
+    
+    self.HTTPMethod = HttpMethodUpLoadImage;
+    [self addHashParam];
+}
+
+- (void)commentBillboardPostWithPostID:(NSString *)postID
+                               comment:(NSString *)comment {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Billboard.Story.Comment";
+    self.params[@"Id"] = postID;
+    self.params[@"Body"] = comment;
+    [self addHashParam];
+}
+
+- (void)getBillboardPostCommentsWithPostID:(NSString *)postID page:(NSUInteger)page {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Billboard.Story.Get";
+    self.params[@"Id"] = postID;
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
     [self addHashParam];
 }
 

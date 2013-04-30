@@ -15,8 +15,8 @@
 
 @end
 
-// r#define BASE_URL_STRING @"http://leiz.name:8080"
-#define BASE_URL_STRING @"http://we.tongji.edu.cn"
+#define BASE_URL_STRING @"http://leiz.name:8080"
+// #define BASE_URL_STRING @"http://we.tongji.edu.cn"
 #define PATH_STRING     @"/api/call"
 
 @implementation WTClient
@@ -73,6 +73,8 @@
     NSString *HTTPMethod = rawRequest.HTTPMethod;
     NSDictionary *params = rawRequest.params;
     
+    NSTimeInterval timeOutInterval = 10.0;
+    
     if([HTTPMethod isEqualToString:HttpMethodGET]) {
         
         URLRequest = [self requestWithMethod:HTTPMethod
@@ -87,22 +89,25 @@
                                        path:[NSString stringWithFormat:@"%@?%@", PATH_STRING, queryString]
                                  parameters:postValue];
         
-    } else if([HTTPMethod isEqualToString:HttpMethodUpLoadAvatar]) {
+    } else if([HTTPMethod isEqualToString:HttpMethodUpLoadImage]) {
         
-        NSData *imageData = UIImageJPEGRepresentation(rawRequest.avatarImage, 1.0);
+        NSData *imageData = UIImageJPEGRepresentation(rawRequest.uploadImage, 0.8f);
         NSString *queryString= rawRequest.queryString;
         URLRequest = [self multipartFormRequestWithMethod:HttpMethodPOST
                                                      path:[NSString stringWithFormat:@"%@?%@", PATH_STRING, queryString]
                                                parameters:nil
                                 constructingBodyWithBlock:^(id<AFMultipartFormData> formData) {
-                                    [formData appendPartWithFileData:imageData
-                                                                name:@"Image"
-                                                            fileName:@"avatar.jpg"
-                                                            mimeType:@"image/jpeg"];
+                                    if (imageData) {
+                                        [formData appendPartWithFileData:imageData
+                                                                    name:@"Image"
+                                                                fileName:@"avatar.jpg"
+                                                                mimeType:@"image/jpeg"];
+                                    }
                                 }];
+        timeOutInterval = 30.0;
     }
     // 设置超时时间
-    [URLRequest setTimeoutInterval:10];
+    [URLRequest setTimeoutInterval:timeOutInterval];
     
     NSLog(@"%@", URLRequest);
     NSLog(@"%@", [[NSString alloc] initWithData:[URLRequest HTTPBody] encoding:self.stringEncoding]);
