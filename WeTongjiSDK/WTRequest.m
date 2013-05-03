@@ -324,9 +324,9 @@
     return showTypesString;
 }
 
-#define GetActivitySortMethodLikeAsc        @"`like`"
-#define GetActivitySortMethodBeginAsc       @"`begin`"
-#define GetActivitySortMethodPublishAsc     @"`created_at`"
+#define GetActivitySortMethodLikeAsc        @"`like` ASC"
+#define GetActivitySortMethodBeginAsc       @"`begin` ASC"
+#define GetActivitySortMethodPublishAsc     @"`created_at` ASC"
 #define GetActivitySortMethodLikeDesc       @"`like` DESC"
 #define GetActivitySortMethodBeginDesc      @"`begin` DESC"
 #define GetActivitySortMethodPublishDesc    @"`created_at` DESC"
@@ -440,87 +440,111 @@ typedef enum {
 
 #pragma Favorite API
 
-- (void)getFavoritesWithNextPage:(int)nextPage {
+- (void)getFavoritesInPage:(NSInteger)page {
     [self addUserIDAndSessionParams];
     self.params[@"M"] = @"Favorite.Get";
-    self.params[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
-    [self addHashParam];
-}
-
-#pragma News API
-
-- (void)getNewsInTypes:(NSArray *)showTypesArray
-            sortMethod:(NSString *)sortMethod
-                  page:(NSUInteger)page {
-    self.params[@"M"] = @"SchoolNews.GetList";
-    if (sortMethod)
-        self.params[@"Sort"] = sortMethod;
     self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
-    [self addHashParam];
-}
-
-- (void)setNewsLiked:(BOOL)liked newsID:(NSString *)newsID {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = liked ? @"SchoolNews.Like" : @"SchoolNews.UnLike";
-    self.params[@"Id"] = newsID;
     [self addHashParam];
 }
 
 #pragma Information API
 
-// TODO: Remove the following information methods
-
-- (void)getAllInformationInType:(NSString *)type sort:(NSString *)sort
-                       nextPage:(int)nextPage {
-    NSString * resultM;
-    if ( [type isEqualToString:GetInformationTypeClubNews] || [type isEqualToString:GetInformationTypeSchoolNews] ){
-        resultM = [type stringByAppendingString:@".GetList"];
++ (NSString *)generateInformationShowTypesParam:(NSArray *)showTypesArray {
+    if (!showTypesArray)
+        return [NSString stringWithFormat:@"1,2,3,4"];
+    
+    NSMutableString *showTypesString = [NSMutableString string];
+    for (int i = 0; i < showTypesArray.count; i++) {
+        NSNumber *showTypeNumber = showTypesArray[i];
+        if (showTypeNumber.boolValue) {
+            [showTypesString appendFormat:@"%@%d", (i == 0 ? @"" : @","), i + 1];
+        }
     }
-    if ( [type isEqualToString:GetInformationTypeAround] || [type isEqualToString:GetInformationTypeForStaff] ) {
-        resultM = [type stringByAppendingString:@"s.Get"];
+    return showTypesString;
+}
+
+#define GetInformationSortMethodLikeAsc     @"`like` ASC"
+#define GetInformationSortMethodPublishAsc  @"`created_at` ASC"
+#define GetInformationSortMethodLikeDesc    @"`like` DESC"
+#define GetInformationSortMethodPublishDesc @"`created_at` DESC"
+
+typedef enum {
+    InformationOrderByPublishDate  = 1 << 0,
+    InformationOrderByPopularity   = 1 << 1,
+} InformationOrderMethod;
+
++ (BOOL)shouldInformationOrderByDesc:(NSUInteger)orderMethod
+                          smartOrder:(BOOL)smartOrder {
+    BOOL result = NO;
+    switch (orderMethod) {
+        case InformationOrderByPublishDate:
+        {
+            result = smartOrder;
+        }
+            break;
+        case InformationOrderByPopularity:
+        {
+            result = smartOrder;
+        }
+            break;
+        default:
+            break;
     }
-    self.params[@"M"] = resultM;
-    if (sort) self.params[@"Sort"] = sort;
-    self.params[@"P"] = [NSString stringWithFormat:@"%d", nextPage];
+    return result;
+}
+
++ (NSString *)generateInformationOrderMethodParam:(NSUInteger)orderMethod
+                                       smartOrder:(BOOL)smartOrder {
+    NSString *result = nil;
+    BOOL shouldOrderByDesc = [WTRequest shouldInformationOrderByDesc:orderMethod smartOrder:smartOrder];
+    switch (orderMethod) {
+        case InformationOrderByPublishDate:
+        {
+            result = shouldOrderByDesc ? GetInformationSortMethodPublishDesc : GetInformationSortMethodPublishAsc;
+        }
+            break;
+        case InformationOrderByPopularity:
+        {
+            result = shouldOrderByDesc ? GetInformationSortMethodLikeDesc : GetInformationSortMethodLikeAsc;
+        }
+            break;
+        default:
+            break;
+    }
+    return result;
+}
+
+- (void)getInformationInTypes:(NSArray *)showTypesArray
+                  orderMethod:(NSUInteger)orderMethod
+                   smartOrder:(BOOL)smartOrder
+                         page:(NSUInteger)page {
+    if([NSUserDefaults getCurrentUserID] && [NSUserDefaults getCurrentUserSession]) {
+        [self addUserIDAndSessionParams];
+    }
+    
+    self.params[@"M"] = @"Information.GetList";
+    
+    self.params[@"Category_Ids"] = [WTRequest generateInformationShowTypesParam:showTypesArray];
+    
+    self.params[@"Sort"] = [WTRequest generateInformationOrderMethodParam:orderMethod smartOrder:smartOrder];
+        
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
+    
     [self addHashParam];
 }
 
-- (void)getDetailOfInformaion:(NSString *)informationID inType:(NSString *)type {
-    self.params[@"M"] = [type stringByAppendingString:@".Get"];
-    self.params[@"Id"] = informationID;
-    [self addHashParam];
-}
-
-- (void)readInformaion:(NSString *)informationID inType:(NSString *) type {
-    self.params[@"M"] = [type stringByAppendingString:@".Read"];
-    self.params[@"Id"] = informationID;
-    [self addHashParam];
-}
-
-- (void)setInformationFavored:(NSString *)informationID inType:(NSString *) type{
+- (void)setInformationLiked:(BOOL)liked
+              informationID:(NSString *)informationID {
     [self addUserIDAndSessionParams];
-    self.params[@"M"] = [type stringByAppendingString:@".Favorite"];
+    self.params[@"M"] = liked ? @"Information.Like" : @"Information.UnLike";
     self.params[@"Id"] = informationID;
     [self addHashParam];
 }
 
-- (void)setInformationUnFavored:(NSString *)informationID inType:(NSString *) type{
+- (void)setInformationFavored:(BOOL)liked
+                informationID:(NSString *)informationID {
     [self addUserIDAndSessionParams];
-    self.params[@"M"] = [type stringByAppendingString:@".UnFavorite"];
-    self.params[@"Id"] = informationID;
-    [self addHashParam];
-}
-
-- (void)setInformationLike:(NSString *)informationID inType:(NSString *) type{
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = [type stringByAppendingString:@".Like"];
-    self.params[@"Id"] = informationID;
-    [self addHashParam];
-}
-
-- (void)setInformationUnLike:(NSString *)informationID inType:(NSString *) type{
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = [type stringByAppendingString:@".UnLike"];
+    self.params[@"M"] = liked ? @"Information.Favorite" : @"Information.UnFavorite";
     self.params[@"Id"] = informationID;
     [self addHashParam];
 }

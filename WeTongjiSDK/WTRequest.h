@@ -88,47 +88,34 @@
                   showExpire:(BOOL)showExpire
                         page:(NSUInteger)page;
 
-- (void)setActivitiyLiked:(BOOL)liked activityID:(NSString *)activityID;
+- (void)setActivitiyLiked:(BOOL)liked
+               activityID:(NSString *)activityID;
 
-- (void)setActivityFavored:(BOOL)favored activityID:(NSString *)activityID;
+- (void)setActivityFavored:(BOOL)favored
+                activityID:(NSString *)activityID;
 
-- (void)setActivityScheduled:(BOOL)scheduled activityID:(NSString *)activityID;
+- (void)setActivityScheduled:(BOOL)scheduled
+                  activityID:(NSString *)activityID;
 
 #pragma mark - Favorite API
 
-- (void)getFavoritesWithNextPage:(int)nextPage;
-
-#pragma - News API
-
-- (void)getNewsInTypes:(NSArray *)showTypesArray
-            sortMethod:(NSString *)sortMethod
-                  page:(NSUInteger)page;
-
-- (void)setNewsLiked:(BOOL)liked newsID:(NSString *)newsID;
+- (void)getFavoritesInPage:(NSInteger)page;
 
 #pragma - Information API
 
-- (void)getAllInformationInType:(NSString *)type
-                           sort:(NSString *)sort
-                       nextPage:(int)nextPage;
++ (BOOL)shouldInformationOrderByDesc:(NSUInteger)orderMethod
+                          smartOrder:(BOOL)smartOrder;
 
-- (void)getDetailOfInformaion:(NSString *)informationID
-                       inType:(NSString *)type;
+- (void)getInformationInTypes:(NSArray *)showTypesArray
+                  orderMethod:(NSUInteger)orderMethod
+                   smartOrder:(BOOL)smartOrder
+                         page:(NSUInteger)page;
 
-- (void)readInformaion:(NSString *)informationID
-                inType:(NSString *) type;
+- (void)setInformationLiked:(BOOL)liked
+              informationID:(NSString *)informationID;
 
-- (void)setInformationFavored:(NSString *)informationID
-                       inType:(NSString *) type;
-
-- (void)setInformationUnFavored:(NSString *)informationID
-                         inType:(NSString *) type;
-
-- (void)setInformationLike:(NSString *)informationID
-                    inType:(NSString *) type;
-
-- (void)setInformationUnLike:(NSString *)informationID
-                      inType:(NSString *) type;
+- (void)setInformationFavored:(BOOL)liked
+                informationID:(NSString *)informationID;
 
 #pragma mark - Vision API
 
