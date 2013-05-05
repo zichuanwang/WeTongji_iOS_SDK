@@ -287,27 +287,6 @@
     [self addHashParam];
 }
 
-#pragma mark Channel API
-
-- (void)setChannelFavored:(NSString *)channelID {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"Channel.Favorite";
-    self.params[@"Id"] = channelID;
-    [self addHashParam];
-}
-
-- (void)cancelChannelFavored:(NSString *)channelID {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"Channel.UnFavorite";
-    self.params[@"Id"] = channelID;
-    [self addHashParam];
-}
-
-- (void)getChannels {
-    self.params[@"M"] = @"Channels.Get";
-    [self addHashParam];
-}
-
 #pragma mark Activity API
 
 + (NSString *)generateActivityShowTypesParam:(NSArray *)showTypesArray {
@@ -706,6 +685,13 @@ typedef enum {
     self.params[@"M"] = @"Billboard.Story.Get";
     self.params[@"Id"] = postID;
     self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
+    [self addHashParam];
+}
+#pragma mark Home API
+
+- (void)getHomeRecommendation {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Home";
     [self addHashParam];
 }
 

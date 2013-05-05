@@ -68,14 +68,6 @@
 
 - (void)getScheduleWithBeginDate:(NSDate *)begin endDate:(NSDate *)end;
 
-#pragma mark - Channel API
-
-- (void)setChannelFavored:(NSString *)channelID;
-
-- (void)cancelChannelFavored:(NSString *)channelID;
-
-- (void)getChannels;
-
 #pragma mark - Activity API
 
 + (BOOL)shouldActivityOrderByDesc:(NSUInteger)orderMethod
@@ -157,7 +149,7 @@
 
 - (void)getNotificationList;
 
-#pragma - Billboard
+#pragma - Billboard API
 
 - (void)getBillboardPostsInPage:(NSUInteger)page;
 
@@ -169,5 +161,9 @@
                                comment:(NSString *)comment;
 
 - (void)getBillboardPostCommentsWithPostID:(NSString *)postID page:(NSUInteger)page;
+
+#pragma - Home API
+
+- (void)getHomeRecommendation;
 
 @end
