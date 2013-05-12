@@ -297,7 +297,7 @@
     for (int i = 0; i < showTypesArray.count; i++) {
         NSNumber *showTypeNumber = showTypesArray[i];
         if (showTypeNumber.boolValue) {
-            [showTypesString appendFormat:@"%@%d", (i == 0 ? @"" : @","), i + 1];
+            [showTypesString appendFormat:@"%@%d", ([showTypesString isEqualToString:@""] ? @"" : @","), i + 1];
         }
     }
     return showTypesString;
@@ -436,7 +436,7 @@ typedef enum {
     for (int i = 0; i < showTypesArray.count; i++) {
         NSNumber *showTypeNumber = showTypesArray[i];
         if (showTypeNumber.boolValue) {
-            [showTypesString appendFormat:@"%@%d", (i == 0 ? @"" : @","), i + 1];
+            [showTypesString appendFormat:@"%@%d", ([showTypesString isEqualToString:@""] ? @"" : @","), i + 1];
         }
     }
     return showTypesString;
@@ -584,16 +584,15 @@ typedef enum {
 
 #pragma Search API
 
-- (void)search:(NSString *)command {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"User.Find";
-    // TODO: 现在只支持根据学号和姓名检索
-    NSArray *parseredArray = [command componentsSeparatedByString:@" "];
-    if (parseredArray.count >= 2) {
-        self.params[@"NO"] = parseredArray[0];
-        self.params[@"Name"] = parseredArray[1];
+- (void)getSearchResultInCategory:(NSInteger)category
+                       keyword:(NSString *)keyword {
+    if([NSUserDefaults getCurrentUserID] && [NSUserDefaults getCurrentUserSession]) {
+        [self addUserIDAndSessionParams];
     }
-    
+    self.params[@"M"] = @"Search";
+    self.params[@"Keywords"] = keyword;
+    if (category != 0)
+    self.params[@"Type"] = [NSString stringWithFormat:@"%d", category];
     [self addHashParam];
 }
 
@@ -690,7 +689,9 @@ typedef enum {
 #pragma mark Home API
 
 - (void)getHomeRecommendation {
-    [self addUserIDAndSessionParams];
+    if([NSUserDefaults getCurrentUserID] && [NSUserDefaults getCurrentUserSession]) {
+        [self addUserIDAndSessionParams];
+    }
     self.params[@"M"] = @"Home";
     [self addHashParam];
 }

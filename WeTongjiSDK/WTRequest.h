@@ -131,7 +131,8 @@
 
 #pragma - Search API
 
-- (void)search:(NSString *)command;
+- (void)getSearchResultInCategory:(NSInteger)category
+                          keyword:(NSString *)keyword;
 
 #pragma - Friend API
 
