@@ -14,4 +14,6 @@
 + (NSString *)getCurrentUserID;
 + (NSString *)getCurrentUserSession;
 
++ (BOOL)useTestServer;
+
 @end

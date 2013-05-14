@@ -15,24 +15,28 @@
 
 @end
 
-#define BASE_URL_STRING @"http://leiz.name:8080"
-// #define BASE_URL_STRING @"http://we.tongji.edu.cn"
-#define PATH_STRING     @"/api/call"
+#define TEST_SERVER_BASE_URL_STRING     @"http://leiz.name:8080"
+#define BASE_URL_STRING                 @"http://we.tongji.edu.cn"
+#define PATH_STRING                     @"/api/call"
 
 @implementation WTClient
 
 #pragma mark - Constructors
 
-+ (WTClient *)sharedClient
-{
-    static WTClient *client = nil;
-    static dispatch_once_t WTClientPredicate;
+static dispatch_once_t WTClientPredicate;
+static WTClient *sharedClient = nil;
+
++ (WTClient *)sharedClient {
     dispatch_once(&WTClientPredicate, ^{
-        client = [[WTClient alloc] initWithBaseURL:[NSURL URLWithString:BASE_URL_STRING]];
-        client.parameterEncoding = AFFormURLParameterEncoding;
+        sharedClient = [[WTClient alloc] initWithBaseURL:[NSURL URLWithString:[NSUserDefaults useTestServer] ? TEST_SERVER_BASE_URL_STRING : BASE_URL_STRING]];
     });
     
-    return client;
+    return sharedClient;
+}
+
++ (void)refreshSharedClient {
+    sharedClient = nil;
+    WTClientPredicate = 0;
 }
 
 - (id)initWithBaseURL:(NSURL *)url
@@ -46,6 +50,8 @@
     [self registerHTTPOperationClass:[AFJSONRequestOperation class]];
     
 	[self setDefaultHeader:@"Accept" value:@"application/json"];
+    
+    [self setParameterEncoding:AFFormURLParameterEncoding];
     
     return self;
 }

@@ -17,6 +17,9 @@
 
 + (WTClient *)sharedClient;
 
+// Used for switch between test server and product server.
++ (void)refreshSharedClient;
+
 - (void)enqueueRequest:(WTRequest *)request;
 
 - (void)logout;

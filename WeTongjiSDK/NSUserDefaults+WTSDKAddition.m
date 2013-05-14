@@ -10,6 +10,7 @@
 
 #define kCurrentUserID              @"kCurrentUserID"
 #define kCurrentUserSession         @"kCurrentUserSession"
+#define kUseTestServer              @"UseTestServer"
 
 @implementation NSUserDefaults (WTSDKAddition)
 
@@ -31,6 +32,10 @@
 
 + (NSString *)getCurrentUserSession {
     return [NSUserDefaults getStringForKey:kCurrentUserSession];
+}
+
++ (BOOL)useTestServer {
+    return [[NSUserDefaults standardUserDefaults] boolForKey:kUseTestServer];
 }
 
 @end
