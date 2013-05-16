@@ -117,17 +117,11 @@
 
 - (void)getLatestStar;
 
-- (void)getAllStarsWithNextPage:(int)nextPage;
+- (void)getStarsInPage:(NSInteger)page;
 
-- (void)readStar:(NSString *)starID;
+- (void)setStarLiked:(BOOL)liked
+              starID:(NSString *)starID;
 
-- (void)setStarFavored:(NSString *)starID;
-
-- (void)cancelStarFaved:(NSString *)starID;
-
-- (void)likeStar:(NSString *)starID;
-
-- (void)unlikeStar:(NSString *)starID;
 
 #pragma - Search API
 

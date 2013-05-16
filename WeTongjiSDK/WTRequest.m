@@ -542,42 +542,16 @@ typedef enum {
     [self addHashParam];
 }
 
-- (void)getAllStarsWithNextPage:(int)nextPage {
+- (void)getStarsInPage:(NSInteger)page {
     self.params[@"M"] = @"People.Get";
-    self.params[@"P"] = [NSString stringWithFormat:@"%d",nextPage];
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
     [self addHashParam];
 }
 
-- (void)readStar:(NSString *)starID {
-    self.params[@"M"] = @"Person.Read";
-    self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
-    [self addHashParam];
-}
-
-- (void)setStarFavored:(NSString *)starID {
+- (void)setStarLiked:(BOOL)liked
+              starID:(NSString *)starID {
     [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"Person.Favorite";
-    self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
-    [self addHashParam];
-}
-
-- (void)cancelStarFaved:(NSString *)starID {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"Person.UnFavorite";
-    self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
-    [self addHashParam];
-}
-
-- (void)likeStar:(NSString *)starID {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"Person.Like";
-    self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
-    [self addHashParam];
-}
-
-- (void)unlikeStar:(NSString *)starID {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"Person.UnLike";
+    self.params[@"M"] = liked ? @"Person.Like" : @"Person.UnLike";
     self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
