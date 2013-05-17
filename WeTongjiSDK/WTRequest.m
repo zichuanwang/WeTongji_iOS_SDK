@@ -612,10 +612,11 @@ typedef enum {
 
 #pragma Notification API
 
-- (void)getNotificationList {
+- (void)getNotificationInPage:(NSInteger)page {
     [self addUserIDAndSessionParams];
-    // TODO:
-    self.params[@"M"] = @"Friend.Invites.Get";
+    self.params[@"M"] = @"Notifications.Get";
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
+    self.params[@"UnRead"] = @"1";
     [self addHashParam];
 }
 

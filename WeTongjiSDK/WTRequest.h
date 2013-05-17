@@ -142,7 +142,7 @@
 
 #pragma - Notification API
 
-- (void)getNotificationList;
+- (void)getNotificationInPage:(NSInteger)page;
 
 #pragma - Billboard API
 

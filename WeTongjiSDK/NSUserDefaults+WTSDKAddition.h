@@ -15,5 +15,6 @@
 + (NSString *)getCurrentUserSession;
 
 + (BOOL)useTestServer;
++ (void)setUseTestServer:(BOOL)useTestServer;
 
 @end

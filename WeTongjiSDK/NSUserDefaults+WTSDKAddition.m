@@ -38,4 +38,10 @@
     return [[NSUserDefaults standardUserDefaults] boolForKey:kUseTestServer];
 }
 
++ (void)setUseTestServer:(BOOL)useTestServer {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setBool:useTestServer forKey:kUseTestServer];
+    [defaults synchronize];
+}
+
 @end
