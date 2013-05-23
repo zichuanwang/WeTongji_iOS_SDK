@@ -7,6 +7,7 @@
 //
 
 #import "NSUserDefaults+WTSDKAddition.h"
+#import "WTClient.h"
 
 #define kCurrentUserID              @"kCurrentUserID"
 #define kCurrentUserSession         @"kCurrentUserSession"
@@ -41,6 +42,7 @@
 + (void)setUseTestServer:(BOOL)useTestServer {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setBool:useTestServer forKey:kUseTestServer];
+    [WTClient refreshSharedClient];
     [defaults synchronize];
 }
 
