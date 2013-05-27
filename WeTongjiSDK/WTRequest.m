@@ -584,7 +584,7 @@ typedef enum {
     [self addUserIDAndSessionParams];
     self.params[@"M"] = @"Friend.Remove";
     if (userID)
-        self.params[@"Id"] = userID;
+        self.params[@"UID"] = userID;
     [self addHashParam];
 }
 
