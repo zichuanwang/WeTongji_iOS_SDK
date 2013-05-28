@@ -157,9 +157,14 @@ typedef enum {
     WTSDKActivity,
     WTSDKInformation,
     WTSDKStar,
+    WTSDKOrganization,
 } WTSDKModelType;
 
 #pragma - Like API
+
+- (void)setObjectliked:(BOOL)like
+                 model:(WTSDKModelType)modelType
+               modelID:(NSString *)modelID;
 
 #pragma - Comment API
 

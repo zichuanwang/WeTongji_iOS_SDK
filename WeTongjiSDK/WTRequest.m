@@ -213,6 +213,9 @@
         case WTSDKStar:
             result = @"Person";
             break;
+        case WTSDKOrganization:
+            result = @"Account";
+            break;
         default:
             break;
     }
@@ -673,6 +676,22 @@ typedef enum {
         [self addUserIDAndSessionParams];
     }
     self.params[@"M"] = @"Home";
+    [self addHashParam];
+}
+
+#pragma mark Like API
+
+- (void)setObjectliked:(BOOL)like
+                 model:(WTSDKModelType)modelType
+               modelID:(NSString *)modelID {
+    [self addUserIDAndSessionParams];
+    if (like) {
+        self.params[@"M"] = @"Like.Add";
+    } else {
+        self.params[@"M"] = @"Like.Remove";
+    }
+    self.params[@"Id"] = modelID;
+    self.params[@"Model"] = [WTRequest convertModelTypeStringFromModelType:modelType];
     [self addHashParam];
 }
 
