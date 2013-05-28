@@ -152,10 +152,24 @@
                           content:(NSString *)content
                             image:(UIImage *)image;
 
-- (void)commentBillboardPostWithPostID:(NSString *)postID
-                               comment:(NSString *)comment;
+typedef enum {
+    WTSDKBillboard,
+    WTSDKActivity,
+    WTSDKInformation,
+    WTSDKStar,
+} WTSDKModelType;
 
-- (void)getBillboardPostCommentsWithPostID:(NSString *)postID page:(NSUInteger)page;
+#pragma - Like API
+
+#pragma - Comment API
+
+- (void)getCommentsForModel:(WTSDKModelType)modelType
+                    modelID:(NSString *)modelID
+                       page:(NSInteger)page;
+
+- (void)commentModel:(WTSDKModelType)modelType
+             modelID:(NSString *)modelID
+         commentBody:(NSString *)commentBody;
 
 #pragma - Home API
 

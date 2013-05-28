@@ -198,6 +198,27 @@
     return encryptResult;
 }
 
++ (NSString *)convertModelTypeStringFromModelType:(WTSDKModelType)type {
+    NSString *result = @"";
+    switch (type) {
+        case WTSDKActivity:
+            result = @"Activity";
+            break;
+        case WTSDKBillboard:
+            result = @"Story";
+            break;
+        case WTSDKInformation:
+            result = @"Information";
+            break;
+        case WTSDKStar:
+            result = @"Person";
+            break;
+        default:
+            break;
+    }
+    return result;
+}
+
 #pragma mark - Configure API parameters
 #pragma mark User API
 
@@ -645,22 +666,6 @@ typedef enum {
     [self addHashParam];
 }
 
-- (void)commentBillboardPostWithPostID:(NSString *)postID
-                               comment:(NSString *)comment {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"Billboard.Story.Comment";
-    self.params[@"Id"] = postID;
-    self.params[@"Body"] = comment;
-    [self addHashParam];
-}
-
-- (void)getBillboardPostCommentsWithPostID:(NSString *)postID page:(NSUInteger)page {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"Billboard.Story.Get";
-    self.params[@"Id"] = postID;
-    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
-    [self addHashParam];
-}
 #pragma mark Home API
 
 - (void)getHomeRecommendation {
@@ -668,6 +673,31 @@ typedef enum {
         [self addUserIDAndSessionParams];
     }
     self.params[@"M"] = @"Home";
+    [self addHashParam];
+}
+
+#pragma mark Comment API
+
+- (void)getCommentsForModel:(WTSDKModelType)modelType
+                    modelID:(NSString *)modelID
+                       page:(NSInteger)page {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Comments.Get";
+    self.params[@"Id"] = modelID;
+    self.params[@"Model"] = [WTRequest convertModelTypeStringFromModelType:modelType];
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
+    [self addHashParam];
+}
+
+- (void)commentModel:(WTSDKModelType)modelType
+             modelID:(NSString *)modelID
+         commentBody:(NSString *)commentBody {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Comment.Add";
+    self.params[@"Id"] = modelID;
+    self.params[@"Model"] = [WTRequest convertModelTypeStringFromModelType:modelType];
+    if (commentBody)
+        self.params[@"Body"] = commentBody;
     [self addHashParam];
 }
 
