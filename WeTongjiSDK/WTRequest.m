@@ -640,7 +640,7 @@ typedef enum {
     [self addUserIDAndSessionParams];
     self.params[@"M"] = @"Notifications.Get";
     self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
-    self.params[@"UnRead"] = @"1";
+    self.params[@"OnlyNew"] = @"0";
     [self addHashParam];
 }
 
@@ -693,6 +693,16 @@ typedef enum {
     self.params[@"Id"] = modelID;
     self.params[@"Model"] = [WTRequest convertModelTypeStringFromModelType:modelType];
     [self addHashParam];
+}
+
+- (void)getLikedObjectsListWithModel:(WTSDKModelType)modelType
+                                page:(NSInteger)page {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Like.List";
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
+    self.params[@"Model"] = [WTRequest convertModelTypeStringFromModelType:modelType];
+    [self addHashParam];
+
 }
 
 #pragma mark Comment API

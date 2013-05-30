@@ -166,6 +166,9 @@ typedef enum {
                  model:(WTSDKModelType)modelType
                modelID:(NSString *)modelID;
 
+- (void)getLikedObjectsListWithModel:(WTSDKModelType)modelType
+                                page:(NSInteger)page;
+
 #pragma - Comment API
 
 - (void)getCommentsForModel:(WTSDKModelType)modelType
