@@ -13,6 +13,8 @@
 
 @interface WTClient()
 
+@property (nonatomic, assign) BOOL usingTestServer;
+
 @end
 
 #define TEST_SERVER_BASE_URL_STRING     @"http://leiz.name:8080"
@@ -29,6 +31,7 @@ static WTClient *sharedClient = nil;
 + (WTClient *)sharedClient {
     dispatch_once(&WTClientPredicate, ^{
         sharedClient = [[WTClient alloc] initWithBaseURL:[NSURL URLWithString:[NSUserDefaults useTestServer] ? TEST_SERVER_BASE_URL_STRING : BASE_URL_STRING]];
+        sharedClient.usingTestServer = [NSUserDefaults useTestServer];
     });
     
     return sharedClient;

@@ -15,6 +15,8 @@
 
 @interface WTClient : AFHTTPClient
 
+@property (nonatomic, readonly) BOOL usingTestServer;
+
 + (WTClient *)sharedClient;
 
 // Used for switch between test server and product server.
