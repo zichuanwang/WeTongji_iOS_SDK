@@ -249,20 +249,21 @@
     [self addHashParam];
 }
 
-- (void)updateUserDisplayName:(NSString *)displayName
-                        email:(NSString *)email
-                    weiboName:(NSString *)weibo
-                     phoneNum:(NSString *)phone
-                    qqAccount:(NSString *)qq {
+- (void)updateUserEmail:(NSString *)email
+              weiboName:(NSString *)weibo
+               phoneNum:(NSString *)phone
+              qqAccount:(NSString *)qq
+                  motto:(NSString *)motto {
     self.params[@"M"] = @"User.Update";
     [self addUserIDAndSessionParams];
     
     NSMutableDictionary *itemDict = [[NSMutableDictionary alloc] init];
-    if (displayName != nil) itemDict[@"DisplayName"] = displayName;
+    // if (displayName != nil) itemDict[@"DisplayName"] = displayName;
     if (email != nil) itemDict[@"Email"] = email;
     if (weibo != nil) itemDict[@"SinaWeibo"] = weibo;
     if (phone != nil) itemDict[@"Phone"] = phone;
     if (qq != nil) itemDict[@"QQ"] = qq;
+    if (motto != nil) itemDict[@"Words"] = motto;
     NSDictionary *userDict = @{@"User": itemDict};
     NSString *userJSONStr = [userDict JSONRepresentation];
     

@@ -49,11 +49,11 @@
                   password:(NSString *)password
                       name:(NSString *)name;
 
-- (void)updateUserDisplayName:(NSString *)displayName
-                        email:(NSString *)email
-                    weiboName:(NSString *)weibo
-                     phoneNum:(NSString *)phone
-                    qqAccount:(NSString *)qq;
+- (void)updateUserEmail:(NSString *)email
+              weiboName:(NSString *)weibo
+               phoneNum:(NSString *)phone
+              qqAccount:(NSString *)qq
+                  motto:(NSString *)motto;
 
 - (void)updatePassword:(NSString *)new oldPassword:(NSString *)old;
 
