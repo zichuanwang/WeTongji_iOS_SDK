@@ -442,6 +442,34 @@ typedef enum {
     [self addHashParam];
 }
 
+- (void)activityInvite:(NSString *)activityID
+          inviteUserID:(NSString *)userID {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Activity.Invite";
+    if (activityID)
+        self.params[@"Id"] = activityID;
+    if (userID)
+        self.params[@"UID"] = userID;
+    [self addHashParam];
+
+}
+
+- (void)acceptActivityInvitation:(NSString *)invitationID {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Activity.Invite.Accept";
+    if (invitationID)
+        self.params[@"Id"] = invitationID;
+    [self addHashParam];
+}
+
+- (void)ignoreActivityInvitation:(NSString *)invitationID {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Activity.Invite.Reject";
+    if (invitationID)
+        self.params[@"Id"] = invitationID;
+    [self addHashParam];
+}
+
 #pragma Favorite API
 
 - (void)getFavoritesInPage:(NSInteger)page {

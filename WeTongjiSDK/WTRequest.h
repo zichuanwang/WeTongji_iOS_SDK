@@ -89,6 +89,13 @@
 - (void)setActivityScheduled:(BOOL)scheduled
                   activityID:(NSString *)activityID;
 
+- (void)activityInvite:(NSString *)activityID
+          inviteUserID:(NSString *)userID;
+
+- (void)acceptActivityInvitation:(NSString *)invitationID;
+
+- (void)ignoreActivityInvitation:(NSString *)invitationID;
+
 #pragma mark - Favorite API
 
 - (void)getFavoritesInPage:(NSInteger)page;
