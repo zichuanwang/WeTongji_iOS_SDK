@@ -100,7 +100,7 @@ static WTClient *sharedClient = nil;
         
     } else if([HTTPMethod isEqualToString:HttpMethodUpLoadImage]) {
         
-        NSData *imageData = UIImageJPEGRepresentation(rawRequest.uploadImage, 0.8f);
+        NSData *imageData = UIImageJPEGRepresentation(rawRequest.uploadImage, 1.0f);
         NSString *queryString= rawRequest.queryString;
         URLRequest = [self multipartFormRequestWithMethod:HttpMethodPOST
                                                      path:[NSString stringWithFormat:@"%@?%@", PATH_STRING, queryString]
