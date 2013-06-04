@@ -216,6 +216,9 @@
         case WTSDKOrganization:
             result = @"Account";
             break;
+        case WTSDKUser:
+            result = @"User";
+            break;
         default:
             break;
     }

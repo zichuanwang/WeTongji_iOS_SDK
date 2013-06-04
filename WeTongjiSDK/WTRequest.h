@@ -167,6 +167,7 @@ typedef enum {
     WTSDKInformation,
     WTSDKStar,
     WTSDKOrganization,
+    WTSDKUser,
 } WTSDKModelType;
 
 #pragma - Like API
