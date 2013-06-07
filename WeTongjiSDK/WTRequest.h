@@ -25,6 +25,15 @@
 #define HttpMethodPOST          @"POST"
 #define HttpMethodUpLoadImage   @"UPLOAD_IMAGE"
 
+typedef enum {
+    WTSDKBillboard,
+    WTSDKActivity,
+    WTSDKInformation,
+    WTSDKStar,
+    WTSDKOrganization,
+    WTSDKUser,
+} WTSDKModelType;
+
 @interface WTRequest : NSObject
 
 @property (nonatomic, copy,     readonly) WTSuccessCompletionBlock successCompletionBlock;
@@ -43,11 +52,12 @@
 
 #pragma mark - User API
 
-- (void)login:(NSString *)num password:(NSString *)password;
+- (void)loginWithStudentNumber:(NSString *)studentNumber
+                      password:(NSString *)password;
 
-- (void)activateUserWithNo:(NSString *)studentNumber
-                  password:(NSString *)password
-                      name:(NSString *)name;
+- (void)activateUserWithStudentNumber:(NSString *)studentNumber
+                             password:(NSString *)password
+                                 name:(NSString *)name;
 
 - (void)updateUserEmail:(NSString *)email
               weiboName:(NSString *)weibo
@@ -55,18 +65,20 @@
               qqAccount:(NSString *)qq
                   motto:(NSString *)motto;
 
-- (void)updatePassword:(NSString *)new oldPassword:(NSString *)old;
+- (void)updatePassword:(NSString *)newPassword
+           oldPassword:(NSString *)oldPassword;
 
 - (void)updateUserAvatar:(UIImage *)image;
 
 - (void)getUserInformation;
 
-- (void)resetPasswordWithNO:(NSString *)studentNumber
-                       Name:(NSString*)name;
+- (void)resetPasswordWithStudentNumber:(NSString *)studentNumber
+                                  name:(NSString*)name;
 
 #pragma mark - Schedule API
 
-- (void)getScheduleWithBeginDate:(NSDate *)begin endDate:(NSDate *)end;
+- (void)getScheduleWithBeginDate:(NSDate *)begin
+                         endDate:(NSDate *)end;
 
 #pragma mark - Activity API
 
@@ -80,11 +92,6 @@
                   showExpire:(BOOL)showExpire
                         page:(NSUInteger)page;
 
-- (void)setActivitiyLiked:(BOOL)liked
-               activityID:(NSString *)activityID;
-
-- (void)setActivityFavored:(BOOL)favored
-                activityID:(NSString *)activityID;
 
 - (void)setActivityScheduled:(BOOL)scheduled
                   activityID:(NSString *)activityID;
@@ -95,10 +102,6 @@
 - (void)acceptActivityInvitation:(NSString *)invitationID;
 
 - (void)ignoreActivityInvitation:(NSString *)invitationID;
-
-#pragma mark - Favorite API
-
-- (void)getFavoritesInPage:(NSInteger)page;
 
 #pragma - Information API
 
@@ -125,10 +128,6 @@
 - (void)getLatestStar;
 
 - (void)getStarsInPage:(NSInteger)page;
-
-- (void)setStarLiked:(BOOL)liked
-              starID:(NSString *)starID;
-
 
 #pragma - Search API
 
@@ -160,15 +159,6 @@
 - (void)addBillboardPostWithTitle:(NSString *)title
                           content:(NSString *)content
                             image:(UIImage *)image;
-
-typedef enum {
-    WTSDKBillboard,
-    WTSDKActivity,
-    WTSDKInformation,
-    WTSDKStar,
-    WTSDKOrganization,
-    WTSDKUser,
-} WTSDKModelType;
 
 #pragma - Like API
 

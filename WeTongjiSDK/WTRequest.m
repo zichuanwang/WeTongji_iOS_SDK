@@ -228,9 +228,10 @@
 #pragma mark - Configure API parameters
 #pragma mark User API
 
-- (void)login:(NSString *)num password:(NSString *)password {
+- (void)loginWithStudentNumber:(NSString *)studentNumber
+                      password:(NSString *)password {
     self.params[@"M"] = @"User.LogOn";
-    self.params[@"NO"] = num;
+    self.params[@"NO"] = studentNumber;
     if ([API_VERSION isEqualToString:@"3.0"])
         self.params[@"Password"] = [self RSAEncryptText:password];
     else {
@@ -242,9 +243,9 @@
     [self addHashParam];
 }
 
-- (void)activateUserWithNo:(NSString *)studentNumber
-                  password:(NSString *)password
-                      name:(NSString *)name {
+- (void)activateUserWithStudentNumber:(NSString *)studentNumber
+                             password:(NSString *)password
+                                 name:(NSString *)name {
     self.params[@"M"] = @"User.Active";
     self.params[@"NO"] = studentNumber;
     self.params[@"Password"] = password;
@@ -275,11 +276,12 @@
     self.HTTPMethod = HttpMethodPOST;
 }
 
-- (void)updatePassword:(NSString *)new oldPassword:(NSString *)old {
+- (void)updatePassword:(NSString *)newPassword
+           oldPassword:(NSString *)oldPassword {
     self.params[@"M"] = @"User.Update.Password";
     [self addUserIDAndSessionParams];
-    self.params[@"New"] = new;
-    self.params[@"Old"] = old;
+    self.params[@"New"] = newPassword;
+    self.params[@"Old"] = oldPassword;
     [self addHashParam];
 }
 
@@ -297,8 +299,8 @@
     [self addHashParam];
 }
 
-- (void)resetPasswordWithNO:(NSString *)studentNumber
-                       Name:(NSString*)name {
+- (void)resetPasswordWithStudentNumber:(NSString *)studentNumber
+                                  name:(NSString *)name {
     self.params[@"M"] = @"User.Reset.Password";
     self.params[@"NO"] = studentNumber;
     self.params[@"Name"] = name;
@@ -421,20 +423,6 @@ typedef enum {
     
     self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
     
-    [self addHashParam];
-}
-
-- (void)setActivitiyLiked:(BOOL)liked activityID:(NSString *)activityID {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = liked ? @"Activity.Like" : @"Activity.UnLike";
-    self.params[@"Id"] = activityID;
-    [self addHashParam];
-}
-
-- (void)setActivityFavored:(BOOL)favored activityID:(NSString *)activityID {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = favored ? @"Activity.Favorite" : @"Activity.UnFavorite";
-    self.params[@"Id"] = activityID;
     [self addHashParam];
 }
 
@@ -601,14 +589,6 @@ typedef enum {
 - (void)getStarsInPage:(NSInteger)page {
     self.params[@"M"] = @"People.Get";
     self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
-    [self addHashParam];
-}
-
-- (void)setStarLiked:(BOOL)liked
-              starID:(NSString *)starID {
-    [self addUserIDAndSessionParams];
-    self.params[@"M"] = liked ? @"Person.Like" : @"Person.UnLike";
-    self.params[@"Id"] = [NSString stringWithFormat:@"%@",starID];
     [self addHashParam];
 }
 
