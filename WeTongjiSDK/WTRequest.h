@@ -32,7 +32,7 @@ typedef enum {
     WTSDKStar,
     WTSDKOrganization,
     WTSDKUser,
-} WTSDKModelType;
+} WTSDKModelType;   
 
 @interface WTRequest : NSObject
 
@@ -97,11 +97,23 @@ typedef enum {
                   activityID:(NSString *)activityID;
 
 - (void)activityInvite:(NSString *)activityID
-          inviteUserID:(NSString *)userID;
+          inviteUserIDArray:(NSArray *)inviteUserIDArray;
 
 - (void)acceptActivityInvitation:(NSString *)invitationID;
 
 - (void)ignoreActivityInvitation:(NSString *)invitationID;
+
+#pragma - Course API
+
+- (void)setCourseScheduled:(BOOL)scheduled
+                  courseID:(NSString *)courseID;
+
+- (void)courseInvite:(NSString *)courseID
+   inviteUserIDArray:(NSArray *)inviteUserIDArray;
+
+- (void)acceptCourseInvitation:(NSString *)invitationID;
+
+- (void)ignoreCourseInvitation:(NSString *)invitationID;
 
 #pragma - Information API
 
@@ -136,7 +148,7 @@ typedef enum {
 
 #pragma - Friend API
 
-- (void)inviteFriend:(NSString *)userID;
+- (void)inviteFriends:(NSArray *)userIDArray;
 
 - (void)removeFriend:(NSString *)userID;
 

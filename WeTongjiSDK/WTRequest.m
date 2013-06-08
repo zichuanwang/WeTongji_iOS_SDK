@@ -434,11 +434,14 @@ typedef enum {
 }
 
 - (void)activityInvite:(NSString *)activityID
-          inviteUserID:(NSString *)userID {
+          inviteUserIDArray:(NSArray *)inviteUserIDArray {
     [self addUserIDAndSessionParams];
     self.params[@"M"] = @"Activity.Invite";
     if (activityID)
         self.params[@"Id"] = activityID;
+    
+    // TODO:
+    NSString *userID = inviteUserIDArray.lastObject;
     if (userID)
         self.params[@"UID"] = userID;
     [self addHashParam];
@@ -461,12 +464,43 @@ typedef enum {
     [self addHashParam];
 }
 
-#pragma Favorite API
+#pragma Course API
 
-- (void)getFavoritesInPage:(NSInteger)page {
+- (void)setCourseScheduled:(BOOL)scheduled
+                  courseID:(NSString *)courseID {
     [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"Favorite.Get";
-    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
+    self.params[@"M"] = scheduled ? @"Course.Schedule" : @"Course.UnSchedule";
+    self.params[@"Id"] = courseID;
+    [self addHashParam];
+}
+
+- (void)courseInvite:(NSString *)courseID
+   inviteUserIDArray:(NSArray *)inviteUserIDArray {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Course.Invite";
+    if (courseID)
+        self.params[@"Id"] = courseID;
+    
+    // TODO:
+    NSString *userID = inviteUserIDArray.lastObject;
+    if (userID)
+        self.params[@"UID"] = userID;
+    [self addHashParam];
+}
+
+- (void)acceptCourseInvitation:(NSString *)invitationID {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Course.Invite.Accept";
+    if (invitationID)
+        self.params[@"Id"] = invitationID;
+    [self addHashParam];
+}
+
+- (void)ignoreCourseInvitation:(NSString *)invitationID {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Course.Invite.Reject";
+    if (invitationID)
+        self.params[@"Id"] = invitationID;
     [self addHashParam];
 }
 
@@ -608,9 +642,11 @@ typedef enum {
 
 #pragma Friend API 
 
-- (void)inviteFriend:(NSString *)userID {
+- (void)inviteFriends:(NSArray *)userIDArray {
     [self addUserIDAndSessionParams];
     self.params[@"M"] = @"Friend.Invite";
+    // TODO:
+    NSString *userID = userIDArray.lastObject;
     if (userID)
         self.params[@"UID"] = userID;
     [self addHashParam];
