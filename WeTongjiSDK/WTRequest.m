@@ -198,6 +198,18 @@
     return encryptResult;
 }
 
++ (NSString *)generateUserIDArrayString:(NSArray *)userIDArray {
+    if (userIDArray.count == 0)
+        return @"";
+    NSMutableString *userIDArrayString = [NSMutableString string];
+    for (NSString *userID in userIDArray) {
+        [userIDArrayString appendFormat:@"%@,", userID];
+    }
+    [userIDArrayString deleteCharactersInRange:NSMakeRange(userIDArrayString.length - 1, 1)];
+    NSLog(@"userIDArrayString:%@", userIDArrayString);
+    return userIDArrayString;
+}
+
 + (NSString *)convertModelTypeStringFromModelType:(WTSDKModelType)type {
     NSString *result = @"";
     switch (type) {
@@ -439,11 +451,7 @@ typedef enum {
     self.params[@"M"] = @"Activity.Invite";
     if (activityID)
         self.params[@"Id"] = activityID;
-    
-    // TODO:
-    NSString *userID = inviteUserIDArray.lastObject;
-    if (userID)
-        self.params[@"UID"] = userID;
+    self.params[@"UIDs"] = [WTRequest generateUserIDArrayString:inviteUserIDArray];
     [self addHashParam];
 
 }
@@ -480,11 +488,7 @@ typedef enum {
     self.params[@"M"] = @"Course.Invite";
     if (courseID)
         self.params[@"Id"] = courseID;
-    
-    // TODO:
-    NSString *userID = inviteUserIDArray.lastObject;
-    if (userID)
-        self.params[@"UID"] = userID;
+    self.params[@"UIDs"] = [WTRequest generateUserIDArrayString:inviteUserIDArray];;
     [self addHashParam];
 }
 
@@ -645,10 +649,7 @@ typedef enum {
 - (void)inviteFriends:(NSArray *)userIDArray {
     [self addUserIDAndSessionParams];
     self.params[@"M"] = @"Friend.Invite";
-    // TODO:
-    NSString *userID = userIDArray.lastObject;
-    if (userID)
-        self.params[@"UID"] = userID;
+    self.params[@"UIDs"] = [WTRequest generateUserIDArrayString:userIDArray];
     [self addHashParam];
 }
 
