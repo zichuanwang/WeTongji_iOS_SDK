@@ -475,19 +475,19 @@ typedef enum {
 #pragma Course API
 
 - (void)setCourseScheduled:(BOOL)scheduled
-                  courseID:(NSString *)courseID {
+                  courseNO:(NSString *)courseNO {
     [self addUserIDAndSessionParams];
     self.params[@"M"] = scheduled ? @"Course.Schedule" : @"Course.UnSchedule";
-    self.params[@"Id"] = courseID;
+    self.params[@"NO"] = courseNO;
     [self addHashParam];
 }
 
-- (void)courseInvite:(NSString *)courseID
+- (void)courseInvite:(NSString *)courseNO
    inviteUserIDArray:(NSArray *)inviteUserIDArray {
     [self addUserIDAndSessionParams];
     self.params[@"M"] = @"Course.Invite";
-    if (courseID)
-        self.params[@"Id"] = courseID;
+    if (courseNO)
+        self.params[@"NO"] = courseNO;
     self.params[@"UIDs"] = [WTRequest generateUserIDArrayString:inviteUserIDArray];;
     [self addHashParam];
 }

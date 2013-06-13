@@ -106,9 +106,9 @@ typedef enum {
 #pragma - Course API
 
 - (void)setCourseScheduled:(BOOL)scheduled
-                  courseID:(NSString *)courseID;
+                  courseNO:(NSString *)courseNO;
 
-- (void)courseInvite:(NSString *)courseID
+- (void)courseInvite:(NSString *)courseNO
    inviteUserIDArray:(NSArray *)inviteUserIDArray;
 
 - (void)acceptCourseInvitation:(NSString *)invitationID;
