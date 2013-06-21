@@ -10,6 +10,7 @@
 #import "AFJSONRequestOperation.h"
 #import "WTRequest.h"
 #import "NSError+WTSDKClientErrorGenerator.h"
+#import "AFNetworkActivityIndicatorManager.h"
 
 @interface WTClient()
 
@@ -32,6 +33,8 @@ static WTClient *sharedClient = nil;
     dispatch_once(&WTClientPredicate, ^{
         sharedClient = [[WTClient alloc] initWithBaseURL:[NSURL URLWithString:[NSUserDefaults useTestServer] ? TEST_SERVER_BASE_URL_STRING : BASE_URL_STRING]];
         sharedClient.usingTestServer = [NSUserDefaults useTestServer];
+        
+        [AFNetworkActivityIndicatorManager sharedManager].enabled = YES;
     });
     
     return sharedClient;
@@ -72,6 +75,7 @@ static WTClient *sharedClient = nil;
     }
     AFHTTPRequestOperation *operation = [self generateRequestOperationWithRawRequest:request];
     [self enqueueHTTPRequestOperation:operation];
+    [[AFNetworkActivityIndicatorManager sharedManager] incrementActivityCount];
 }
 
 #pragma mark - Logic methods
@@ -82,7 +86,7 @@ static WTClient *sharedClient = nil;
     NSString *HTTPMethod = rawRequest.HTTPMethod;
     NSDictionary *params = rawRequest.params;
     
-    NSTimeInterval timeOutInterval = 10.0;
+    NSTimeInterval timeOutInterval = 20.0;
     
     if([HTTPMethod isEqualToString:HttpMethodGET]) {
         
@@ -113,7 +117,7 @@ static WTClient *sharedClient = nil;
                                                                 mimeType:@"image/jpeg"];
                                     }
                                 }];
-        timeOutInterval = 30.0;
+        timeOutInterval = 40.0;
     }
     // 设置超时时间
     [URLRequest setTimeoutInterval:timeOutInterval];
@@ -154,10 +158,12 @@ static WTClient *sharedClient = nil;
                 rawRequest.failureCompletionBlock(error);
             }
         }
+        [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
     } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
         if(rawRequest.failureCompletionBlock) {
             rawRequest.failureCompletionBlock(error);
         }
+        [[AFNetworkActivityIndicatorManager sharedManager] decrementActivityCount];
     }];
     
     return operation;
