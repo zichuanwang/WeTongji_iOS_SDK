@@ -80,6 +80,8 @@ typedef enum {
 - (void)getScheduleWithBeginDate:(NSDate *)begin
                          endDate:(NSDate *)end;
 
+- (void)getScheduleSetting;
+
 #pragma mark - Activity API
 
 + (BOOL)shouldActivityOrderByDesc:(NSUInteger)orderMethod
@@ -106,9 +108,9 @@ typedef enum {
 #pragma - Course API
 
 - (void)setCourseScheduled:(BOOL)scheduled
-                  courseNO:(NSString *)courseNO;
+                  courseID:(NSString *)courseID;
 
-- (void)courseInvite:(NSString *)courseNO
+- (void)courseInvite:(NSString *)courseID
    inviteUserIDArray:(NSArray *)inviteUserIDArray;
 
 - (void)acceptCourseInvitation:(NSString *)invitationID;
@@ -157,6 +159,10 @@ typedef enum {
 - (void)acceptFriendInvitation:(NSString *)invitationID;
 
 - (void)ignoreFriendInvitation:(NSString *)invitationID;
+
+- (void)getFriendsWithSameCourse:(NSString *)courseID;
+
+- (void)getFriendsWithSameActivity:(NSString *)activityID;
 
 #pragma - Notification API
 

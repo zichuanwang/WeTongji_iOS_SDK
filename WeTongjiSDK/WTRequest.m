@@ -329,6 +329,11 @@
     [self addHashParam];
 }
 
+- (void)getScheduleSetting {
+    self.params[@"M"] = @"SchoolYear.Setting";
+    [self addHashParam];
+}
+
 #pragma mark Activity API
 
 + (NSString *)generateActivityShowTypesParam:(NSArray *)showTypesArray {
@@ -475,19 +480,19 @@ typedef enum {
 #pragma Course API
 
 - (void)setCourseScheduled:(BOOL)scheduled
-                  courseNO:(NSString *)courseNO {
+                  courseID:(NSString *)courseID {
     [self addUserIDAndSessionParams];
     self.params[@"M"] = scheduled ? @"Course.Schedule" : @"Course.UnSchedule";
-    self.params[@"NO"] = courseNO;
+    self.params[@"UNO"] = courseID;
     [self addHashParam];
 }
 
-- (void)courseInvite:(NSString *)courseNO
+- (void)courseInvite:(NSString *)courseID
    inviteUserIDArray:(NSArray *)inviteUserIDArray {
     [self addUserIDAndSessionParams];
     self.params[@"M"] = @"Course.Invite";
-    if (courseNO)
-        self.params[@"NO"] = courseNO;
+    if (courseID)
+        self.params[@"UNO"] = courseID;
     self.params[@"UIDs"] = [WTRequest generateUserIDArrayString:inviteUserIDArray];;
     [self addHashParam];
 }
@@ -680,6 +685,22 @@ typedef enum {
     self.params[@"M"] = @"Friend.Invite.Reject";
     if (invitationID)
         self.params[@"Id"] = invitationID;
+    [self addHashParam];
+}
+
+- (void)getFriendsWithSameCourse:(NSString *)courseID {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Friends.Get.WithSameCourse";
+    if (courseID)
+        self.params[@"UNO"] = courseID;
+    [self addHashParam];
+}
+
+- (void)getFriendsWithSameActivity:(NSString *)activityID {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Friends.Get.WithSameActivity";
+    if (activityID)
+        self.params[@"Id"] = activityID;
     [self addHashParam];
 }
 
