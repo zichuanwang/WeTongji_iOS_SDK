@@ -94,6 +94,19 @@ typedef enum {
                   showExpire:(BOOL)showExpire
                         page:(NSUInteger)page;
 
+- (void)getActivitiesInTypes:(NSArray *)showTypesArray
+                 orderMethod:(NSUInteger)orderMethod
+                  smartOrder:(BOOL)smartOrder
+                  showExpire:(BOOL)showExpire
+                        page:(NSUInteger)page
+                   byAccount:(NSString *)accountID;
+
+- (void)getActivitiesInTypes:(NSArray *)showTypesArray
+                 orderMethod:(NSUInteger)orderMethod
+                  smartOrder:(BOOL)smartOrder
+                  showExpire:(BOOL)showExpire
+                        page:(NSUInteger)page
+             scheduledByUser:(NSString *)userID;
 
 - (void)setActivityScheduled:(BOOL)scheduled
                   activityID:(NSString *)activityID;
@@ -104,6 +117,7 @@ typedef enum {
 - (void)acceptActivityInvitation:(NSString *)invitationID;
 
 - (void)ignoreActivityInvitation:(NSString *)invitationID;
+
 
 #pragma - Course API
 
@@ -126,6 +140,12 @@ typedef enum {
                   orderMethod:(NSUInteger)orderMethod
                    smartOrder:(BOOL)smartOrder
                          page:(NSUInteger)page;
+
+- (void)getInformationInTypes:(NSArray *)showTypesArray
+                  orderMethod:(NSUInteger)orderMethod
+                   smartOrder:(BOOL)smartOrder
+                         page:(NSUInteger)page
+                    byAccount:(NSString *)accountID;
 
 - (void)setInformationLiked:(BOOL)liked
               informationID:(NSString *)informationID;

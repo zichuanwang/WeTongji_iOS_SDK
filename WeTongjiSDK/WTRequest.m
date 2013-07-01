@@ -422,25 +422,62 @@ typedef enum {
                  orderMethod:(NSUInteger)orderMethod
                   smartOrder:(BOOL)smartOrder
                   showExpire:(BOOL)showExpire
-                        page:(NSUInteger)page {
+                        page:(NSUInteger)page
+             scheduledByUser:(NSString *)userID {
+    [self addUserIDAndSessionParams];
     
-    if([NSUserDefaults getCurrentUserID] && [NSUserDefaults getCurrentUserSession]) {
-        [self addUserIDAndSessionParams];
-    }
+    self.params[@"M"] = @"Activities.Get.ByUser";
     
-    self.params[@"M"] = @"Activities.Get";
-
     self.params[@"Channel_Ids"] = [WTRequest generateActivityShowTypesParam:showTypesArray];
     
     self.params[@"Sort"] = [WTRequest generateActivityOrderMethodParam:orderMethod
-                                                           smartOrder:smartOrder
-                                                           showExpire:showExpire];
+                                                            smartOrder:smartOrder
+                                                            showExpire:showExpire];
     
     self.params[@"Expire"] = [NSString stringWithFormat:@"%d", showExpire];
     
     self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
     
+    if (userID)
+        self.params[@"UID"] = userID;
+    
     [self addHashParam];
+}
+
+- (void)getActivitiesInTypes:(NSArray *)showTypesArray
+                 orderMethod:(NSUInteger)orderMethod
+                  smartOrder:(BOOL)smartOrder
+                  showExpire:(BOOL)showExpire
+                        page:(NSUInteger)page
+                   byAccount:(NSString *)accountID {
+    if([NSUserDefaults getCurrentUserID] && [NSUserDefaults getCurrentUserSession]) {
+        [self addUserIDAndSessionParams];
+    }
+    
+    self.params[@"M"] = @"Activities.Get";
+    
+    self.params[@"Channel_Ids"] = [WTRequest generateActivityShowTypesParam:showTypesArray];
+    
+    self.params[@"Sort"] = [WTRequest generateActivityOrderMethodParam:orderMethod
+                                                            smartOrder:smartOrder
+                                                            showExpire:showExpire];
+    
+    self.params[@"Expire"] = [NSString stringWithFormat:@"%d", showExpire];
+    
+    self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
+    
+    if (accountID)
+        self.params[@"Account_Id"] = accountID;
+    
+    [self addHashParam];
+}
+
+- (void)getActivitiesInTypes:(NSArray *)showTypesArray
+                 orderMethod:(NSUInteger)orderMethod
+                  smartOrder:(BOOL)smartOrder
+                  showExpire:(BOOL)showExpire
+                        page:(NSUInteger)page {
+    [self getActivitiesInTypes:showTypesArray orderMethod:orderMethod smartOrder:smartOrder showExpire:showExpire page:page byAccount:nil];
 }
 
 - (void)setActivityScheduled:(BOOL)scheduled activityID:(NSString *)activityID {
@@ -583,7 +620,8 @@ typedef enum {
 - (void)getInformationInTypes:(NSArray *)showTypesArray
                   orderMethod:(NSUInteger)orderMethod
                    smartOrder:(BOOL)smartOrder
-                         page:(NSUInteger)page {
+                         page:(NSUInteger)page
+                    byAccount:(NSString *)accountID {
     if([NSUserDefaults getCurrentUserID] && [NSUserDefaults getCurrentUserSession]) {
         [self addUserIDAndSessionParams];
     }
@@ -593,10 +631,20 @@ typedef enum {
     self.params[@"Category_Ids"] = [WTRequest generateInformationShowTypesParam:showTypesArray];
     
     self.params[@"Sort"] = [WTRequest generateInformationOrderMethodParam:orderMethod smartOrder:smartOrder];
-        
+    
     self.params[@"P"] = [NSString stringWithFormat:@"%d", page];
     
+    if (accountID)
+        self.params[@"Account_Id"] = accountID;
+    
     [self addHashParam];
+}
+
+- (void)getInformationInTypes:(NSArray *)showTypesArray
+                  orderMethod:(NSUInteger)orderMethod
+                   smartOrder:(BOOL)smartOrder
+                         page:(NSUInteger)page {
+    [self getInformationInTypes:showTypesArray orderMethod:orderMethod smartOrder:smartOrder page:page byAccount:nil];
 }
 
 - (void)setInformationLiked:(BOOL)liked
@@ -645,7 +693,7 @@ typedef enum {
     self.params[@"M"] = @"Search";
     self.params[@"Keywords"] = keyword;
     if (category != 0)
-    self.params[@"Type"] = [NSString stringWithFormat:@"%d", category];
+        self.params[@"Type"] = [NSString stringWithFormat:@"%d", category];
     [self addHashParam];
 }
 
