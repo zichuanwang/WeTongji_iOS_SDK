@@ -322,8 +322,8 @@
 #pragma mark Schedule API
 
 - (void)getScheduleWithBeginDate:(NSDate *)begin endDate:(NSDate *)end {
-    self.params[@"M"] = @"Schedule.Get";
     [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Schedule.Get";
     self.params[@"Begin"] = [NSString standardDateStringCovertFromDate:begin];
     self.params[@"End"] = [NSString standardDateStringCovertFromDate:end];
     [self addHashParam];
@@ -550,6 +550,18 @@ typedef enum {
     [self addHashParam];
 }
 
+- (void)getCoursesRegisteredByUser:(NSString *)userID
+                         beginDate:(NSDate *)begin
+                           endDate:(NSDate *)end {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"CourseSections.Get.ByUser";
+    if (userID)
+        self.params[@"UID"] = userID;
+    self.params[@"Begin"] = [NSString standardDateStringCovertFromDate:begin];
+    self.params[@"End"] = [NSString standardDateStringCovertFromDate:end];
+    [self addHashParam];
+}
+
 #pragma Information API
 
 + (NSString *)generateInformationShowTypesParam:(NSArray *)showTypesArray {
@@ -749,6 +761,14 @@ typedef enum {
     self.params[@"M"] = @"Friends.Get.WithSameActivity";
     if (activityID)
         self.params[@"Id"] = activityID;
+    [self addHashParam];
+}
+
+- (void)getFriendsOfUser:(NSString *)userID {
+    [self addUserIDAndSessionParams];
+    self.params[@"M"] = @"Friends.Get.ByUser";
+    if (userID)
+        self.params[@"UID"] = userID;
     [self addHashParam];
 }
 

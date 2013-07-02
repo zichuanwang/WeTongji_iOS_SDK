@@ -131,6 +131,10 @@ typedef enum {
 
 - (void)ignoreCourseInvitation:(NSString *)invitationID;
 
+- (void)getCoursesRegisteredByUser:(NSString *)userID
+                         beginDate:(NSDate *)begin
+                           endDate:(NSDate *)end;
+
 #pragma - Information API
 
 + (BOOL)shouldInformationOrderByDesc:(NSUInteger)orderMethod
@@ -183,6 +187,8 @@ typedef enum {
 - (void)getFriendsWithSameCourse:(NSString *)courseID;
 
 - (void)getFriendsWithSameActivity:(NSString *)activityID;
+
+- (void)getFriendsOfUser:(NSString *)userID;
 
 #pragma - Notification API
 
