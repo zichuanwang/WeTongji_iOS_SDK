@@ -260,7 +260,11 @@
                                  name:(NSString *)name {
     self.params[@"M"] = @"User.Active";
     self.params[@"NO"] = studentNumber;
-    self.params[@"Password"] = password;
+    if ([API_VERSION isEqualToString:@"3.0"])
+        self.params[@"Password"] = [self RSAEncryptText:password];
+    else {
+        self.params[@"Password"] = password;
+    }
     self.params[@"Name"] = name;
     [self addHashParam];
 }
