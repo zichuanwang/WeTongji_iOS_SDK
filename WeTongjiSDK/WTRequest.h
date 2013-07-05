@@ -32,6 +32,7 @@ typedef enum {
     WTSDKStar,
     WTSDKOrganization,
     WTSDKUser,
+    WTSDKCourse,
 } WTSDKModelType;   
 
 @interface WTRequest : NSObject

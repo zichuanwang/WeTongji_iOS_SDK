@@ -231,6 +231,9 @@
         case WTSDKUser:
             result = @"User";
             break;
+        case WTSDKCourse:
+            result = @"Course";
+            break;
         default:
             break;
     }
@@ -558,7 +561,7 @@ typedef enum {
                          beginDate:(NSDate *)begin
                            endDate:(NSDate *)end {
     [self addUserIDAndSessionParams];
-    self.params[@"M"] = @"CourseSections.Get.ByUser";
+    self.params[@"M"] = @"Courses.Get.ByUser";
     if (userID)
         self.params[@"UID"] = userID;
     self.params[@"Begin"] = [NSString standardDateStringCovertFromDate:begin];
