@@ -298,10 +298,21 @@
 - (void)updatePassword:(NSString *)newPassword
            oldPassword:(NSString *)oldPassword {
     self.params[@"M"] = @"User.Update.Password";
+    
     [self addUserIDAndSessionParams];
-    self.params[@"New"] = newPassword;
-    self.params[@"Old"] = oldPassword;
+    if ([API_VERSION isEqualToString:@"3.0"]) {
+        self.params[@"New"] = [self RSAEncryptText:newPassword];
+        self.params[@"Old"] = [self RSAEncryptText:oldPassword];
+    } else {
+        self.params[@"New"] = newPassword;
+        self.params[@"Old"] = oldPassword;
+    }
+    
     [self addHashParam];
+    
+    [self setPreSuccessCompletionBlock: ^(id responseData) {
+        [NSUserDefaults setCurrentUserID:responseData[@"User"][@"UID"] session:responseData[@"Session"]];
+    }];
 }
 
 - (void)updateUserAvatar:(UIImage *)image {
