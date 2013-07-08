@@ -276,7 +276,8 @@
               weiboName:(NSString *)weibo
                phoneNum:(NSString *)phone
               qqAccount:(NSString *)qq
-                  motto:(NSString *)motto {
+                  motto:(NSString *)motto
+                   dorm:(NSString *)dorm {
     self.params[@"M"] = @"User.Update";
     [self addUserIDAndSessionParams];
     
@@ -287,6 +288,7 @@
     if (phone != nil) itemDict[@"Phone"] = phone;
     if (qq != nil) itemDict[@"QQ"] = qq;
     if (motto != nil) itemDict[@"Words"] = motto;
+    if (dorm != nil) itemDict[@"Room"] = dorm;
     NSDictionary *userDict = @{@"User": itemDict};
     NSString *userJSONStr = [userDict JSONRepresentation];
     

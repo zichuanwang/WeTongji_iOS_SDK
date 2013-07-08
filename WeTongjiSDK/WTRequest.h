@@ -64,7 +64,8 @@ typedef enum {
               weiboName:(NSString *)weibo
                phoneNum:(NSString *)phone
               qqAccount:(NSString *)qq
-                  motto:(NSString *)motto;
+                  motto:(NSString *)motto
+                   dorm:(NSString *)dorm;
 
 - (void)updatePassword:(NSString *)newPassword
            oldPassword:(NSString *)oldPassword;
