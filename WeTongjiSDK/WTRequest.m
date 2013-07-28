@@ -895,4 +895,12 @@ typedef enum {
     [self addHashParam];
 }
 
+#pragma mark Account API 
+
+- (void)getAccount:(NSString *)accountID {
+    self.params[@"M"] = @"Account.Get";
+    self.params[@"Id"] = accountID;
+    [self addHashParam];
+}
+
 @end

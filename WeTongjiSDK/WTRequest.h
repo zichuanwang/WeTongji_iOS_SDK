@@ -229,4 +229,8 @@ typedef enum {
 
 - (void)getHomeRecommendation;
 
+#pragma - Account API
+
+- (void)getAccount:(NSString *)accountID;
+
 @end

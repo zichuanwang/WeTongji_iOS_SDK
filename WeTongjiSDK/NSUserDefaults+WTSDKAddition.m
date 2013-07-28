@@ -9,9 +9,9 @@
 #import "NSUserDefaults+WTSDKAddition.h"
 #import "WTClient.h"
 
-#define kCurrentUserID              @"kCurrentUserID"
-#define kCurrentUserSession         @"kCurrentUserSession"
-#define kUseTestServer              @"UseTestServer"
+#define kCurrentUserID                  @"kCurrentUserID"
+#define kCurrentUserSession             @"kCurrentUserSession"
+#define kUseTestServer                  @"UseTestServer"
 
 @implementation NSUserDefaults (WTSDKAddition)
 
