@@ -898,6 +898,9 @@ typedef enum {
 #pragma mark Account API 
 
 - (void)getAccount:(NSString *)accountID {
+    if([NSUserDefaults getCurrentUserID] && [NSUserDefaults getCurrentUserSession]) {
+        [self addUserIDAndSessionParams];
+    }
     self.params[@"M"] = @"Account.Get";
     self.params[@"Id"] = accountID;
     [self addHashParam];
